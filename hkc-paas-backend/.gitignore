@@ -147,12 +147,13 @@ derby-data/
 /jpaas-web/jpass-form/
 /_.idea/
 /admin/
+/release/
 /release/nacos-server-2.0.4/logs/
 /release/nacos-server-2.0.4/data/
 /release/logs
 /release/data
-#/release/lib
-#/release/fastjar
+/release/lib
+/release/fastjar
 /release/bin/logs
 /release/bin/work
 /release/bin/derby.log
