@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormBusInstDataMapper">
+
+    <resultMap id="FormBusInstData" type="com.redxun.form.core.entity.FormBusInstData">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="busSolId" column="BUS_SOL_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="mainPk" column="MAIN_PK_" jdbcType="VARCHAR"/>
+                <result property="relFormsolId" column="REL_FORMSOL_ID_" jdbcType="VARCHAR"/>
+                <result property="relPk" column="REL_PK_" jdbcType="VARCHAR"/>
+                <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormBusInstData" parameterType="java.util.Map">
+        select BUS_SOL_ID_,CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,ID_,MAIN_PK_,REL_FORMSOL_ID_,REL_PK_,STATUS_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_ from FORM_BUS_INST_DATA
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getDataByMainPk" resultType="com.redxun.form.core.entity.FormBusInstData" parameterType="java.util.Map">
+        select d.*,s.ALIAS_ as relFormsolAlias from FORM_BUS_INST_DATA d
+            LEFT JOIN form_solution s ON d.REL_FORMSOL_ID_=s.ID_
+        WHERE d.BUS_SOL_ID_='${busSolId}' AND MAIN_PK_='${mainPk}'
+    </select>
+
+</mapper>
+
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.SaveExportMapper">
+
+    <resultMap id="SaveExport" type="com.redxun.form.core.entity.SaveExport">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="dataList" column="DATA_LIST_" jdbcType="VARCHAR"/>
+                <result property="setting" column="SETTING_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="isPublic" column="IS_PUBLIC_" jdbcType="NUMERIC"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="appId" column="APP_ID_"  jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.SaveExport" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,DATA_LIST_,ID_,IS_PUBLIC_,NAME_,SETTING_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_,APP_ID_ from form_save_export
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByName" resultType="com.redxun.form.core.entity.SaveExport" parameterType="java.lang.String">
+    select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,DATA_LIST_,ID_,NAME_,IS_PUBLIC_,SETTING_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_,APP_ID_ from form_save_export
+    WHERE NAME_=#{name} AND DATA_LIST_=#{dataList}
+    </select>
+
+    <select id="getByDataList" resultType="com.redxun.form.core.entity.SaveExport">
+        select * from form_save_export
+        WHERE (IS_PUBLIC_ = 0 AND CREATE_BY_=#{userId} AND DATA_LIST_=#{dataList})
+        OR (IS_PUBLIC_ = 1 AND DATA_LIST_=#{dataList})
+        order  by IS_PUBLIC_ DESC
+    </select>
+
+
+
+    <delete id="removeConfig" parameterType="java.lang.String" >
+        DELETE FROM form_save_export
+        WHERE NAME_=#{name} AND DATA_LIST_=#{dataList}
+    </delete>
+
+
+</mapper>
+
+

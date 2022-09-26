@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormSolutionMapper">
+    <select id="query" resultType="com.redxun.form.core.entity.FormSolution" parameterType="java.util.Map">
+        select
+        ID_ ,CATEGORY_ID_,NAME_ ,ALIAS_ ,
+        BODEF_ID_ ,FORM_ID_ ,MOBILE_FORM_ID_ ,
+        MOBILE_FORM_NAME_ ,DATA_HANDLER_ ,TREE_ ,FORMULAS_ ,
+        NO_PK_SETTING_ , LOAD_MODE_, DISPLAY_FIELDS_,TENANT_ID_ ,CREATE_DEP_ID_ ,
+        CREATE_BY_ ,CREATE_TIME_ ,UPDATE_BY_ ,UPDATE_TIME_ ,
+        FORM_NAME_ ,FORMULAS_NAME_,APP_ID_
+        from form_solution
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByFormAlias" resultType="com.redxun.form.core.entity.FormSolution">
+        select ID_ ,CATEGORY_ID_,NAME_ ,ALIAS_ ,
+        BODEF_ID_ ,FORM_ID_ ,MOBILE_FORM_ID_ ,
+        MOBILE_FORM_NAME_ ,DATA_HANDLER_ ,TREE_ ,FORMULAS_ ,
+        NO_PK_SETTING_ , LOAD_MODE_, DISPLAY_FIELDS_,TENANT_ID_ ,CREATE_DEP_ID_ ,
+        CREATE_BY_ ,CREATE_TIME_ ,UPDATE_BY_ ,UPDATE_TIME_ ,
+        FORM_NAME_ ,FORMULAS_NAME_,APP_ID_,FLOW_DEF_MAPPING_
+        from form_solution
+        where ALIAS_=#{formAlias}
+    </select>
+
+</mapper>
+
+

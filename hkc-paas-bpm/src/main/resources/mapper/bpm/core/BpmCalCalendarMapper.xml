@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmCalCalendarMapper">
+
+    <resultMap id="BpmCalCalendar" type="com.redxun.bpm.core.entity.BpmCalCalendar">
+                <id property="calenderId" column="CALENDER_ID_" jdbcType="VARCHAR"/>
+                <result property="settingId" column="SETTING_ID_" jdbcType="VARCHAR"/>
+                <result property="startTime" column="START_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="endTime" column="END_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="connectId" column="CONNECT_ID_" jdbcType="VARCHAR"/>
+                <result property="startDay" column="START_DAY_" jdbcType="TIMESTAMP"/>
+                <result property="endDay" column="END_DAY_" jdbcType="TIMESTAMP"/>
+                <result property="info" column="INFO_" jdbcType="VARCHAR"/>
+                <result property="timeIntervals" column="TIME_INTERVALS_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getTimeBlock" resultType="com.redxun.bpm.core.entity.BpmCalCalendar">
+		select  * from bpm_cal_calendar
+		where START_TIME_ &lt;=#{startTime}
+		and END_TIME_>#{endTime}
+		and SETTING_ID_=#{settingId}
+		order by START_TIME_ asc
+	</select>
+
+    <select id="getByStartDateAndSettingId" resultType="com.redxun.bpm.core.entity.BpmCalCalendar">
+		select  * from bpm_cal_calendar
+		where START_TIME_ >=#{startTime}
+		and SETTING_ID_=#{settingId}
+		order by START_TIME_ asc
+	</select>
+
+    <select id="getBiggerBlockThanStartAndEnd" resultType="com.redxun.bpm.core.entity.BpmCalCalendar">
+		select  * from bpm_cal_calendar
+		where START_TIME_ &lt;=#{startDate}
+		and END_TIME_ &gt;=#{endDate}
+		and SETTING_ID_=#{settingId}
+	</select>
+
+    <select id="getBlockBetweenStartAndEnd" resultType="com.redxun.bpm.core.entity.BpmCalCalendar">
+		select  * from bpm_cal_calendar
+		where START_TIME_ &lt;#{startDate}
+		and END_TIME_ &gt;#{endDate}
+		and SETTING_ID_=#{settingId}
+		order by START_TIME_ asc
+	</select>
+
+    <select id="getByStartAndEndAndSettingId" resultType="com.redxun.bpm.core.entity.BpmCalCalendar">
+		select  * from bpm_cal_calendar
+		where START_TIME_ &gt;=#{startDate}
+		and END_TIME_ &lt;#{endDate}
+		and SETTING_ID_=#{settingId}
+		order by START_TIME_ asc
+	</select>
+
+    <select id="getWorkCalendarBySettingId" resultType="com.redxun.bpm.core.entity.BpmCalCalendar">
+		select distinct setting_id_, connect_id_, start_day_, end_day_, info_
+		from bpm_cal_calendar where SETTING_ID_=#{settingId}
+	</select>
+
+    <select id="getCalendarInDayBySettingIdConnectId" resultType="com.redxun.bpm.core.entity.BpmCalCalendar">
+		select * from bpm_cal_calendar
+		where START_TIME_ >=#{startTime}
+		and START_TIME_  &lt;=#{endTime}
+		and SETTING_ID_=#{settingId}
+		and connect_id_!=#{connectId}
+	</select>
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmCalCalendar" parameterType="java.util.Map">
+        select CALENDER_ID_,SETTING_ID_,START_TIME_,END_TIME_,UPDATE_BY_,UPDATE_TIME_,CREATE_TIME_,CREATE_BY_,TENANT_ID_,CONNECT_ID_,START_DAY_,END_DAY_,INFO_,TIME_INTERVALS_,CREATE_DEP_ID_ from bpm_cal_calendar
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  CALENDER_ID_ DESC
+        </if>
+    </select>
+
+    <delete id="delByConnectId" parameterType="java.lang.String">
+		DELETE FROM bpm_cal_calendar
+		WHERE
+		CONNECT_ID_=#{connectId}
+	</delete>
+</mapper>
+
+

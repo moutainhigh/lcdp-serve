@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<project name="BPM打包项目"   basedir="." >
+
+    <property file="build.properties"/>
+
+    <target name="buildJar">
+
+        <exec executable="${mvnHome}/bin/mvn.cmd">
+            <arg line="clean"/>
+            <arg line="compile"/>
+            <arg line="-s ${mvnSetting}"/>
+            <arg line="-f pom.xml"/>
+            <arg line="-DskipTests=true"/>
+        </exec>
+
+        <jar destfile="target/jpaas-bpm-6.6.jar">
+            <fileset dir="target/classes">
+                <include name="com/redxun/bpm/core/controller/BpmDefController.class"/>
+                <include name="com/redxun/bpm/core/controller/BpmInstController.class"/>
+                <include name="com/redxun/bpm/activiti/event/handler/TaskCreatedEventHandler.class"/>
+                <include name="com/redxun/bpm/activiti/event/handler/TaskCompletedEventHandler.class"/>
+                <include name="com/redxun/bpm/activiti/event/handler/ActivityStartedEventHandler.class"/>
+                <include name="com/redxun/bpm/activiti/event/handler/ProcessStartedEventHandler.class"/>
+                <include name="com/redxun/bpm/activiti/event/handler/ProcessCompletedEventHandler.class"/>
+                <include name="com/redxun/bpm/activiti/event/handler/ProcessStartedEventHandler.class"/>
+                <include name="com/redxun/bpm/config/ActivitiConfig.class"/>
+                <include name="com/redxun/bpm/activiti/event/GlobalEventListener.class"/>
+            </fileset>
+        </jar>
+    </target>
+
+
+
+
+
+
+    <target name="同步代码到JPAASBPM">
+        <delete>
+            <fileset dir="${encProject}/src/main/java/com/redxun/bpm/core/controller"
+                     includes="BpmDefController.java,BpmInstController.java"/>
+            <fileset dir="${encProject}/src/main/java/com/redxun/bpm/activiti/event/handler"
+                     includes="TaskCreatedEventHandler.java,TaskCompletedEventHandler.java,ActivityStartedEventHandler.java,
+ProcessStartedEventHandler.java,ProcessCompletedEventHandler.java"/>
+            <fileset dir="${encProject}/src/main/java/com/redxun/bpm/config" includes="ActivitiConfig.java"/>
+            <fileset dir="${encProject}/src/main/java/com/redxun/bpm/activiti/event" includes="GlobalEventListener.java"/>
+        </delete>
+
+        <copy todir="${encProject}" overwrite="true">
+            <fileset dir=".">
+                <exclude name="**/com/redxun/bpm/core/controller/BpmDefController.java"/>
+                <exclude name="**/com/redxun/bpm/core/controller/BpmInstController.java"/>
+                <exclude name="**/com/redxun/bpm/activiti/event/handler/TaskCreatedEventHandler.java"/>
+                <exclude name="**/com/redxun/bpm/activiti/event/handler/TaskCompletedEventHandler.java"/>
+                <exclude name="**/com/redxun/bpm/activiti/event/handler/ActivityStartedEventHandler.java"/>
+                <exclude name="**/com/redxun/bpm/activiti/event/handler/ProcessStartedEventHandler.java"/>
+                <exclude name="**/com/redxun/bpm/activiti/event/handler/ProcessCompletedEventHandler.java"/>
+                <exclude name="**/com/redxun/bpm/config/ActivitiConfig.java"/>
+                <exclude name="**/com/redxun/bpm/activiti/event/GlobalEventListener.java"/>
+
+
+                <exclude name=".idea/**"/>
+                <exclude name="logs/**"/>
+                <exclude name="build.xml"/>
+                <exclude name="build.properties"/>
+                <exclude name="pom.xml"/>
+                <exclude name="target/**"/>
+            </fileset>
+        </copy>
+    </target>
+
+</project>

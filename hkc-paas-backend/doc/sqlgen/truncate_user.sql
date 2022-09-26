@@ -1,0 +1,10 @@
+truncate table  os_user;
+truncate table  os_dimension;
+truncate table  os_rel_type;
+truncate table  os_group;
+truncate table  os_rank_type;
+truncate table  os_rel_inst;
+truncate table  os_inst;
+truncate table  os_inst_type;
+truncate table  os_inst_users;
+truncate table  os_inst_type_menu;

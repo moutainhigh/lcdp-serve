@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InsColumnDefMapper">
+
+    <sql id="insColumnDefFields">
+		a.COL_ID_,a.NAME_,a.KEY_,a.IS_DEFAULT_,a.IS_PUBLIC_,a.TYPE_,a.IS_MOBILE_,a.TENANT_ID_,a.CREATE_BY_,a.CREATE_TIME_,a.ICON_,APP_ID_
+	</sql>
+
+    <select id="query" resultType="com.redxun.portal.core.entity.InsColumnDef" parameterType="java.util.Map">
+        select distinct  <include refid="insColumnDefFields"></include>, b.name_ as typeName from ins_column_def a left join ins_column_temp b on b.id_ = a.type_
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  COL_ID_ DESC
+        </if>
+    </select>
+
+
+    <select id="queryByIsNews" resultType="com.redxun.portal.core.entity.InsColumnDef" parameterType="java.util.Map">
+        select <include refid="insColumnDefFields"></include>, b.name_ as typeName from ins_column_def a left join ins_column_temp b on b.id_ = a.type_
+        where a.SET_TING_ like #{isNews}
+    </select>
+
+</mapper>
+
+

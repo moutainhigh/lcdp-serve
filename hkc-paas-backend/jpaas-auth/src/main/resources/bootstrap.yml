@@ -1,0 +1,30 @@
+server:
+  port: 8009
+  servlet:
+    session:
+      cookie:
+        name: OAUTH2SESSION
+
+
+
+spring:
+  application:
+    name: jpaas-auth-server
+
+
+encrypt:
+  key-store:
+    location: classpath:zlt.jks
+    secret: zlt!@#$
+    alias: zlt
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    tags:
+      application: ${spring.application.name}
+

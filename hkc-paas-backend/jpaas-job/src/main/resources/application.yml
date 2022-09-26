@@ -1,0 +1,83 @@
+
+### actuator
+spring:
+
+  cloud:
+    nacos:
+      discovery:
+        metadata:
+          developer: ray
+
+
+  datasource:
+    url: ${job.datasource.url}
+    username: ${job.datasource.username}
+    password: ${job.datasource.password}
+    driver-class-name: ${job.datasource.driver}
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari.minimum-idle: 10
+    hikari.maximum-pool-size: 30
+    hikari.auto-commit: true
+    hikari.idle-timeout: 30000
+    hikari.pool-name: HikariCP
+    hikari.max-lifetime: 900000
+    hikari.connection-timeout: 10000
+    hikari.connection-test-query: ${job.datasource.vaildQuery}
+
+  mail:
+    host: smtp.qq.com
+    port: 25
+    username: xxx@qq.com
+    from: xxx@qq.com
+    password: xxx
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        starttls:
+          required: true
+        socketFactory:
+          class: javax.net.ssl.SSLSocketFactory
+
+  ### resources
+  mvc:
+    servlet:
+      load-on-startup: 0
+    static-path-pattern: /static/**
+
+  resources:
+    static-locations: classpath:/static/
+
+  ### freemarker
+  freemarker:
+    suffix: .ftl
+    charset: UTF-8
+    request-context-attribute: request
+    settings:
+      number_format: 0.##########
+    template-loader-path: classpath:/templates/
+
+### mybatis
+mybatis:
+  mapper-locations: classpath:/mybatis-mapper/*Mapper.xml
+  configuration:
+    database-id: ${job.datasource.type:mysql}
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+### xxl-job, access token
+xxl:
+  job:
+    ### xxl-job, access token
+    accessToken:
+    ### xxl-job, i18n (default is zh_CN, and you can choose "zh_CN", "zh_TC" and "en")
+    i18n: zh_CN
+    triggerpool:
+      fast:
+        max: 200
+      slow:
+        max: 100
+    logretentiondays: 30
+
+

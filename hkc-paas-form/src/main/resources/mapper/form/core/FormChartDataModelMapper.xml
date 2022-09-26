@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormChartDataModelMapper">
+
+    <resultMap id="FormChartDataModel" type="com.redxun.form.core.entity.FormChartDataModel">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <id property="categoryId" column="CATEGORY_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="dataSource" column="DATA_SOURCE_" jdbcType="VARCHAR"/>
+                <result property="modelConfig" column="MODEL_CONFIG_" jdbcType="CLOB"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="sqlMode" column="SQL_MODE_" jdbcType="VARCHAR"/>
+                <result property="tables" column="TABLES_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="appId" column="APP_ID_"   jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormChartDataModel" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,DATA_SOURCE_,ID_,MODEL_CONFIG_,NAME_,TABLES_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_,SQL_MODE_,TYPE_,APP_ID_,CATEGORY_ID_ from form_chart_data_model
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

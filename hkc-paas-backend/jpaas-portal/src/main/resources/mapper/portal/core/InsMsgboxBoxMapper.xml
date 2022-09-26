@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InsMsgboxBoxMapper">
+
+    <resultMap id="InsMsgboxBox" type="com.redxun.portal.core.entity.InsMsgboxBox">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="sn" column="SN_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="msgId" column="MSG_ID_" jdbcType="VARCHAR"/>
+                <result property="boxId" column="BOX_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="TIMESTAMP"/>
+                <result property="appId" column="APP_ID_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="InsMsgboxBoxFields">
+		CREATE_DEP_ID_,SN_,UPDATE_TIME_,UPDATE_BY_,CREATE_TIME_,CREATE_BY_,TENANT_ID_,MSG_ID_,BOX_ID_,ID_,APP_ID_
+	</sql>
+    <sql id="InsMsgboxBoxFields01">
+		a.CREATE_DEP_ID_, a.SN_, a.UPDATE_TIME_, a.UPDATE_BY_, a.CREATE_TIME_, a.CREATE_BY_, a.TENANT_ID_, a.MSG_ID_, a.BOX_ID_, a.ID_
+	</sql>
+    <select id="query" resultType="com.redxun.portal.core.entity.InsMsgboxBox" parameterType="java.util.Map">
+        select <include refid="InsMsgboxBoxFields"></include> from INS_MSGBOX_BOX_DEF
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+    <select id="queryByBoxId" resultType="com.redxun.portal.core.entity.InsMsgboxBox" parameterType="java.util.Map">
+        select <include refid="InsMsgboxBoxFields01"> </include>,b.CONTENT_ as content from INS_MSGBOX_BOX_DEF a,ins_msg_def b
+        where  BOX_ID_ =#{boxId}
+        and a.MSG_ID_ =b.MSG_ID_
+    </select>
+
+
+    <delete id="delByBoxId" parameterType="java.lang.String">
+		DELETE FROM INS_MSGBOX_BOX_DEF
+		WHERE
+		BOX_ID_=#{boxId}
+	</delete>
+
+</mapper>
+
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redxun.user.org.mapper.OsRankTypeMapper">
+    <select id="findList" resultType="com.redxun.user.org.entity.OsRankType">
+        select * from os_rank_type t
+    </select>
+
+    <select id="isExist" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(*) FROM os_rank_type
+        WHERE (KEY_ = #{p.KEY_} OR LEVEL_ = #{p.LEVEL_})
+        AND DIM_ID_ = #{p.DIM_ID_}
+        <if test="@rx.Ognl@isNotEmpty(p.RK_ID_)">
+            and RK_ID_!=#{p.RK_ID_}
+        </if>
+    </select>
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsRankType" parameterType="java.util.Map">
+        select * from os_rank_type
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  LEVEL_ DESC
+        </if>
+    </select>
+
+</mapper>

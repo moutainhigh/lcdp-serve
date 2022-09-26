@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InsAppCollectMapper">
+
+    <resultMap id="InsAppCollect" type="com.redxun.portal.core.entity.InsAppCollect">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="url" column="URL_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="ownerId" column="OWNER_ID_" jdbcType="VARCHAR"/>
+                <result property="description" column="DESCRIPTION_" jdbcType="VARCHAR"/>
+                <result property="sn" column="SN_" jdbcType="NUMERIC"/>
+                <result property="icon" column="ICON_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="app" column="APP_" jdbcType="VARCHAR"/>
+                <result property="appType" column="APP_TYPE_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.portal.core.entity.InsAppCollect" parameterType="java.util.Map">
+        select ID_,NAME_,URL_,TYPE_,OWNER_ID_,DESCRIPTION_,SN_,ICON_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,CREATE_DEP_ID_,APP_,APP_TYPE_ from ins_app_collect
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  SN_ ASC
+        </if>
+    </select>
+
+    <select id="getCommonApp" resultType="com.redxun.portal.core.entity.InsAppCollect" >
+        select * from ins_app_collect
+        <where>
+            APP_TYPE_='default' OR (APP_TYPE_='custom' AND CREATE_BY_='${curUserId}')
+        </where>
+         ORDER BY  SN_ ASC
+    </select>
+
+</mapper>
+
+

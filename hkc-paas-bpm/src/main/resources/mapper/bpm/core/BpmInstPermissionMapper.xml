@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmInstPermissionMapper">
+
+    <resultMap id="BpmInstPermission" type="com.redxun.bpm.core.entity.BpmInstPermission">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="appId" column="APP_ID_" jdbcType="VARCHAR"/>
+                <result property="authId" column="AUTH_ID_" jdbcType="VARCHAR"/>
+                <result property="authName" column="AUTH_NAME_" jdbcType="VARCHAR"/>
+                <result property="companyId" column="COMPANY_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="defId" column="DEF_ID_" jdbcType="VARCHAR"/>
+                <result property="defKey" column="DEF_KEY_" jdbcType="VARCHAR"/>
+                <result property="desc" column="DESC_" jdbcType="VARCHAR"/>
+                <result property="instId" column="INST_ID_" jdbcType="VARCHAR"/>
+                <result property="isDelete" column="IS_DELETE_" jdbcType="VARCHAR"/>
+                <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+                <result property="subject" column="SUBJECT_" jdbcType="VARCHAR"/>
+                <result property="taskId" column="TASK_ID_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getByInstId" resultType="java.lang.Integer">
+       select count(*) from bpm_inst_permission where AUTH_ID_=#{authId} and INST_ID_=#{instId} and STATUS_='YES'
+        <if test="@rx.Ognl@isNotEmpty(taskId)">
+            and TASK_ID_=#{taskId}
+        </if>
+   </select>
+
+    <select id="getByAdmin" resultType="com.redxun.bpm.core.entity.BpmInstPermission">
+        select * from bpm_inst_permission where AUTH_ID_=#{authId}  and TYPE_='admin' and DEF_KEY_=#{defKey} and STATUS_='YES'
+    </select>
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmInstPermission">
+        select * from bpm_inst_permission  where INST_ID_=#{w.instId} and TYPE_ in ('handler')
+        order by STATUS_ desc,CREATE_TIME_ desc
+    </select>
+
+</mapper>
+
+

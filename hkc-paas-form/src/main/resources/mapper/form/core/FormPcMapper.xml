@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormPcMapper">
+
+    <resultMap id="FormPc" type="com.redxun.form.core.entity.FormPc">
+        <id property="id" column="ID_" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+        <result property="categoryId" column="CATEGORY_ID_" jdbcType="VARCHAR"/>
+        <result property="alias" column="ALIAS_" jdbcType="VARCHAR"/>
+        <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+        <result property="template" column="TEMPLATE_" jdbcType="VARCHAR"/>
+        <result property="javascript" column="JAVASCRIPT_" jdbcType="VARCHAR"/>
+        <result property="javascriptKey" column="JAVASCRIPT_KEY_" jdbcType="VARCHAR"/>
+        <result property="metadata" column="METADATA_" jdbcType="VARCHAR"/>
+        <result property="buttonDef" column="BUTTON_DEF_" jdbcType="VARCHAR"/>
+        <result property="tabDef" column="TAB_DEF_" jdbcType="VARCHAR"/>
+        <result property="tableButtonDef" column="TABLE_BUTTON_DEF_" jdbcType="VARCHAR"/>
+        <result property="deployed" column="DEPLOYED_" jdbcType="NUMERIC"/>
+        <result property="bodefId" column="BODEF_ID_" jdbcType="VARCHAR"/>
+        <result property="version" column="VERSION_" jdbcType="NUMERIC"/>
+        <result property="main" column="MAIN_" jdbcType="NUMERIC"/>
+        <result property="component" column="COMPONENT_" jdbcType="VARCHAR"/>
+        <result property="formSettings" column="FORM_SETTING_" jdbcType="VARCHAR"/>
+        <result property="dataSetting" column="DATA_SETTING_" jdbcType="VARCHAR"/>
+        <result property="wizard" column="WIZARD_" jdbcType="NUMERIC"/>
+        <result property="copyed" column="COPYED_" jdbcType="NUMERIC"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="appId" column="APP_ID_"   jdbcType="VARCHAR"/>
+        <result property="datasource" column="DATASOURCE_"   jdbcType="VARCHAR"/>
+        <result property="templateTemp" column="TEMPLATE_TEMP_"   jdbcType="VARCHAR"/>
+        <result property="javascriptTemp" column="JAVASCRIPT_TEMP_"   jdbcType="VARCHAR"/>
+        <result property="metadataTemp" column="METADATA_TEMP_"   jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="FormPcExt" extends="FormPc" type="com.redxun.form.core.entity.FormPc">
+        <association property="formBoDef" javaType="com.redxun.form.bo.entity.FormBoDef">
+            <result column="defId" property="id"/>
+            <result column="defName" property="name"/>
+            <result column="SUPPORT_DB_" property="supportDb"/>
+        </association>
+    </resultMap>
+
+    <select id="getById" resultMap="FormPcExt">
+        select a.*,b.ID_ as defId,b.NAME_ as defName,b.SUPPORT_DB_ from form_pc a left join form_bo_def b
+        on      a.BODEF_ID_=b.ID_ where a.ID_=#{id}
+    </select>
+
+    <select id="getByEntityId" resultMap="FormPc">
+        select *  from form_pc where Id_ in(
+            select form_id_ from form_solution where boDef_ID_ in(
+                select boDef_ID_ from form_bo_relation  where ENT_ID_=#{entityId}))  AND COPYED_=0 ORDER BY CREATE_TIME_
+    </select>
+
+    <select id="isExist" resultType="java.lang.Integer">
+        select count(*) from form_pc where ALIAS_ =#{alias} and MAIN_=1
+        <if test="@rx.Ognl@isNotEmpty(id)">
+            and ID_!=#{id}
+        </if>
+    </select>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormPc" parameterType="java.util.Map">
+        select ID_,NAME_,CATEGORY_ID_,ALIAS_,TYPE_,DEPLOYED_,
+        BODEF_ID_,BODEF_ALIAS_,VERSION_,MAIN_,COMPONENT_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,
+        CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_  from form_pc
+        <where>
+            MAIN_=1
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                AND ${w.whereSql}
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.containType)">
+                OR (TYPE_ =#{w.containType}
+                <if test="@rx.Ognl@isNotEmpty(w.NAME_)">
+                    and NAME_ LIKE #{w.NAME_}
+                </if>
+                <if test="@rx.Ognl@isNotEmpty(w.ALIAS_)">
+                    and ALIAS_ LIKE #{w.ALIAS_}
+                </if>)
+            </if>
+
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getMaxVersion" resultType="java.lang.Integer">
+        select max(VERSION_) from form_pc where ALIAS_ =#{alias}
+    </select>
+
+    <select id="getVersions" resultType="com.redxun.form.core.entity.FormPc" parameterType="java.util.Map">
+        select ID_,NAME_,CATEGORY_ID_,ALIAS_,DEPLOYED_,BODEF_ID_,VERSION_,MAIN_,
+        TENANT_ID_,COMPONENT_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_ from form_pc
+        where ALIAS_=#{alias} order by CREATE_TIME_ desc
+    </select>
+
+    <update id="updNotMain">
+        update  form_pc set MAIN_=0 where ALIAS_=#{alias}
+    </update>
+
+</mapper>
+
+

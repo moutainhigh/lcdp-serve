@@ -1,0 +1,50 @@
+
+//定义jenkins的工作目录
+def workspace="/var/jenkins_home/workspace/jpaas-backend"
+//定义打包之后的文件夹
+def targetFile="jpaas-linux-separate-6.6.0-test"
+//定义使用的maven模板
+def mvnProfile="release-jpaas-linux-separate"
+//定义目标服务器
+def remoteServer = "192.168.1.166"
+//定义目标服务器的目标文件夹
+def remoteDir="/home/Release"
+
+
+
+
+node {
+
+    stage("拉取代码") {
+       echo "1.拉取代码"
+       checkout([$class: 'GitSCM', branches: [[name: '*/test']],
+                  						userRemoteConfigs: [[credentialsId: 'a9f06d07-fd06-4967-8cdc-0f5f55ce7426',
+                  							url: 'http://dev.redxun.cn:18080/jpaas_application/jpaas-backend.git']]])
+       script {
+            build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+            if (env.BRANCH_NAME != 'master') {
+            build_tag = "${env.BRANCH_NAME}-${build_tag}"
+            }
+        }
+    }
+    stage('编译构建') {
+        echo "2.编译构建"
+        sh "mvn clean package -P${mvnProfile} -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -e -U"
+    }
+    stage('远程部署') {
+        echo "3.远程部署"
+        withCredentials([usernamePassword(credentialsId: '166_ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
+           target = "${workspace}_${env.BRANCH_NAME}/release/target"
+           sh " sshpass -p  ${sshPassword} ssh ${sshUser}@${remoteServer} ' mkdir -p   ${remoteDir}/${targetFile}/jpaas-linux-separate/bin' "
+           sh " sshpass -p  ${sshPassword} ssh ${sshUser}@${remoteServer} ' source /etc/profile && cd  ${remoteDir}/${targetFile}/jpaas-linux-separate/bin  && chmod a+x *.sh && ./jpaas-all.sh stop && ./redis-all.sh stop && ./nacos-stop.sh && ./seata-stop.sh ' "
+           sh "cd $target && sshpass -p  ${sshPassword} scp -r ${targetFile} ${sshUser}@${remoteServer}:${remoteDir}"
+       }
+    }
+    stage('启动系统后台服务') {
+        echo "4.启动后端服务"
+        withCredentials([usernamePassword(credentialsId: '166_ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
+           sh " sshpass -p  ${sshPassword} ssh ${sshUser}@${remoteServer} ' source /etc/profile && cd  ${remoteDir}/${targetFile}/jpaas-linux-separate/bin  && chmod a+x *.sh && ./redis-all.sh start && ./nacos-start.sh && ./seata-start.sh && ./jpaas-all.sh start ' "
+       }
+    }
+
+}

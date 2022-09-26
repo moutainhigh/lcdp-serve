@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormEntityDataTypeMapper">
+
+    <resultMap id="FormEntityDataType" type="com.redxun.form.core.entity.FormEntityDataType">
+        <id property="id" column="ID_" jdbcType="VARCHAR"/>
+        <result property="dialogAlias" column="DIALOG_ALIAS_" jdbcType="VARCHAR"/>
+        <result property="dialogName" column="DIALOG_NAME_" jdbcType="VARCHAR"/>
+        <result property="idField" column="ID_FIELD_" jdbcType="VARCHAR"/>
+        <result property="textField" column="TEXT_FIELD_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+        <result property="dataShowType" column="DATA_SHOW_TYPE_" jdbcType="VARCHAR"/>
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormEntityDataType" parameterType="java.util.Map">
+        select DIALOG_ALIAS_,DIALOG_NAME_,ID_FIELD_,TEXT_FIELD_,CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,ID_,NAME_,STATUS_,DATA_SHOW_TYPE_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_ from FORM_ENTITY_DATA_TYPE
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

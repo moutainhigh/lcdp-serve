@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmInstCcMapper">
+
+    <resultMap id="BpmInstCc" type="com.redxun.bpm.core.entity.BpmInstCc">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="subject" column="SUBJECT_" jdbcType="VARCHAR"/>
+                <result property="nodeId" column="NODE_ID_" jdbcType="VARCHAR"/>
+                <result property="nodeName" column="NODE_NAME_" jdbcType="VARCHAR"/>
+                <result property="fromUser" column="FROM_USER_" jdbcType="VARCHAR"/>
+                <result property="fromUserId" column="FROM_USER_ID_" jdbcType="VARCHAR"/>
+                <result property="instId" column="INST_ID_" jdbcType="VARCHAR"/>
+                <result property="defId" column="DEF_ID_" jdbcType="VARCHAR"/>
+                <result property="ccType" column="CC_TYPE_" jdbcType="VARCHAR"/>
+                <result property="treeId" column="TREE_ID_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="BpmInstCcExt" type="com.redxun.bpm.core.entity.BpmInstCc">
+        <id property="id" column="ID_" jdbcType="VARCHAR"/>
+        <result property="subject" column="SUBJECT_" jdbcType="VARCHAR"/>
+        <result property="nodeId" column="NODE_ID_" jdbcType="VARCHAR"/>
+        <result property="nodeName" column="NODE_NAME_" jdbcType="VARCHAR"/>
+        <result property="fromUser" column="FROM_USER_" jdbcType="VARCHAR"/>
+        <result property="fromUserId" column="FROM_USER_ID_" jdbcType="VARCHAR"/>
+        <result property="instId" column="INST_ID_" jdbcType="VARCHAR"/>
+        <result property="defId" column="DEF_ID_" jdbcType="VARCHAR"/>
+        <result property="ccType" column="CC_TYPE_" jdbcType="VARCHAR"/>
+        <result property="treeId" column="TREE_ID_" jdbcType="VARCHAR"/>
+
+        <result property="instCp.id" column="CP_ID_" jdbcType="VARCHAR"/>
+        <result property="instCp.isRead" column="IS_READ_" jdbcType="VARCHAR"/>
+        <result property="instCp.userId" column="USER_ID_" jdbcType="VARCHAR"/>
+        <result property="instCp.updateTime" column="CP_UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+
+
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmInstCc" parameterType="java.util.Map">
+        select ID_,SUBJECT_,NODE_ID_,NODE_NAME_,FROM_USER_,FROM_USER_ID_,INST_ID_,TREE_ID_,DEF_ID_,CC_TYPE_,
+        TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from BPM_INST_CC
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+
+    <select id="getMyTurnTo" resultType="com.redxun.bpm.core.entity.BpmInstCc" parameterType="java.util.Map">
+        select ID_,SUBJECT_,NODE_ID_,NODE_NAME_,FROM_USER_,FROM_USER_ID_,INST_ID_,TREE_ID_,DEF_ID_,CC_TYPE_,
+        TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_
+        from BPM_INST_CC WHERE FROM_USER_ID_=#{w.userId}
+
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+           and ${w.whereSql}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  CREATE_TIME_ DESC
+        </if>
+    </select>
+
+
+    <select id="getMyReceiveTurn" resultMap="BpmInstCcExt" parameterType="java.util.Map">
+        select A.ID_,A.SUBJECT_,A.NODE_ID_,A.NODE_NAME_,A.FROM_USER_,A.FROM_USER_ID_,A.INST_ID_,A.TREE_ID_,A.DEF_ID_,A.CC_TYPE_,
+        A.TENANT_ID_,A.CREATE_DEP_ID_,A.CREATE_BY_,A.CREATE_TIME_,A.UPDATE_BY_,A.UPDATE_TIME_,b.IS_READ_,b.ID_ CP_ID_,B.UPDATE_TIME_ CP_UPDATE_TIME_
+        from BPM_INST_CC A,bpm_inst_cp B WHERE A.ID_=B.CC_ID_ AND B.USER_ID_=#{w.userId}
+
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+           and ${w.whereSql}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  CREATE_TIME_ DESC
+        </if>
+    </select>
+
+    <select id="getByInstId" resultMap="BpmInstCcExt" parameterType="java.util.Map">
+        select A.ID_,A.SUBJECT_,A.NODE_ID_,A.NODE_NAME_,A.FROM_USER_,A.FROM_USER_ID_,A.INST_ID_,A.TREE_ID_,A.DEF_ID_,A.CC_TYPE_,
+        A.TENANT_ID_,A.CREATE_DEP_ID_,A.CREATE_BY_,A.CREATE_TIME_,A.UPDATE_BY_,A.UPDATE_TIME_,b.IS_READ_,b.ID_ CP_ID_,b.USER_ID_,b.UPDATE_TIME_ CP_UPDATE_TIME_
+        from BPM_INST_CC A,bpm_inst_cp B WHERE A.ID_=B.CC_ID_ AND A.INST_ID_=#{instId}
+    </select>
+
+    <insert id="archiveByArchiveDate">
+		insert into BPM_INST_CC_${tableId} select * from BPM_INST_CC A WHERE EXISTS (SELECT 1 FROM BPM_INST B WHERE A.INST_ID_=B.INST_ID_ AND END_TIME_ &lt;=#{archiveDate} and B.TENANT_ID_=#{tenantId})
+	</insert>
+
+    <delete id="removeByArchiveDate">
+        <if test="dbType=='mysql'">
+            DELETE from BPM_INST_CC A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate} and B.TENANT_ID_=#{tenantId}) limit ${batSize}
+        </if>
+        <if test="dbType=='sqlserver'">
+            DELETE top(${batSize}) from BPM_INST_CC A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate} and B.TENANT_ID_=#{tenantId})
+        </if>
+        <if test="dbType=='oracle'">
+            DELETE from BPM_INST_CC A  WHERE EXISTS (SELECT 1 FROM BPM_INST B   WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate} and B.TENANT_ID_=#{tenantId}) and rownum &lt;= ${batSize}
+        </if>
+    </delete>
+
+    <delete id="delArchiveByInstId" parameterType="java.util.Map">
+        delete from BPM_INST_CC_${tableId} where INST_ID_=#{instId}
+    </delete>
+
+</mapper>
+
+

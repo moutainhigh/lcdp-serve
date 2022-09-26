@@ -1,0 +1,95 @@
+<resources xmlns="http://www.redxun.cn/sqlgen"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.redxun.cn/sqlgen sqlgen.xsd"
+           filePath="D:\temp\sql\init\5.2jpaas_portal_init.sql" >
+
+    <resource>
+        <sql>SELECT * FROM ins_column_def</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO ins_column_def(COL_ID_,NAME_,KEY_,IS_DEFAULT_,TEMPLET_,SET_TING_,IS_PUBLIC_,TYPE_,ICON_,IS_MOBILE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  COL_ID_??>'${COL_ID_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  KEY_??>'${KEY_}'<#else>''</#if>,          <#if  IS_DEFAULT_??>'${IS_DEFAULT_}'<#else>''</#if>,          <#if  TEMPLET_??>''<#else>''</#if>,          <#if  SET_TING_??>''<#else>''</#if>,          <#if  IS_PUBLIC_??>'${IS_PUBLIC_}'<#else>''</#if>,          <#if  TYPE_??>'${TYPE_}'<#else>''</#if>,          <#if  ICON_??>'${ICON_}'<#else>''</#if>,          <#if  IS_MOBILE_??>'${IS_MOBILE_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+
+        DECLARE
+         content_4 CLOB:='${ TEMPLET_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}'; content_5 CLOB:='${ SET_TING_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update ins_column_def set TEMPLET_=content_4 where COL_ID_='${ COL_ID_}';    update ins_column_def set SET_TING_=content_5 where COL_ID_='${ COL_ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM ins_column_temp</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO ins_column_temp(ID_,NAME_,KEY_,TEMPLET_,IS_SYS_,STATUS_,TEMP_TYPE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  KEY_??>'${KEY_}'<#else>''</#if>,          <#if  TEMPLET_??>''<#else>''</#if>,          <#if  IS_SYS_??>'${IS_SYS_}'<#else>''</#if>,          <#if  STATUS_??>'${STATUS_}'<#else>''</#if>,          <#if  TEMP_TYPE_??>'${TEMP_TYPE_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+
+        DECLARE
+         content_3 CLOB:='${ TEMPLET_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update ins_column_temp set TEMPLET_=content_3 where ID_='${ ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM ins_msg_def</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO ins_msg_def(MSG_ID_,COLOR_,URL_,ICON_,CONTENT_,DS_NAME_,DS_ALIAS_,SQL_FUNC_,TYPE_,COUNT_TYPE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  MSG_ID_??>'${MSG_ID_}'<#else>''</#if>,          <#if  COLOR_??>'${COLOR_}'<#else>''</#if>,          <#if  URL_??>'${URL_}'<#else>''</#if>,          <#if  ICON_??>'${ICON_}'<#else>''</#if>,          <#if  CONTENT_??>'${CONTENT_}'<#else>''</#if>,          <#if  DS_NAME_??>'${DS_NAME_}'<#else>''</#if>,          <#if  DS_ALIAS_??>'${DS_ALIAS_}'<#else>''</#if>,          <#if  SQL_FUNC_??>'${SQL_FUNC_}'<#else>''</#if>,          <#if  TYPE_??>'${TYPE_}'<#else>''</#if>,          <#if  COUNT_TYPE_??>'${COUNT_TYPE_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM ins_msgbox_box_def</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO ins_msgbox_box_def(ID_,SN_,MSG_ID_,BOX_ID_,APP_ID_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  SN_??>${ SN_}<#else>null</#if>,          <#if  MSG_ID_??>'${MSG_ID_}'<#else>''</#if>,          <#if  BOX_ID_??>'${BOX_ID_}'<#else>''</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM ins_msgbox_def</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO ins_msgbox_def(BOX_ID_,KEY_,NAME_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  BOX_ID_??>'${BOX_ID_}'<#else>''</#if>,          <#if  KEY_??>'${KEY_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM ins_portal_def</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO ins_portal_def(PORT_ID_,NAME_,KEY_,IS_DEFAULT_,LAYOUT_HTML_,PRIORITY_,IS_MOBILE_,LAYOUT_JSON_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  PORT_ID_??>'${PORT_ID_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  KEY_??>'${KEY_}'<#else>''</#if>,          <#if  IS_DEFAULT_??>'${IS_DEFAULT_}'<#else>''</#if>,          <#if  LAYOUT_HTML_??>''<#else>''</#if>,          <#if  PRIORITY_??>${ PRIORITY_}<#else>null</#if>,          <#if  IS_MOBILE_??>'${IS_MOBILE_}'<#else>''</#if>,          <#if  LAYOUT_JSON_??>''<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+
+        DECLARE
+         content_4 CLOB:='${ LAYOUT_HTML_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}'; content_7 CLOB:='${ LAYOUT_JSON_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update ins_portal_def set LAYOUT_HTML_=content_4 where PORT_ID_='${ PORT_ID_}';    update ins_portal_def set LAYOUT_JSON_=content_7 where PORT_ID_='${ PORT_ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM ins_remind_def</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO ins_remind_def(ID_,SUBJECT_,URL_,TYPE_,SETTING_,DESCRIPTION_,SN_,ENABLED_,ICON_,DS_NAME_,DS_ALIAS_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,CREATE_DEP_ID_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  SUBJECT_??>'${SUBJECT_}'<#else>''</#if>,          <#if  URL_??>'${URL_}'<#else>''</#if>,          <#if  TYPE_??>'${TYPE_}'<#else>''</#if>,          <#if  SETTING_??>''<#else>''</#if>,          <#if  DESCRIPTION_??>'${DESCRIPTION_}'<#else>''</#if>,          <#if  SN_??>${ SN_}<#else>null</#if>,          <#if  ENABLED_??>'${ENABLED_}'<#else>''</#if>,          <#if  ICON_??>'${ICON_}'<#else>''</#if>,          <#if  DS_NAME_??>'${DS_NAME_}'<#else>''</#if>,          <#if  DS_ALIAS_??>'${DS_ALIAS_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>);
+
+        DECLARE
+         content_4 CLOB:='${ SETTING_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update ins_remind_def set SETTING_=content_4 where ID_='${ ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM ins_portal_permission</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO ins_portal_permission(ID_,LAYOUT_ID_,TYPE_,OWNER_ID_,OWNER_NAME_,MENU_TYPE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  LAYOUT_ID_??>'${LAYOUT_ID_}'<#else>''</#if>,          <#if  TYPE_??>'${TYPE_}'<#else>''</#if>,          <#if  OWNER_ID_??>'${OWNER_ID_}'<#else>''</#if>,          <#if  OWNER_NAME_??>'${OWNER_NAME_}'<#else>''</#if>,          <#if  MENU_TYPE_??>'${MENU_TYPE_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+
+</resources>

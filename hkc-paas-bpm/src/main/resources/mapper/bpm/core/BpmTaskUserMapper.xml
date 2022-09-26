@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmTaskUserMapper">
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmTaskUser" parameterType="java.util.Map">
+        select * from BPM_TASK_USER
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <delete id="deleteByTaskId" parameterType="java.util.Map">
+        delete from BPM_TASK_USER where TASK_ID_=#{taskId}
+    </delete>
+
+    <delete id="deleteByInstId">
+        delete   from bpm_task_user where INST_ID_=#{instId}
+    </delete>
+
+    <select id="getByTaskId" resultType="com.redxun.bpm.core.entity.BpmTaskUser" parameterType="java.util.Map">
+        select * from BPM_TASK_USER where TASK_ID_=#{taskId}
+    </select>
+
+
+    <update id="updateUserId" parameterType="java.util.Map" >
+        update BPM_TASK_USER set  USER_ID_=#{receiptUserId}  where USER_ID_=#{deliverUserId}
+    </update>
+
+
+
+</mapper>
+
+

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmRuPathMapper">
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmRuPath" parameterType="java.util.Map">
+        select PATH_ID_,INST_ID_,DEF_ID_,ACT_DEF_ID_,ACT_INST_ID_,NODE_ID_,NODE_NAME_,NODE_TYPE_,START_TIME_,END_TIME_,ASSIGNEE_,TO_USER_ID_,USER_IDS_,IS_MULTIPLE_,EXECUTION_ID_,PARENT_ID_,LEVEL_,OUT_TRAN_ID_,TOKEN_,JUMP_TYPE_,REF_PATH_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from bpm_ru_path
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  PATH_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByInstId" resultType="com.redxun.bpm.core.entity.BpmRuPath" parameterType="java.lang.String">
+        select * from BPM_RU_PATH where inst_id_=#{instId} order by level_ asc ,create_time_ asc
+    </select>
+
+    <select id="getByInstIdNodeId" resultType="com.redxun.bpm.core.entity.BpmRuPath"  parameterType="java.util.Map">
+        select * from BPM_RU_PATH where inst_id_=#{instId} and node_id_=#{nodeId} order by create_time_ desc
+    </select>
+
+    <select id="getByExecutionId" resultType="com.redxun.bpm.core.entity.BpmRuPath"  parameterType="java.util.Map">
+        select * from BPM_RU_PATH where EXECUTION_ID_=#{executionId} order by create_time_ desc
+    </select>
+
+    <select id="getEarliestByInstId" resultType="com.redxun.bpm.core.entity.BpmRuPath">
+		select * from bpm_ru_path a where a.inst_id_=#{instId} and LEVEL_ &lt;= (select min(LEVEL_) FROM bpm_ru_path b where b.inst_id_=#{instId}
+		and b.NODE_ID_=#{nodeId})
+	</select>
+
+    <select id="getMaxLevelByInstIdNodeId" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select max(LEVEL_) from bpm_ru_path where inst_id_=#{instId} and node_id_=#{nodeId}
+    </select>
+
+    <select id="getByInstIdLevel" parameterType="java.util.Map" resultType="com.redxun.bpm.core.entity.BpmRuPath">
+        select * from bpm_ru_path where inst_id_=#{instId} and level_=#{level }
+    </select>
+
+    <select id="getByInstIdNodeIdLevel" parameterType="java.util.Map" resultType="com.redxun.bpm.core.entity.BpmRuPath">
+        select * from bpm_ru_path where inst_id_=#{instId} and node_id_=#{nodeId} and level_=#{level }
+    </select>
+
+    <select id="getMaxLevelByInst" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select max(LEVEL_) from bpm_ru_path where inst_id_=#{instId}
+	</select>
+
+    <delete id="delByInstId" parameterType="java.lang.String">
+        delete from BPM_RU_PATH where inst_id_=#{instId}
+    </delete>
+
+    <select id="getMinPathByNode" resultType="com.redxun.bpm.core.entity.BpmRuPath" parameterType="java.util.Map">
+		select a.* from bpm_ru_path a where a.inst_id_=#{instId}
+ 		and LEVEL_=(select min(LEVEL_)-1 from bpm_ru_path b where b.act_inst_id_=#{instId}
+		and b.NODE_ID_=#{nodeId} )
+	</select>
+
+    <select id="getLastPathByNode" resultType="com.redxun.bpm.core.entity.BpmRuPath" parameterType="java.util.Map">
+        select * from bpm_ru_path a where a.inst_id_=#{instId}
+        and NODE_ID_=#{nodeId} and JUMP_TYPE_='AGREE'
+        <if test="@rx.Ognl@isNotEmpty(createTime)">
+            and CREATE_TIME_ &lt; #{createTime}
+        </if>
+        and LEVEL_=(select max(LEVEL_) from bpm_ru_path b where b.inst_id_=#{instId}
+        and b.NODE_ID_=#{nodeId} and JUMP_TYPE_='AGREE'
+        <if test="@rx.Ognl@isNotEmpty(createTime)">
+            and CREATE_TIME_ &lt; #{createTime}
+        </if>
+        )
+    </select>
+
+    <insert id="archiveByArchiveDate">
+		insert into BPM_RU_PATH_${tableId} select * from BPM_RU_PATH A WHERE EXISTS (SELECT 1 FROM BPM_INST B WHERE A.INST_ID_=B.INST_ID_ AND END_TIME_ &lt;=#{archiveDate} AND B.TENANT_ID_=#{tenantId})
+	</insert>
+
+    <delete id="removeByArchiveDate">
+        <if test="dbType=='mysql'">
+            DELETE from BPM_RU_PATH A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate}) AND B.TENANT_ID_=#{tenantId} limit ${batSize}
+        </if>
+        <if test="dbType=='sqlserver'">
+            DELETE top(${batSize}) from BPM_RU_PATH A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate} AND B.TENANT_ID_=#{tenantId})
+        </if>
+        <if test="dbType=='oracle'">
+            DELETE from BPM_RU_PATH A  WHERE EXISTS (SELECT 1 FROM BPM_INST B   WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate}  AND B.TENANT_ID_=#{tenantId}) and rownum &lt;= ${batSize}
+        </if>
+    </delete>
+
+    <delete id="delArchiveByInstId" parameterType="java.util.Map">
+        delete from BPM_RU_PATH_${tableId} where INST_ID_=#{instId}
+    </delete>
+
+</mapper>
+
+

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="codegen.xsd">
+    <variables>
+        <variable name="developer" value="gjh"/>
+        <variable name="company" value="广州红迅软件"/>
+        <variable name="system" value="user"/>
+        <variable name="domain" value="com.redxun"/>
+        <variable name="email" value="gaojiahao@redxun.cn"/>
+        <variable name="apiProject" value="api-bpm"/>
+        <variable name="javaProject" value="jpaas-java\jpaas-user"/>
+        <variable name="frontProject" value="jpaas-web\jpaas-front\jpaas-admin-front"/>
+        <variable name="dbType" value="oracle"/>
+    </variables>
+
+
+    <templates>
+        <template id="dao" path="dao.ftl"/>
+        <template id="manager"  path="manager.ftl"/>
+        <template id="mapping"  path="mapping.ftl"/>
+        <template id="entity"  path="entity.ftl"/>
+        <template id="controller" path="controller.ftl"/>
+        <template id="edit" path="edit.ftl"/>
+        <template id="bpmForm" path="bpmForm.ftl"/>
+        <template id="editFormModel" path="editFormModel.ftl"/>
+        <template id="list" path="list.ftl"/>
+        <template id="doc" path="dbdoc.xml"/>
+        <template id="router" path="router.ftl"/>
+        <template id="serviceTest" path="serviceTest.ftl"/>
+        <template id="apijs" path="api_js.ftl"/>
+        <template id="genSql" path="genSql.ftl"/>
+        <template id="company" path="company.ftl"/>
+    </templates>
+
+
+
+    <files baseDir="D:\temp">
+        <file refTemplate="mapping" filename="{class}Mapper.xml" dir="{javaProject}\src\main\resources\mapper\{system}\{package}"  sub="true"  override="true"/>
+        <file refTemplate="entity" filename="{class}.java" dir="{javaProject}\src\main\java\com\redxun\{system}\{package}\entity" sub="true"  override="true"/>
+        <file refTemplate="dao" filename="{class}Mapper.java" dir="{javaProject}\src\main\java\com\redxun\{system}\{package}\mapper" sub="false"  override="true"/>
+        <file refTemplate="manager" filename="{class}ServiceImpl.java" dir="{javaProject}\src\main\java\com\redxun\{system}\{package}\service" sub="false"  override="true"/>
+        <file refTemplate="controller" filename="{class}Controller.java" dir="{javaProject}\src\main\java\com\redxun\{system}\{package}\controller" sub="false"  override="true"/>
+<!--        <file refTemplate="serviceTest" filename="{class}ServiceTest.java" dir="{javaProject}\src\test\java\com\redxun\{system}\{package}\" sub="false"  override="true"/>-->
+<!--        <file refTemplate="list" filename="{class}List.vue" dir="{frontProject}\src\views\modules\{system}\{package}" sub="false"  override="true"/>-->
+<!--        <file refTemplate="edit" filename="{class}Edit.vue" dir="{frontProject}\src\views\modules\{system}\{package}" sub="false"  override="true"/>-->
+<!--        <file refTemplate="apijs" filename="{classVar}.js" dir="{frontProject}\src\api\{system}\{package}" sub="false"  override="true"/>-->
+<!--        <file refTemplate="editFormModel" filename="{class}Edit.vue" dir="{frontProject}\src\views\modules\{system}\{package}" sub="false"  override="true"/>-->
+    </files>
+
+
+    <genAll tableNames="ins_column_def,ins_column_temp,ins_msg_def,ins_msgbox_box_def,ins_msgbox_def,ins_portal_def,ins_remind_def,ins_portal_permission">
+        <file refTemplate="genSql" dir="D:\temp\sql\init" genMode="SingleFile" filename="sqlgen_portal.xml"></file>
+    </genAll>
+
+    <!--d
+
+
+    <genAll tableNames="os_user,os_group,os_inst_users,os_inst,os_dimension,os_inst_type,os_inst_type_menu,os_rank_type,os_rel_type,os_rel_inst">
+        <file refTemplate="genSql" dir="D:\temp\sql\init" genMode="SingleFile" filename="sqlgen_user.xml"></file>
+    </genAll>
+
+    <genAll tableNames="bpm_default_template,bpm_caltime_block">
+        <file refTemplate="genSql" dir="D:\temp\sql\init" genMode="SingleFile" filename="sqlgen_bpm.xml"></file>
+    </genAll>
+
+    <genAll tableNames="form_rule,form_codegen_template,form_template,form_codegen_globalvar">
+        <file refTemplate="genSql" dir="D:\temp\sql\init" genMode="SingleFile" filename="sqlgen_form.xml"></file>
+    </genAll>
+
+    <genAll tableNames="ins_column_def,ins_column_temp,ins_msg_def,ins_msgbox_box_def,ins_msgbox_def,ins_portal_def,ins_remind_def,ins_portal_permission">
+        <file refTemplate="genSql" dir="D:\temp\sql\init" genMode="SingleFile" filename="sqlgen_portal.xml"></file>
+    </genAll>
+
+    <genAll tableNames="sys_app,sys_dic,sys_menu,sys_route_type,sys_routing,sys_tree,sys_tree_cat,sys_external_api">
+        <file refTemplate="genSql" dir="D:\temp\sql\init" genMode="SingleFile" filename="sqlgen_system.xml"></file>
+    </genAll>
+
+     <genAll tableNames="xxl_job_group,xxl_job_info">
+        <file refTemplate="genSql" dir="D:\temp\sql\init" genMode="SingleFile" filename="sqlgen_job.xml"></file>
+    </genAll>
+
+    <genAll tableNames="os_user,os_group,os_inst_users,os_inst,os_dimension,os_inst_type,os_inst_type_menu,os_rank_type,os_rel_type,os_rel_inst">
+        <file refTemplate="genSql" dir="D:\temp\sql\init" genMode="SingleFile" filename="sqlgen_user.xml"></file>
+    </genAll>
+
+
+    -->
+
+
+
+
+
+
+</config>

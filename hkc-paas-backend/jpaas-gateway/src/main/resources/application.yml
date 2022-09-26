@@ -1,0 +1,225 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          enabled: true
+      routes:
+
+#    sentinel:
+#      datasource.ds1.nacos:
+#        server-addr: ${zlt.nacos.server-addr}
+#        data-id: ${spring.application.name}-sentinel-gw-flow
+#        group-id: DEFAULT_GROUP
+#        ruleType: gw-flow
+#      filter:
+#        enabled: true
+
+
+
+redxun:
+  swagger-agg:
+    generate-routes: user,bpm,system,portal,form,uaa
+  #配置tokenstore
+  oauth2:
+    token:
+      store:
+        type: redis
+  security:
+    ignore:
+      # 忽略认证的地址
+      httpUrls: >
+        /api-uaa/oauth/**,
+        /api-uaa/validata/**,
+        /api-uaa/css/**,
+        /api-uaa/images/**,
+        /api-uaa/js/**,
+        /api-user/user/org/osUser/getByUsername,
+        /api-user/user/org/osUser/getLoginUserAndMenu,
+        /api-user/user/org/public/**,
+        /api-user/wxent/**,
+        /api-user/dd/**,
+        /*/druid/**,
+        /login,
+        /doc.html,
+
+        /favicon.ico,
+        /*/restApi/**,
+        /*/global/**,
+        /*/*/*/public/**,
+        /api-form/form/share/**,
+        /api-form/form/encryptUrl/**,
+        /api-system/system/token/**,
+        /api-system/system/idempotence/**,
+        /api-system/system/core/sysFile/public/download/**,
+        /api-system/system/core/sysFile/previewFile/**,
+        /api-system/system/core/sysFile/previewImg/**,
+        /api-system/system/core/sysFile/previewPdf/**,
+        /api-system/system/core/sysFile/download/**,
+        /api-system/system/core/sysFile/downloadZip/**,
+        /api-system/system/core/ueditor/**,
+        /api-system/system/core/sysFile/downloadScale/**,
+        /api-bpm/bpm/core/bpmDef/getImageByDefId/**,
+        /api-bpm/bpm/core/bpmDef/doExport/**,
+        /api-bpm/bpm/core/txBpm/**,
+        /api-form/form/core/formBoList/exportExcel/**,
+        /api-form/form/core/formBoList/downTemp/**,
+        /api-form/form/core/formSolution/doExport/**,
+        /api-form/form/core/formCustomQuery/doExport/**,
+        /api-form/form/core/formRule/doExport/**,
+        /api-form/form/core/formMobile/doExport/**,
+        /api-form/form/core/formRegLib/doExport/**,
+        /api-form/form/core/formBoList/doExport/**,
+        /api-form/form/core/formTableFormula/doExport/**,
+        /api-system/system/core/sysOffice/**,
+        /api-system/system/core/sysSignature/uploadSignature/**,
+        /api-system/system/core/sysInform/getById/**,
+        /api-system/system/core/sysTree/doExport/**,
+        /api-system/system/core/sysDic/doExport/**,
+        /api-system/system/core/sysWebReqDef/doExport/**,
+        /api-system/system/core/sysInterfaceApi/doExport/**,
+        /api-system/system/core/sysSeqId/doExport/**,
+        /api-system/system/core/sysInvokeScript/doExport**,
+        /api-system/system/core/sysAuthSetting/doExport**,
+        /api-system/system/core/sysFile/public/download/**,
+        /api-ureport/ureport2/core/ureportFile/doExport,
+        /api-bpm/bpm/core/bpmDef/getImageByInstId/**,
+        /api-form/form/core/formPdfTemplate/getQrCode/**,
+        /api-screen/system/requestTimeOut,
+        /api-screen/api/pluginCommon/component/ThemeSetting,
+        /api-screen/api/auth/isPluginLoaded,
+        /api-screen/api/auth/isOpenLdap,
+        /api-screen/api/auth/isOpenOidc,
+        /api-screen/api/auth/getPublicKey,
+        /api-screen/system/ui/info,
+        /api-screen/api/auth/login,
+        /api-datart/v1/sys/info,
+        /api-datart/v1/tpa/getOauth2Clients,
+        /api-datart/v1/users/login
+
+      # 忽略xss攻击地址
+      xssUrls: >
+        /api-form/form/core/formBoList/saveHtml,
+        /api-form/form/core/formPc/saveForm,
+        /api-form/form/core/formPc/validForm,
+        /api-form/form/core/formPc/genForm,
+        /api-form/form/core/formPc/save,
+        /api-form/form/core/formBoList/save,
+        /api-form/form/core/formPrintLodop/save,
+        /api-system/system/core/sysInform/save,
+        /api-system/system/core/sysInformPdf/save,
+        /api-system/system/core/sysWebReqDef/save,
+        /api-system/system/core/sysWebReqDef/execute,
+        /api-system/system/core/sysInterfaceApi/executeApi,
+        /api-bpm/bpm/modeler/check,
+        /api-bpm/bpm/modeler/deploy,
+        /api-bpm/bpm/core/bpmInst/startProcess,
+        /api-bpm/bpm/core/bpmTask/completeTask,
+        /api-portal/portal/core/insColumnDef/save,
+        /api-form/form/core/formTemplate/save,
+        /api-form/form/core/codeGenTemplate/save,
+        /api-form/form/core/formPc/temporaryForm
+
+      # 忽略认证但url必须带accessToken的地址
+      httpTokenUrls: >
+        /api-system/system/core/sysFile/download
+    auth:
+      urlPermission:
+        #配置只进行登录认证，不进行url权限认证的api
+        ignoreUrls: >
+          /api-bpm/bpm/core/bpmDef/getAllForStart,
+          /api-bpm/bpm/core/bpmInst/getProcessConfig,
+          /api-bpm/bpm/core/bpmInst/getViewByDefId,
+          /api-bpm/bpm/core/bpmInst/saveDraft,
+          /api/api-bpm/bpm/core/bpmInst/startProcess,
+          /api-bpm/bpm/core/bpmInstCc/getMyTurnTo,
+          /api-portal/portal/core/insRemindDef/myRemind,
+          /api-bpm/bpm/core/bpmInstCc/myRecevieTurn,
+          /api-bpm/bpm/core/bpmInst/myBpmInsts,
+          /api-bpm/bpm/core/bpmInst/getInstIdProcessConfig,
+          /api-bpm/bpm/core/bpmInst/getInstDetail,
+          /api-bpm/bpm/core/bpmCheckHistory/getCheckHistorys,
+          /api-bpm/bpm/core/bpmInstLog/getByInstId,
+          /api-bpm/bpm/core/bpmImage/getBpmnXmlFromParam,
+          /api-bpm/bpm/core/bpmImage/getBpmnImageNodeInfo,
+          /api-bpm/bpm/core/bpmInstMsg/getByInstId,
+          /api-bpm/bpm/core/bpmInstMsg/addMsg,
+          /api-bpm/bpm/core/bpmTask/getTaskInfo,
+          /api-bpm/bpm/core/bpmTask/updateLocked,
+          /api-bpm/bpm/core/bpmTask/getTaskInfo,
+          /api-bpm/bpm/core/public/getMessageHandler,
+          /api-bpm/bpm/core/bpmTemporaryOpinion/getTemporaryOpinion,
+          /api-bpm/bpm/core/bpmTemporaryOpinion/getTemporaryOpinion,
+          /api-system/system/core/sysProperties/getCheckTypes,
+          /api-bpm/bpm/core/bpmOpinionLib/save,
+          /api-bpm/bpm/core/bpmOpinionLib/getUserText,
+          /api-bpm/bpm/core/bpmTask/completeTask,
+          /api-bpm/bpm/core/bpmInst/getProcessConfig,
+          /api-bpm/bpm/core/bpmInst/getViewByDefId,
+          /api-bpm/bpm/core/bpmInst/startProcess,
+          /api-bpm/bpm/core/bpmInst/updateProcessStatus,
+          /api-bpm/bpm/core/bpmInst/myBpmInsts,
+          /api-bpm/bpm/core/bpmTask/myTasks,
+          /api-bpm/bpm/core/bpmInst/getInstIdProcessConfig,
+          /api-bpm/bpm/core/bpmInst/getInstDetail,
+          /api-bpm/bpm/core/bpmCheckHistory/getMyApproved,
+          /api-bpm/bpm/core/bpmInstCc/transfer,
+          /api-bpm/bpm/core/bpmTask/takeBackTask,
+          /api-bpm/bpm/core/public/getMessageHandler,
+          /api-bpm/bpm/core/bpmTaskTransfer/getMyReceiveTask,
+          /api-bpm/bpm/core/bpmAgent/query,
+          /api-bpm/bpm/core/bpmTaskTransfer/getMyTransOutTask,
+          /api-portal/portal/core/infInnerMsg/querySentMsg,
+          /api-portal/portal/core/infInnerMsg/queryMsg,
+          /api-portal/portal/core/infInnerMsg/queryGroupMsg,
+          /api-portal/portal/core/infInnerMsg/sendMsg,
+          /api-portal/portal/core/infInnerMsg/readMessage,
+          /api-portal/portal/core/infInnerMsg/delByRecIds,
+          /api-portal/portal/core/insPortalDef/getLayoutListByLoginUser,
+          /api-portal/portal/core/insPortalDef/getDataByColId,
+          /api-portal/portal/core/insPortalDef/getCalendarMonthData,
+          /api-portal/portal/core/insPortalDef/getMonthOrDayData,
+          /api-system/system/core/sysTreeCat/getTreeCatByKey,
+          /api-system/system/core/sysTree/getTopNodesByCatKey,
+          /api-system/system/core/sysAppAuth/findListByAppId,
+          /api-system/system/core/sysMenu/getUrlGroupIdMap,
+          /api-system/system/core/sysTransferSetting/jsonAll,
+          /api-system/system/core/public/getSysAppConfigs,
+          /api-system/system/core/sysDic/getByAlias,
+          /api-user/menus/*,
+          /api-user/user/org/osUser/getLoginUserAndMenu,
+          /api-user/user/org/osGroup/queryGroups,
+          /api-user/user/org/osUser/getById,
+          /api-user/user/org/osDimension/getDimList,
+          /api-user/user/org/osGroup/getGroupListByDimId,
+          /api-user/user/org/osUser/getAllUserByGroupId,
+          /api-user/user/org/osGroup/getByParentId,
+          /api-user/user/org/osInst/getMyApplyList,
+          /api-user/user/org/osUser/current,
+          /api-user/menus/current,
+          /api-user/users/current,
+          /api-log/requestStat
+        #白名单
+        includeClientIds:
+          - webApp
+      renew:
+        #是否开启token自动续签（目前只有redis实现）
+        enable: true
+        #白名单
+        includeClientIds:
+          - webApp
+  gateway:
+    #网关动态路由
+    dynamicRoute:
+      enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+logging:
+  level:
+    root: info

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormBoPmtMapper">
+
+    <resultMap id="FormBoPmt" type="com.redxun.form.core.entity.FormBoPmt">
+                <id property="pmtId" column="PMT_ID_" jdbcType="VARCHAR"/>
+                <result property="alias" column="ALIAS_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="boListId" column="BO_LIST_ID_" jdbcType="VARCHAR"/>
+                <result property="buttons" column="BUTTONS_" jdbcType="VARCHAR"/>
+                <result property="datas" column="DATAS_" jdbcType="VARCHAR"/>
+                <result property="fields" column="FIELDS_" jdbcType="VARCHAR"/>
+                <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+                <result property="menuId" column="MENU_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormBoPmt" parameterType="java.util.Map">
+        select PMT_ID_,NAME_,DATAS_,FIELDS_,BO_LIST_ID_,FORM_ALIAS_,CREATE_TIME_,CREATE_BY_,CREATE_DEP_ID_,UPDATE_TIME_,UPDATE_BY_,TENANT_ID_ from FORM_BO_PMT
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  PMT_ID_ DESC
+        </if>
+    </select>
+
+    <delete id="deleteByPmtId" parameterType="java.lang.String">
+        delete from FORM_BO_PMT where PMT_ID_=#{pmtId}
+    </delete>
+
+    <delete id="deleteByBoListId" parameterType="java.lang.String">
+        delete from FORM_BO_PMT where BO_LIST_ID_=#{boListId}
+    </delete>
+
+</mapper>
+
+

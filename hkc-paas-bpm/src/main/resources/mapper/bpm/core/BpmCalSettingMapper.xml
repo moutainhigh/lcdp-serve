@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmCalSettingMapper">
+
+    <resultMap id="BpmCalSetting" type="com.redxun.bpm.core.entity.BpmCalSetting">
+                <id property="settingId" column="SETTING_ID_" jdbcType="VARCHAR"/>
+                <result property="calName" column="CAL_NAME_" jdbcType="VARCHAR"/>
+                <result property="isCommon" column="IS_COMMON_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmCalSetting" parameterType="java.util.Map">
+        select SETTING_ID_,CAL_NAME_,IS_COMMON_,UPDATE_TIME_,UPDATE_BY_,CREATE_TIME_,CREATE_BY_,TENANT_ID_,CREATE_DEP_ID_ from bpm_cal_setting
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  SETTING_ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

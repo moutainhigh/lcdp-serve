@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmTaskMapper">
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmTask" parameterType="java.util.Map">
+        select t.* from BPM_TASK t left join bpm_def v on t.def_id_= v.def_id_ WHERE t.STATUS_!='COMPLETED'
+
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+          and  ${w.whereSql}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  TASK_ID_ DESC
+        </if>
+    </select>
+
+
+    <select id="getByStartBetweenEnd" resultType="com.redxun.bpm.core.entity.BpmTask" parameterType="java.util.Map">
+        select v.* from (
+        select t.* from BPM_TASK t left join bpm_def d on t.def_id_= d.def_id_ where ASSIGNEE_=#{w.userId} and t.TENANT_ID_=#{w.tenantId}
+        UNION
+        select t.* from bpm_task t left join bpm_def d on t.def_id_= d.def_id_ left join bpm_task_user u on
+        t.TASK_ID_=u.TASK_ID_
+        where t.ASSIGNEE_ is null and t.TENANT_ID_=#{w.tenantId} and (u.USER_ID_=#{w.userId}
+        <if test="@rx.Ognl@isNotEmpty(groupIds)">or u.GROUP_ID_ in
+            <foreach collection="groupIds"  item="id" separator="," open="(" close=")">#{id}</foreach>
+        </if>
+        )
+        ) v where
+        v.create_time_ <![CDATA[ >= ]]> #{w.startTime}
+        and  v.create_time_<![CDATA[ <= ]]>#{w.endTime}
+        ORDER BY v.create_time_
+    </select>
+
+
+    <select id="getByUserId" resultType="com.redxun.bpm.core.entity.BpmTask" parameterType="java.util.Map">
+       select v.* from (
+        select t.* from BPM_TASK t left join bpm_def d on t.def_id_= d.def_id_ where ASSIGNEE_=#{userId} and t.TENANT_ID_=#{tenantId} and t.STATUS_!='COMPLETED' and t.STATUS_!='LOCKED'
+        UNION
+        select t.* from bpm_task t left join bpm_def d on t.def_id_= d.def_id_ left join bpm_task_user u on
+        t.TASK_ID_=u.TASK_ID_
+        where t.ASSIGNEE_ is null AND t.STATUS_!='COMPLETED' and t.STATUS_!='LOCKED' and (u.USER_ID_=#{userId} and t.TENANT_ID_=#{tenantId}
+        <if test="@rx.Ognl@isNotEmpty(groupIds)">or u.GROUP_ID_ in
+            <foreach collection="groupIds"  item="id" separator="," open="(" close=")">#{id}</foreach>
+        </if>
+         )
+        ) v where 1=1
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+            and ${w.whereSql}
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+    </select>
+
+    <select id="getByUserIdDefKey" resultType="com.redxun.bpm.core.entity.BpmTask" parameterType="java.util.Map">
+        select v.* from (
+        select t.* from BPM_TASK t left join bpm_def d on t.def_id_= d.def_id_ where ASSIGNEE_=#{userId}
+        and d.KEY_=#{defKey}
+        and t.STATUS_!='COMPLETED' and t.STATUS_!='LOCKED'
+        UNION
+        select t.* from bpm_task t left join bpm_def d on t.def_id_= d.def_id_ left join bpm_task_user u on
+        t.TASK_ID_=u.TASK_ID_
+        where t.ASSIGNEE_ is null AND t.STATUS_!='COMPLETED' and t.STATUS_!='LOCKED' and d.KEY_=#{defKey} and (u.USER_ID_=#{userId}
+        <if test="@rx.Ognl@isNotEmpty(groupIds)">or u.GROUP_ID_ in
+            <foreach collection="groupIds"  item="id" separator="," open="(" close=")">#{id}</foreach>
+        </if>
+        )
+        ) v where 1=1
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+            and ${w.whereSql}
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+    </select>
+
+    <select id="getCountsByUserId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from (
+        select t.* from BPM_TASK t left join bpm_def d on t.def_id_= d.def_id_ where ASSIGNEE_=#{userId} and t.STATUS_!='COMPLETED' and t.STATUS_!='LOCKED' and t.TENANT_ID_=#{tenantId}
+        UNION
+        select t.* from bpm_task t left join bpm_def d on t.def_id_= d.def_id_ left join bpm_task_user u on
+        t.TASK_ID_=u.TASK_ID_
+        where t.ASSIGNEE_ is null AND t.STATUS_!='COMPLETED' and t.STATUS_!='LOCKED' and t.TENANT_ID_=#{tenantId} and (u.USER_ID_=#{userId}
+        <if test="@rx.Ognl@isNotEmpty(groupIds)">or u.GROUP_ID_ in
+            <foreach collection="groupIds"  item="id" separator="," open="(" close=")">#{id}</foreach>
+        </if>
+        )
+        ) as v
+    </select>
+
+    <select id="getCountsByUserId" databaseId="oracle" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from (
+        select t.* from BPM_TASK t left join bpm_def d on t.def_id_= d.def_id_ where ASSIGNEE_=#{userId} and t.STATUS_!='COMPLETED' and t.STATUS_!='LOCKED' and t.TENANT_ID_=#{tenantId}
+        UNION
+        select t.* from bpm_task t left join bpm_def d on t.def_id_= d.def_id_ left join bpm_task_user u on
+        t.TASK_ID_=u.TASK_ID_
+        where t.ASSIGNEE_ is null AND t.STATUS_!='COMPLETED' and t.STATUS_!='LOCKED' and t.TENANT_ID_=#{tenantId} and (u.USER_ID_=#{userId}
+        <if test="@rx.Ognl@isNotEmpty(groupIds)">or u.GROUP_ID_ in
+            <foreach collection="groupIds"  item="id" separator="," open="(" close=")">#{id}</foreach>
+        </if>
+        )
+        )  v
+    </select>
+
+    <delete id="deleteByInstId" parameterType="java.lang.String">
+        delete from BPM_TASK where inst_id_=#{instId}
+    </delete>
+
+    <delete id="deleteByActTaskId" parameterType="java.lang.String">
+        delete from BPM_TASK where act_task_id_=#{actTaskId}
+    </delete>
+
+    <select id="getByInstId" parameterType="java.lang.String" resultType="com.redxun.bpm.core.entity.BpmTask">
+        select * from BPM_TASK where inst_id_=#{instId}
+    </select>
+
+    <select id="getByActTaskId" parameterType="java.lang.String" resultType="com.redxun.bpm.core.entity.BpmTask">
+        select * from BPM_TASK where ACT_TASK_ID_=#{actTaskId}
+    </select>
+
+    <select id="getByCmRcTaskId" parameterType="java.lang.String" resultType="com.redxun.bpm.core.entity.BpmTask">
+        select * from BPM_TASK where CM_RC_TASK_ID_=#{cmRcTaskId}
+    </select>
+
+    <select id="getByCmStTaskId" parameterType="java.lang.String" resultType="com.redxun.bpm.core.entity.BpmTask">
+        select * from BPM_TASK where CM_ST_TASK_ID_=#{cmStTaskId}
+    </select>
+
+    <select id="getCountByCmStTaskId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from BPM_TASK where CM_ST_TASK_ID_=#{cmStTaskId}
+    </select>
+
+    <update id="updateStatus" parameterType="java.util.Map" >
+        update BPM_TASK set STATUS_=#{status} , assignee_=#{assignee} ,owner_=#{assignee} where task_id_=#{taskId}
+    </update>
+
+
+
+    <select id="getByInstUserId" resultType="com.redxun.bpm.core.entity.BpmTask">
+        select v.* from (
+                            select t.* from BPM_TASK t left join bpm_def d on t.def_id_= d.def_id_ where ASSIGNEE_=#{userId} and t.inst_id_=#{instId} and t.TENANT_ID_=#{tenantId}
+                            UNION
+                            select t.* from bpm_task t left join bpm_def d on t.def_id_= d.def_id_ left join bpm_task_user u on
+                                t.TASK_ID_=u.TASK_ID_
+                            where  t.inst_id_=#{instId} and t.ASSIGNEE_ is null  and (u.USER_ID_=#{userId} and t.TENANT_ID_=#{tenantId}
+                                )) v
+    </select>
+
+    <update id="updateAssignee" parameterType="java.util.Map" >
+        update BPM_TASK set  assignee_=#{receiptUserId}  where assignee_=#{deliverUserId}
+    </update>
+
+</mapper>
+
+

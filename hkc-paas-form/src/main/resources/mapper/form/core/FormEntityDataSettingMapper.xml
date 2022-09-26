@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormEntityDataSettingMapper">
+
+    <resultMap id="FormEntityDataSetting" type="com.redxun.form.core.entity.FormEntityDataSetting">
+        <id property="id" column="ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="dataTypeId" column="DATA_TYPE_ID_" jdbcType="VARCHAR"/>
+        <result property="dataTypeName" column="DATA_TYPE_NAME_" jdbcType="VARCHAR"/>
+        <result property="roleId" column="ROLE_ID_" jdbcType="VARCHAR"/>
+        <result property="roleName" column="ROLE_NAME_" jdbcType="VARCHAR"/>
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormEntityDataSetting" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,DATA_TYPE_ID_,DATA_TYPE_NAME_,ID_,ROLE_ID_,ROLE_NAME_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_ from FORM_ENTITY_DATA_SETTING
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="queryRole" resultType="com.redxun.form.core.entity.FormEntityDataSetting" parameterType="java.util.Map">
+        select
+        ROLE_ID_ ID_,ROLE_NAME_,
+        GROUP_CONCAT(DATA_TYPE_ID_) DATA_TYPE_ID_,GROUP_CONCAT(DATA_TYPE_NAME_) DATA_TYPE_NAME_
+        from form_entity_data_setting
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        GROUP BY ROLE_ID_,ROLE_NAME_
+    </select>
+
+    <select id="queryRole" databaseId="oracle" resultType="com.redxun.form.core.entity.FormEntityDataSetting" parameterType="java.util.Map">
+        select
+        ROLE_ID_ ID_,ROLE_NAME_,
+        WM_CONCAT(DATA_TYPE_ID_) DATA_TYPE_ID_,WM_CONCAT(DATA_TYPE_NAME_) DATA_TYPE_NAME_
+        from form_entity_data_setting
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        GROUP BY ROLE_ID_,ROLE_NAME_
+    </select>
+
+    <select id="getByRoleId" resultMap="FormEntityDataSetting">
+        select
+        ROLE_ID_,ROLE_NAME_,
+        GROUP_CONCAT(DATA_TYPE_ID_) DATA_TYPE_ID_,GROUP_CONCAT(DATA_TYPE_NAME_) DATA_TYPE_NAME_
+        from form_entity_data_setting
+        where ROLE_ID_=#{roleId}
+        GROUP BY ROLE_ID_,ROLE_NAME_
+    </select>
+
+    <select id="getByRoleId" databaseId="oracle" resultMap="FormEntityDataSetting">
+        select
+        ROLE_ID_,ROLE_NAME_,
+        WM_CONCAT(DATA_TYPE_ID_) DATA_TYPE_ID_,WM_CONCAT(DATA_TYPE_NAME_) DATA_TYPE_NAME_
+        from form_entity_data_setting
+        where ROLE_ID_=#{roleId}
+        GROUP BY ROLE_ID_,ROLE_NAME_
+    </select>
+</mapper>
+
+

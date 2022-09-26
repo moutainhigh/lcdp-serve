@@ -1,0 +1,259 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="js/vue.min.js"></script>
+        <title>JAPPS</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="hert"></div>
+            <div class="main">
+                <div class="hermg"><img src="image/log.png"></div>
+                <div align="center" class="jpaas">
+                    <span >JPAAS企业级的微服务架构平台</span>
+                </div>
+                <form action="user/login" method="post">
+                    <div class="flong_list">
+                     <!--   <div class="flong_her">
+                            <div class="flong_her_a" @click="logclick(true)"><span :class="[fonlt==true? 'span_auo':'']">账号密码登录</span></div>
+                            <div class="flong_her_a" @click="logclick(false)"><span :class="[fonlt==false? 'span_auo':'']">手机号登录</span></div>
+                        </div>-->
+                        <!--账号密码登录-->
+                        <div class="font_input" v-if="fonlt==true">
+                            <ul>
+                                <li class="font_input_li">
+                                    <i><img src="images/user.png"></i>
+                                    <input type="text" name="username" placeholder="请输入帐户名">
+                                </li>
+                                <li class="font_input_li">
+                                    <i><img src="images/lick.png"></i>
+                                    <input type="text" name="password" placeholder="请输入密码">
+                                </li>
+                              <!--  <li class="font_input_li font_input_li_is"><i><img src="image/mail.png"></i><input type="text" name="" placeholder="验证码"><span></span></li>-->
+                            </ul>
+                        </div>
+                       <!-- <div v-else class="font_input">
+                            <ul>
+                                <li class="font_input_li"><i><img src="image/shouji.png"></i><input type="text" name="" placeholder="手机号"></li>
+                                <li class="font_input_li font_input_li_is"><i><img src="image/mail.png"></i><input type="text" name="" placeholder="验证码"><span>获取验证码</span></li>
+                            </ul>
+                        </div>-->
+                        <!---->
+                        <div>
+                           <!-- <div class="long_ls">
+                                <input name="Fruit" type="checkbox" value="" />自动登陆
+                               <a>忘记密码</a>
+                            </div>-->
+                            <button class="long_button">确定</button>
+                            <!--<div class="user-login-other"><a style="color: #666666;">新企业？</a>注册企业账号</div>-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="footer">
+                <div class="links">
+                    <a href="_self">帮助</a>
+                    <a href="_self">隐私</a>
+                    <a href="_self">条款</a>
+                </div>
+                <div class="copyright">
+                    Copyright &copy; 2018-2021 广州红迅软件有限公司
+                </div>
+            </div>
+        </div>
+    </body>
+    <style type="text/css">
+        body{
+            margin:0px!important;
+        }
+        .container{
+            height:100%;width:100%;
+            position:fixed;
+            background: linear-gradient(to left bottom ,#409eff,#99aefd );
+        }
+        .hert{
+            position: absolute;
+            max-width: 43.2%;
+            width: 100%;
+            height: 0;
+            padding-bottom: 36.54%;
+            top: 50%;
+            left: 10%;
+            transform: translate(0,-50%);
+            -webkit-transform: translate(0,-50%);
+            -ms-transform: translate(0,-50%);
+            -moz-transform: translate(0,-50%);
+            z-index: 99;
+            background: url(image/hert.png) 20% center no-repeat;
+            background-size: contain;
+        }
+        .route{
+            float: right;
+            margin-right: 50px!important;
+        }
+        .main{
+            overflow: hidden;
+            width:450px!important;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 49px 0px
+            rgba(7, 63, 126, 0.24);
+            border-radius: 2px;
+            float: right;
+            margin-top: 110px;
+            margin-right: 50px;
+        }
+        .hermg
+        {
+            width: 54px;
+            margin: auto;
+            margin-top: 31px;
+        }
+        .hermg img{
+            width: 54px;
+        }
+        .jpaas {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #555555;
+        }
+        .flong_list{
+            width:377px;
+            margin:auto;
+            overflow: hidden;
+        }
+        .flong_her{
+            border-bottom: 1px solid #DCDCDC;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .flong_her_a :first-child{
+            margin-left: 70px;
+        }
+        .flong_her_a{
+            float: left;
+            width:160px;
+            text-align: center;
+        }
+        .flong_her_a span{
+            width:100px;
+            margin:auto;
+            display: block;
+            line-height:35px;
+            font-size: 14px;
+        }
+        .span_auo{
+            color: #1890ff;
+            border-bottom: 2px solid #1890ff
+        }
+        .font_input{
+            overflow: hidden;
+        }
+        .font_input ul{
+            width: 100%;
+            padding:0px
+        }
+        .font_input ul li{
+            margin:auto;
+            width:99%;
+            height:38px;
+            list-style-type:none;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .font_input_li i img{
+            width:19px;
+            margin-left: 10px;
+            margin-top: 11px;
+            position: absolute;
+        }
+        .font_input_li_is input{
+            width:55%!important;
+        }
+        .font_input_li_is span{
+            float: right;
+            width:30%;
+            height: 38px;
+            border-radius: 3px;
+            border:  1px solid #DCDCDC;
+            text-align: center;
+            line-height: 38px;
+            color: #DCDCDC;
+        }
+        .font_input_li input{
+            font-size: 16px;
+            width:92%;
+            border-radius: 3px;
+            border:  1px solid #DCDCDC;
+            height: 38px;
+            margin:0px;
+            padding-left: 30px;
+        }
+        .long_ls{
+            font-size: 14px;
+            margin-top:15px;
+            overflow: hidden;
+        }
+        .long_ls input{
+            width: 15px!important;
+            height: 15px!important;
+            float: left;
+            margin-right: 8px;
+        }
+        .long_ls a{
+            font-size: 14px;
+            color: #1890ff;
+            float: right;
+        }
+        .long_button{
+            height: 40px;
+            width:99%;
+            margin:auto;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top:50px;
+        }
+        .user-login-other {
+            text-align: left;
+            margin-top: 24px;
+            line-height: 22px;
+            float: right;
+            color: #1890ff;
+            margin-bottom: 30px;
+        }
+        .footer {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            padding: 0 16px;
+            margin: 48px 0 24px;
+            text-align: center;
+            color: white;
+        }
+        .links a{
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: white;
+            margin-right: 40px;
+            text-decoration : none
+            margin-bottom:10px;
+        }
+    </style>
+    <script type="text/javascript">
+        new Vue({
+            el: '.container',
+            data: {
+                fonlt:true
+            },
+            methods:{
+                logclick(value){
+                    this.fonlt = value
+                }
+            }
+        })
+    </script>
+</html>

@@ -1,0 +1,39 @@
+#  示例 add by zyg 更新用户数据数据  2022-01-24
+
+# 2022-07-18 szw nacos-config-dev.properties jpaas-form增加异步导出线程池参数配置
+#----增加---begin
+#Data ID:  nacos-config-dev.properties
+#Group: DEFAULT_GROUP
+#jpaas-form异步导出线程参数:线程池维护线程的最小数量|最大数量|队列最大长度
+formasynctask.corePoolJson=1|50|100
+#----增加---end--2022-07-19---已经更新到最新nacos_config.zip
+
+
+# 2022-07-20 szw nacos-config.properties 增加逻辑删除开关参数配置
+#----增加---begin
+#Data ID:  nacos-config.properties
+#Group: DEFAULT_GROUP
+#逻辑删除开关
+props.logicDel=false
+#----增加---end--2022-07-20---已经更新到最新nacos_config.zip
+
+# 2022-07-27 yl nacos-config-dev.properties 增加逻大屏数据源配置
+datart.datasource.url= jdbc:mysql://localshot:3306/jpaas_datart?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+
+# datart
+datart.datasource.username=root
+datart.datasource.password=root
+datart.datasource.driver=com.mysql.cj.jdbc.Driver
+datart.datasource.vaildQuery=select 1
+datart.datasource.minSize=20
+datart.datasource.maxSize=20
+datart.datasource.testOnBorrow=true
+
+# 2022-08-01 hj nacos-config.properties 增加流程实例ID加密超时时间
+#流程实例ID加密超时时间
+props.encryptTime=30
+
+# 2022-08-02 hj nacos-config.properties 流程管理员组
+props.bpmAdminGroup=
+#----2022-08-04--szw-已经更新到最新nacos_config.zip
+

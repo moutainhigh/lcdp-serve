@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysAppAuthMenuMapper">
+
+    <!--更新状态-->
+    <update id="updateStatus" parameterType="com.redxun.system.core.entity.SysAppAuthMenu">
+        update sys_app_auth_menu set ENABLE_ = #{enable} where APP_ID_ = #{appId}
+    </update>
+
+    <!--根据菜单ID删除应用授权菜单-->
+    <delete id="deleteAppAuthMenuByMenuId">
+        delete from sys_app_auth_menu where MENU_ID_ = #{menuId}
+    </delete>
+
+
+    <!--查询安装应用菜单-->
+    <select id="getTenantOrUserAppInstallMenu" resultType="com.redxun.common.dto.SysMenuDto">
+        select  a.MENU_ID_ as id,
+                a.APP_ID_ as appId,
+                b.NAME_ as name,
+                b.PARENT_ID_ as parentId,
+                b.SN_ as sn,
+                b.SHOW_TYPE_ as showType,
+                b.MENU_KEY_ as menuKey,
+                b.MENU_TYPE_ as menuType,
+                b.ICON_PC_ as iconPc,
+                b.SETTING_TYPE_ as settingType,
+                b.COMPONENT_ as component,
+                b.PARAMS_ as params,
+                b.BO_LIST_KEY_ as boListKey,
+                b.CREATE_BY_ as createBy,
+                b.CREATE_TIME_ as createTime,
+                b.UPDATE_TIME_ as updateTime,
+                b.UPDATE_BY_ as updateBy,
+                b.ICON_PIC_ as iconPic,
+                b.URL_ as url,
+                b.METHOD_ as method
+               from sys_app_auth_menu a,sys_menu b
+                where a.ENABLE_ = 'Y' AND a.MENU_ID_=b.MENU_ID_
+
+        <if test="tenantId != null and tenantId != ''">
+            and a.TENANT_ID_ = #{tenantId}
+        </if>
+        <if test="userId != null and userId != ''">
+            and a.USER_ID_ = #{userId}
+        </if>
+    </select>
+
+</mapper>
+
+

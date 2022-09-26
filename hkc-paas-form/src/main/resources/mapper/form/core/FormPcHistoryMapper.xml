@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormPcHistoryMapper">
+
+    <resultMap id="FormPcHistory" type="com.redxun.form.core.entity.FormPcHistory">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="formPcId" column="FORM_PC_ID_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="alias" column="ALIAS_" jdbcType="VARCHAR"/>
+                <result property="template" column="TEMPLATE_" jdbcType="VARCHAR"/>
+                <result property="javascript" column="JAVASCRIPT_" jdbcType="VARCHAR"/>
+                <result property="javascriptKey" column="JAVASCRIPT_KEY_" jdbcType="VARCHAR"/>
+                <result property="metadata" column="METADATA_" jdbcType="VARCHAR"/>
+                <result property="opinionDef" column="OPINION_DEF_" jdbcType="VARCHAR"/>
+                <result property="buttonDef" column="BUTTON_DEF_" jdbcType="VARCHAR"/>
+                <result property="tableButtonDef" column="TABLE_BUTTON_DEF_" jdbcType="VARCHAR"/>
+                <result property="dataSetting" column="DATA_SETTING_" jdbcType="VARCHAR"/>
+                <result property="formSetting" column="FORM_SETTING_" jdbcType="VARCHAR"/>
+                <result property="component" column="COMPONENT_" jdbcType="VARCHAR"/>
+                <result property="wizard" column="WIZARD_" jdbcType="NUMERIC"/>
+                <result property="tabDef" column="TAB_DEF_" jdbcType="VARCHAR"/>
+                <result property="remark" column="REMARK_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormPcHistory" parameterType="java.util.Map">
+        select ID_,FORM_PC_ID_,NAME_,ALIAS_,TEMPLATE_,JAVASCRIPT_,JAVASCRIPT_KEY_,METADATA_,OPINION_DEF_,BUTTON_DEF_,TABLE_BUTTON_DEF_,DATA_SETTING_,FORM_SETTING_,COMPONENT_,WIZARD_,TAB_DEF_,REMARK_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from FORM_PC_HISTORY
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="selectByNum" resultType="com.redxun.form.core.entity.FormPcHistory">
+        select *  from FORM_PC_HISTORY WHERE FORM_PC_ID_ =#{formPcId} order by CREATE_TIME_ desc limit 1 offset #{num} ;
+    </select>
+
+
+</mapper>
+
+

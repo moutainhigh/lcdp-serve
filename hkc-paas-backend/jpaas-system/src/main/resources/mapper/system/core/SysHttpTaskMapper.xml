@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysHttpTaskMapper">
+
+    <resultMap id="SysHttpTask" type="com.redxun.system.core.entity.SysHttpTask">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="relId" column="REL_ID_" jdbcType="VARCHAR"/>
+                <result property="relName" column="REL_NAME_" jdbcType="VARCHAR"/>
+                <result property="beanName" column="BEAN_NAME_" jdbcType="VARCHAR"/>
+                <result property="method" column="METHOD_" jdbcType="VARCHAR"/>
+                <result property="params" column="PARAMS_" jdbcType="VARCHAR"/>
+                <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+                <result property="executeTimes" column="EXECUTE_TIMES_" jdbcType="NUMERIC"/>
+                <result property="maxAttempts" column="MAX_ATTEMPTS_" jdbcType="NUMERIC"/>
+                <result property="delay" column="DELAY_" jdbcType="NUMERIC"/>
+                <result property="multiplier" column="MULTIPLIER_" jdbcType="NUMERIC"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysHttpTask" parameterType="java.util.Map">
+        select ID_,TYPE_,REL_ID_,REL_NAME_,BEAN_NAME_,METHOD_,PARAMS_,STATUS_,EXECUTE_TIMES_,MAX_ATTEMPTS_,DELAY_,MULTIPLIER_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from SYS_HTTP_TASK
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <update id="clearAll">
+        truncate table SYS_HTTP_TASK
+    </update>
+</mapper>
+
+

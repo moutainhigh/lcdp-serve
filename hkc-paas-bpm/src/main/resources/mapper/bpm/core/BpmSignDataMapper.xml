@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmSignDataMapper">
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmSignData" parameterType="java.util.Map">
+        select DATA_ID_,ACT_DEF_ID_,ACT_INST_ID_,NODE_ID_,USER_ID_,VOTE_STATUS_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from bpm_sign_data
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  DATA_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByActInstIdNodeId" resultType="com.redxun.bpm.core.entity.BpmSignData" parameterType="java.util.Map">
+        select * from bpm_sign_data s where s.act_inst_id_=#{actInstId} and s.node_id_=#{nodeId}
+    </select>
+
+    <select id="getCountsByActInstIdNodeId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from bpm_sign_data s where s.act_inst_id_=#{actInstId} and s.node_id_=#{nodeId}
+    </select>
+
+    <select id="getCountsByActInstIdNodeIdVoteStatus" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from bpm_sign_data s where s.act_inst_id_=#{actInstId} and s.node_id_=#{nodeId} and s.vote_status_=#{voteStatus}
+    </select>
+
+    <delete id="deleteByActInstId" parameterType="java.lang.String">
+        delete from bpm_sign_data  where act_inst_id_=#{actInstId}
+    </delete>
+
+    <update id="updateUserId" parameterType="java.util.Map" >
+        update bpm_sign_data set  USER_ID_=#{receiptUserId}  where USER_ID_=#{deliverUserId}
+    </update>
+
+</mapper>
+
+

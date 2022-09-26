@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysErrorLogMapper">
+
+    <resultMap id="SysErrorLog" type="com.redxun.system.core.entity.SysErrorLog">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="traceId" column="TRACE_ID_" jdbcType="VARCHAR"/>
+                <result property="appName" column="APP_NAME_" jdbcType="VARCHAR"/>
+                <result property="url" column="URL_" jdbcType="VARCHAR"/>
+                <result property="content" column="CONTENT_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="DATE"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="DATE"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysErrorLog" parameterType="java.util.Map">
+        select ID_,TRACE_ID_,APP_NAME_,URL_,CONTENT_,CREATE_DEP_ID_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from SYS_ERROR_LOG
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

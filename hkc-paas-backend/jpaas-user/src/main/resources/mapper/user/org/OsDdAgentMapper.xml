@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.user.org.mapper.OsDdAgentMapper">
+
+    <resultMap id="OsDdAgent" type="com.redxun.user.org.entity.OsDdAgent">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="corpId" column="CORP_ID_" jdbcType="VARCHAR"/>
+                <result property="agentId" column="AGENT_ID_" jdbcType="VARCHAR"/>
+                <result property="appKey" column="APP_KEY_" jdbcType="VARCHAR"/>
+                <result property="secret" column="SECRET_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="isDefault" column="IS_DEFAULT_" jdbcType="NUMERIC"/>
+
+                <result property="pcHomePage" column="PC_HOMEPAGE_" jdbcType="VARCHAR"/>
+                <result property="h5HomePage" column="H5_HOMEPAGE_" jdbcType="VARCHAR"/>
+                <result property="adminHomePage" column="ADMIN_PAGE_" jdbcType="NUMERIC"/>
+
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsDdAgent" parameterType="java.util.Map">
+        select ID_,IS_DEFAULT_,NAME_,AGENT_ID_,SECRET_,CORP_ID_,
+            CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,TENANT_ID_,TYPE_,UPDATE_BY_,UPDATE_TIME_ from os_dd_agent
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

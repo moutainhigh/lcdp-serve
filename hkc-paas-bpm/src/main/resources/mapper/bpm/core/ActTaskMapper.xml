@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.ActTaskMapper">
+
+    <resultMap id="ActTask" type="com.redxun.bpm.core.entity.ActTask">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="rev" column="REV_" jdbcType="NUMERIC"/>
+                <result property="executionId" column="EXECUTION_ID_" jdbcType="VARCHAR"/>
+                <result property="procInstId" column="PROC_INST_ID_" jdbcType="VARCHAR"/>
+                <result property="procDefId" column="PROC_DEF_ID_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="parentTaskId" column="PARENT_TASK_ID_" jdbcType="VARCHAR"/>
+                <result property="description" column="DESCRIPTION_" jdbcType="VARCHAR"/>
+                <result property="taskDefKey" column="TASK_DEF_KEY_" jdbcType="VARCHAR"/>
+                <result property="owner" column="OWNER_" jdbcType="VARCHAR"/>
+                <result property="assignee" column="ASSIGNEE_" jdbcType="VARCHAR"/>
+                <result property="delegation" column="DELEGATION_" jdbcType="VARCHAR"/>
+                <result property="priority" column="PRIORITY_" jdbcType="NUMERIC"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="dueDate" column="DUE_DATE_" jdbcType="TIMESTAMP"/>
+                <result property="category" column="CATEGORY_" jdbcType="VARCHAR"/>
+                <result property="suspensionState" column="SUSPENSION_STATE_" jdbcType="NUMERIC"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="formKey" column="FORM_KEY_" jdbcType="VARCHAR"/>
+                <result property="claimTime" column="CLAIM_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.ActTask" parameterType="java.util.Map">
+        select ID_,REV_,EXECUTION_ID_,PROC_INST_ID_,PROC_DEF_ID_,NAME_,PARENT_TASK_ID_,DESCRIPTION_,TASK_DEF_KEY_,OWNER_,ASSIGNEE_,
+        DELEGATION_,PRIORITY_,CREATE_TIME_,DUE_DATE_,CATEGORY_,SUSPENSION_STATE_,TENANT_ID_,FORM_KEY_,CLAIM_TIME_ from act_ru_task
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

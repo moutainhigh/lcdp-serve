@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InfInnerMsgMapper">
+
+    <resultMap id="InfInnerMsg" type="com.redxun.portal.core.entity.InfInnerMsg">
+                <id property="msgId" column="MSG_ID_" jdbcType="VARCHAR"/>
+                <result property="content" column="CONTENT_" jdbcType="VARCHAR"/>
+                <result property="msgTitle" column="MSG_TITLE_" jdbcType="VARCHAR"/>
+                <result property="linkMsg" column="LINK_MSG_" jdbcType="VARCHAR"/>
+                <result property="category" column="CATEGORY_" jdbcType="VARCHAR"/>
+                <result property="senderId" column="SENDER_ID_" jdbcType="VARCHAR"/>
+                <result property="sender" column="SENDER_" jdbcType="VARCHAR"/>
+                <result property="delFlag" column="DEL_FLAG_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryMsg" resultType="com.redxun.portal.core.entity.InfInnerMsg" parameterType="java.util.Map">
+        SELECT
+        iim.*,
+        ii.REC_ID_ recId,
+        iiml.IS_READ_ isRead
+        FROM
+        inf_inner_msg	iim
+        JOIN inf_inbox ii ON ii.MSG_ID_ = iim.MSG_ID_
+        LEFT JOIN inf_inner_msg_log iiml ON iim.MSG_ID_ = iiml.MSG_ID_
+        where  ii.REC_USER_ID_ =#{recUserId} AND ii.REC_TYPE_=#{recType}
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+           and ${w.whereSql}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  MSG_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getCountByRecUserId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1) from
+        (SELECT distinct * from(
+        SELECT msg.MSG_ID_ FROM
+        inf_inner_msg msg
+        JOIN inf_inbox box ON msg.MSG_ID_ = box.MSG_ID_
+        where box.REC_USER_ID_ = #{curUserId} and box.REC_TYPE_='user' and msg.DEL_FLAG_='no' and msg.TENANT_ID_=#{tenantId}
+        <if test="@rx.Ognl@isNotEmpty(groupIds)">union
+            SELECT
+            msg.MSG_ID_
+            FROM
+            inf_inner_msg msg
+            JOIN
+            inf_inbox box ON msg.MSG_ID_ = box.MSG_ID_
+            where box.REC_USER_ID_ in
+            <foreach collection="groupIds" item="id" separator="," open="(" close=")">#{id}</foreach>
+            and box.REC_TYPE_='group' and msg.DEL_FLAG_='no' and msg.TENANT_ID_=#{tenantId}
+        </if>
+        ) as v ) as c
+    </select>
+
+    <select id="getCountByRecUserId" databaseId="oracle" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1) from
+        (SELECT distinct * from(
+        SELECT msg.MSG_ID_ FROM
+        inf_inner_msg msg
+        JOIN inf_inbox box ON msg.MSG_ID_ = box.MSG_ID_
+        where box.REC_USER_ID_ = #{curUserId} and box.REC_TYPE_='user' and msg.DEL_FLAG_='no' and msg.TENANT_ID_=#{tenantId}
+        <if test="@rx.Ognl@isNotEmpty(groupIds)">union
+            SELECT
+            msg.MSG_ID_
+            FROM
+            inf_inner_msg msg
+            JOIN
+            inf_inbox box ON msg.MSG_ID_ = box.MSG_ID_
+            where box.REC_USER_ID_ in
+            <foreach collection="groupIds" item="id" separator="," open="(" close=")">#{id}</foreach>
+            and box.REC_TYPE_='group' and msg.DEL_FLAG_='no' and msg.TENANT_ID_=#{tenantId}
+        </if>
+        )   )
+    </select>
+
+    <select id="querySentMsg" resultType="com.redxun.portal.core.entity.InfInnerMsg" parameterType="java.util.Map">
+        select * from inf_inner_msg
+        <where>
+            SENDER_ID_ =#{w.senderId} and (DEL_FLAG_='no' or DEL_FLAG_ is Null)
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+               and ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  MSG_ID_ DESC
+        </if>
+    </select>
+
+    <update id="updateDelFlag">
+        UPDATE inf_inner_msg SET DEL_FLAG_='yes' WHERE MSG_ID_=#{msgId}
+    </update>
+
+</mapper>
+
+

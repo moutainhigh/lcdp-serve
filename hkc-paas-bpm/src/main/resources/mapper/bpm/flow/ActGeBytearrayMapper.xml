@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.flow.mapper.ActGeBytearrayMapper">
+
+    <resultMap id="ActGeBytearray" type="com.redxun.bpm.flow.entity.ActGeBytearray">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="rev" column="REV_" jdbcType="NUMERIC"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="deploymentId" column="DEPLOYMENT_ID_" jdbcType="VARCHAR"/>
+                <result property="bytes" column="BYTES_" jdbcType="BLOB"/>
+                <result property="generated" column="GENERATED_" jdbcType="NUMERIC"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.flow.entity.ActGeBytearray" parameterType="java.util.Map">
+        select ID_,REV_,NAME_,DEPLOYMENT_ID_,BYTES_,GENERATED_ from act_ge_bytearray
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

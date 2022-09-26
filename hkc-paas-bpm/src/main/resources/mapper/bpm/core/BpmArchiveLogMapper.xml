@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmArchiveLogMapper">
+
+    <resultMap id="BpmArchiveLog" type="com.redxun.bpm.core.entity.BpmArchiveLog">
+        <id property="id" column="ID_" jdbcType="VARCHAR"/>
+        <result property="archiveDate" column="ARCHIVE_DATE_" jdbcType="TIMESTAMP"/>
+        <result property="memo" column="MEMO_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createName" column="CREATE_NAME_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="startTime" column="START_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="END_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="tableId" column="TABLE_ID_" jdbcType="NUMERIC"/>
+        <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+        <result property="errLog" column="ERR_LOG_" jdbcType="CLOB"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmArchiveLog" parameterType="java.util.Map">
+        select
+        ID_,ARCHIVE_DATE_,MEMO_,CREATE_BY_,CREATE_NAME_,CREATE_TIME_,START_TIME_,END_TIME_,TABLE_ID_,STATUS_,ERR_LOG_
+        from bpm_archive_log
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY ID_ DESC
+        </if>
+    </select>
+
+    <select id="getFinishTimes" resultType="java.lang.Integer">
+		SELECT count(*) FROM bpm_archive_log WHERE ARCHIVE_DATE_ &gt;= #{archiveDate} and STATUS_=1
+	</select>
+
+    <select id="getMaxTableId" resultType="java.lang.Integer">
+        SELECT MAX(TABLE_ID_) FROM bpm_archive_log WHERE STATUS_=#{status}
+    </select>
+
+    <select id="getBpmArchiveLogs"  resultType="com.redxun.bpm.core.entity.BpmArchiveLog">
+		SELECT * FROM BPM_ARCHIVE_LOG where STATUS_='1' ORDER BY END_TIME_ DESC
+	</select>
+
+
+</mapper>
+
+

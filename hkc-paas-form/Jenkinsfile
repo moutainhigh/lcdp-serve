@@ -1,0 +1,52 @@
+
+//定义jenkins的工作目录
+def workspace="/var/jenkins_home/workspace/jpaas-form"
+//定义打包之后的文件夹
+def targetFile="jpaas-linux-separate-6.6.0-test"
+//定义打包之后的子文件夹
+def targetSubFile="jpaas-linux-separate"
+//定义目标服务器
+def remoteServer = "192.168.1.166"
+//定义目标服务器的目标文件夹
+def remoteDir="/home/Release"
+
+
+
+
+node {
+
+    stage("拉取代码") {
+       echo "1.拉取代码"
+       checkout([$class: 'GitSCM', branches: [[name: '*/test']],
+                  						userRemoteConfigs: [[credentialsId: 'a9f06d07-fd06-4967-8cdc-0f5f55ce7426',
+                  							url: 'http://dev.redxun.cn:18080/jpaas_java_base/jpaas-form.git']]])
+       script {
+            build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+            if (env.BRANCH_NAME != 'master') {
+            build_tag = "${env.BRANCH_NAME}-${build_tag}"
+            }
+        }
+    }
+    stage('编译构建') {
+        echo "2.清空本地maven缓存"
+        sh "mvn dependency:purge-local-repository -Dinclude=com.redxun:jpaas-auth-client-spring-boot-starter,com.redxun:jpaas-bpm-client-spring-boot-starter,com.redxun:jpaas-cache-spring-boot-starter,com.redxun:jpaas-common-cloud,com.redxun:jpaas-common-core,com.redxun:jpaas-common-dto,com.redxun:jpaas-common-milvus,com.redxun:jpaas-auth-common-spring-boot-starter,com.redxun:jpaas-common-tool,com.redxun:jpaas-db-spring-boot-starter,com.redxun:jpaas-idempotence-spring-boot-starter,com.redxun:jpaas-job-spring-boot-starter,com.redxun:jpaas-log-spring-boot-starter,com.redxun:jpaas-msgsend-spring-boot-starter,com.redxun:jpaas-redis-spring-boot-starter,com.redxun:jpaas-ribbon-spring-boot-starter,com.redxun:jpaas-sentinel-spring-boot-starter,com.redxun:jpaas-swagger2-spring-boot-starter,com.redxun:jpaas-web-spring-boot-starter,com.redxun:jpaas-share -DreResolve=false"
+
+        echo "3.编译构建"
+        sh "mvn clean package  -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -e -U"
+    }
+    stage('远程部署FORM') {
+        echo "4.远程部署FORM"
+        withCredentials([usernamePassword(credentialsId: '166_ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
+           target = "${workspace}_${env.BRANCH_NAME}/Release"
+           sh " sshpass -p  ${sshPassword} ssh ${sshUser}@${remoteServer} ' mkdir -p   ${remoteDir}' "
+           sh "cd $target/bin && sshpass -p  ${sshPassword} scp -r jpaas-form.jar ${sshUser}@${remoteServer}:${remoteDir}/${targetFile}/${targetSubFile}/fastjar/jpaas-form-6.6.0.jar"
+       }
+    }
+    stage('启动系统FORM服务') {
+        echo "5.启动系统FORM服务"
+        withCredentials([usernamePassword(credentialsId: '166_ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
+           sh " sshpass -p  ${sshPassword} ssh ${sshUser}@${remoteServer} ' source /etc/profile && cd  ${remoteDir}/${targetFile}/${targetSubFile}/bin  && chmod a+x *.sh && ./jpaas-start.sh restart_form ' "
+       }
+    }
+
+}

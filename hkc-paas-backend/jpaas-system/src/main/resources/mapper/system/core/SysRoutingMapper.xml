@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysRoutingMapper">
+
+    <resultMap id="SysRouting" type="com.redxun.system.core.entity.SysRouting">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="routingName" column="ROUTING_NAME_" jdbcType="VARCHAR"/>
+                <result property="routeType" column="ROUTE_TYPE_" jdbcType="VARCHAR"/>
+                <result property="condition" column="CONDITION_" jdbcType="VARCHAR"/>
+                <result property="conditionParameters" column="CONDITION_PARAMETERS_" jdbcType="VARCHAR"/>
+                <result property="filter" column="FILTER_" jdbcType="VARCHAR"/>
+                <result property="filterParameters" column="FILTER_PARAMETERS_" jdbcType="VARCHAR"/>
+                <result property="uri" column="URI_" jdbcType="VARCHAR"/>
+                <result property="remark" column="REMARK_" jdbcType="VARCHAR"/>
+                <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="appId" column="APP_ID_"   jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysRouting" parameterType="java.util.Map">
+        select ID_,ROUTING_NAME_,ROUTE_TYPE_,CONDITION_,CONDITION_PARAMETERS_,FILTER_,FILTER_PARAMETERS_,URI_,REMARK_,STATUS_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_ from sys_routing
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getRoutingByType" resultType="com.redxun.system.core.entity.SysRouting" parameterType="java.util.Map">
+        select ID_,ROUTING_NAME_,ROUTE_TYPE_,CONDITION_,CONDITION_PARAMETERS_,FILTER_,FILTER_PARAMETERS_,URI_,REMARK_,STATUS_ from sys_routing where ROUTE_TYPE_=#{routeType}
+    </select>
+
+    <delete id="deleteByRoutIds" parameterType="java.util.Map">
+        delete from sys_routing where ID_ IN
+        <foreach collection="routIds"  item="id" separator="," open="(" close=")">#{id}</foreach>
+    </delete>
+
+</mapper>
+
+

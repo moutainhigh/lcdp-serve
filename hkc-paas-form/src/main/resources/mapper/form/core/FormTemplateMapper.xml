@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormTemplateMapper">
+
+    <resultMap id="FormTemplate" type="com.redxun.form.core.entity.FormTemplate">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="alias" column="ALIAS_" jdbcType="VARCHAR"/>
+                <result property="template" column="TEMPLATE_" jdbcType="CLOB"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="category" column="CATEGORY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="appId" column="APP_ID_"  jdbcType="VARCHAR"/>
+                <result property="fileName" column="FILE_NAME_" jdbcType="VARCHAR"/>
+                <result property="path" column="PATH_" jdbcType="VARCHAR"/>
+                <result property="single" column="SINGLE_" jdbcType="VARCHAR"/>
+                <result property="mainSubType" column="MAIN_SUB_TYPE_" jdbcType="VARCHAR"/>
+                <result property="genMode" column="GEN_MODE_" jdbcType="VARCHAR"/>
+
+
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormTemplate" parameterType="java.util.Map">
+        select ID_,NAME_,ALIAS_,TYPE_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,CATEGORY_,CREATE_DEP_ID_,APP_ID_,
+        FILE_NAME_,PATH_,SINGLE_,MAIN_SUB_TYPE_,GEN_MODE_  from form_template
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByAliasAndType" resultType="java.lang.String">
+        select TEMPLATE_ from form_template where ALIAS_=#{alias} AND TYPE_=#{type}
+    </select>
+
+    <select id="getByTypeAndCategory" resultMap="FormTemplate">
+        select ID_,NAME_,ALIAS_,TEMPLATE_,TYPE_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,CATEGORY_,CREATE_DEP_ID_,APP_ID_,
+        FILE_NAME_,PATH_,SINGLE_,MAIN_SUB_TYPE_,GEN_MODE_ from form_template
+        where TYPE_=#{type} and CATEGORY_=#{category}
+    </select>
+
+    <select id="getCodeGenByParams" resultType="com.redxun.form.core.entity.FormTemplate" parameterType="java.lang.String">
+        SELECT
+            FILE_NAME_,
+            PATH_,
+            SINGLE_,
+            MAIN_SUB_TYPE_,
+            GEN_MODE_,
+            TEMPLATE_
+        FROM
+            form_template
+        WHERE
+            GEN_MODE_ = #{genMode}
+            AND FILE_NAME_ = #{fileName}
+    </select>
+
+</mapper>
+
+

@@ -1,0 +1,41 @@
+<resources xmlns="http://www.redxun.cn/sqlgen"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.redxun.cn/sqlgen sqlgen.xsd"
+           filePath="d:\form.sql" >
+
+
+    <resource>
+        <sql>SELECT * FROM FORM_RULE</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO FORM_RULE(ID_,NAME_,PROMPT_,ALIAS_,REGULAR_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(         <#if  ID_??>'${ ID_}'<#else>''</#if>,         <#if  NAME_??>'${ NAME_}'<#else>''</#if>,         <#if  PROMPT_??>'${ PROMPT_}'<#else>''</#if>,         <#if  ALIAS_??>'${ ALIAS_}'<#else>''</#if>,         <#if  REGULAR_??>'${ REGULAR_}'<#else>''</#if>,         <#if  TENANT_ID_??>'${ TENANT_ID_}'<#else>''</#if>,         <#if  CREATE_DEP_ID_??>'${ CREATE_DEP_ID_}'<#else>''</#if>,         <#if  CREATE_BY_??>'${ CREATE_BY_}'<#else>''</#if>,         <#if  CREATE_TIME_??>'${ CREATE_TIME_}'<#else>null</#if>,         <#if  UPDATE_BY_??>'${ UPDATE_BY_}'<#else>''</#if>,         <#if  UPDATE_TIME_??>'${ UPDATE_TIME_}'<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+
+    <resource>
+        <sql>SELECT * FROM FORM_TEMPLATE</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO FORM_TEMPLATE(ID_,NAME_,ALIAS_,TEMPLATE_,TYPE_,CATEGORY_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,CREATE_DEP_ID_)
+        values(         <#if  ID_??>'${ ID_}'<#else>''</#if>,         <#if  NAME_??>'${ NAME_}'<#else>''</#if>,         <#if  ALIAS_??>'${ ALIAS_}'<#else>''</#if>,         <#if  TEMPLATE_??>E'${ TEMPLATE_ ?replace("\n","\\n")?replace("\"","\\\"")?replace("'","''")}'<#else>''</#if>,         <#if  TYPE_??>'${ TYPE_}'<#else>''</#if>,         <#if  CATEGORY_??>'${ CATEGORY_}'<#else>''</#if>,         <#if  TENANT_ID_??>'${ TENANT_ID_}'<#else>''</#if>,         <#if  CREATE_BY_??>'${ CREATE_BY_}'<#else>''</#if>,         <#if  CREATE_TIME_??>'${ CREATE_TIME_}'<#else>null</#if>,         <#if  UPDATE_BY_??>'${ UPDATE_BY_}'<#else>''</#if>,         <#if  UPDATE_TIME_??>'${ UPDATE_TIME_}'<#else>null</#if>,         <#if  CREATE_DEP_ID_??>'${ CREATE_DEP_ID_}'<#else>''</#if>);
+        ]]>
+        </template>
+    </resource>
+
+    <resource>
+        <sql>SELECT * FROM FORM_CUSTOM</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO FORM_CUSTOM(ID_, CATEGORY_ID_, NAME_, ALIAS_, TYPE_, JSON_, TENANT_ID_, CREATE_DEP_ID_, CREATE_BY_, CREATE_TIME_, UPDATE_BY_, UPDATE_TIME_, APP_ID_, HOME_PAGE_)
+        values(         <#if  ID_??>'${ ID_}'<#else>''</#if>,         <#if  CATEGORY_ID_??>'${ CATEGORY_ID_}'<#else>''</#if>,         <#if  NAME_??>'${ NAME_}'<#else>''</#if>,         <#if  ALIAS_??>'${ ALIAS_}'<#else>''</#if>,         <#if  TYPE_??>'${ TYPE_}'<#else>''</#if>,         <#if  JSON_??>'${ JSON_}'<#else>''</#if>,         <#if  TENANT_ID_??>'${ TENANT_ID_}'<#else>''</#if>,         <#if  CREATE_DEP_ID_??>'${ CREATE_DEP_ID_}'<#else>''</#if>,         <#if  CREATE_BY_??>'${ CREATE_BY_}'<#else>''</#if>,         <#if  CREATE_TIME_??>to_date('${CREATE_TIME_}','yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,         <#if  UPDATE_BY_??>'${ UPDATE_BY_}'<#else>''</#if>,         <#if  UPDATE_TIME_??>to_date('${UPDATE_TIME_}','yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,         <#if  APP_ID_??>'${ APP_ID_}'<#else>''</#if>,         <#if  HOME_PAGE_??>'${ HOME_PAGE_}'<#else>''</#if>);
+        ]]>
+        </template>
+    </resource>
+
+    <resource>
+        <sql>SELECT * FROM FORM_CODEGEN_TEMPLATE</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO FORM_CODEGEN_TEMPLATE(ID_, NAME_, FILE_NAME_, PATH_, SINGLE_, ENABLED_, CONTENT_, TENANT_ID_, CREATE_DEP_ID_, CREATE_BY_, CREATE_TIME_, UPDATE_BY_, UPDATE_TIME_)
+        values(         <#if  ID_??>'${ ID_}'<#else>null</#if>,         <#if  NAME_??>'${ NAME_}'<#else>null</#if>,         <#if  FILE_NAME_??>'${ FILE_NAME_}'<#else>null</#if>,       <#if  PATH_??>'${ PATH_}'<#else>null</#if>,      <#if  SINGLE_??>'${ SINGLE_}'<#else>null</#if>,      <#if  ENABLED_??>'${ ENABLED_}'<#else>null</#if>,         <#if  CONTENT_??>''<#else>''</#if>,       <#if  TENANT_ID_??>'${ TENANT_ID_}'<#else>null</#if>,      <#if  CREATE_DEP_ID_??>'${ CREATE_DEP_ID_}'<#else>null</#if>,       <#if  CREATE_BY_??>'${ CREATE_BY_}'<#else>null</#if>,       <#if  CREATE_TIME_??>to_date('${CREATE_TIME_}','yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,     <#if  UPDATE_BY_??>'${ UPDATE_BY_}'<#else>null</#if>,        <#if  UPDATE_TIME_??>to_date('${UPDATE_TIME_}','yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+         ]]>
+        </template>
+    </resource>
+
+
+
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmTransferMapper">
+
+    <resultMap id="BpmTransfer" type="com.redxun.bpm.core.entity.BpmTransfer">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="taskId" column="TASK_ID_" jdbcType="VARCHAR"/>
+                <result property="approveType" column="APPROVE_TYPE_" jdbcType="VARCHAR"/>
+                <result property="transferType" column="TRANSFER_TYPE_" jdbcType="VARCHAR"/>
+                <result property="completeType" column="COMPLETE_TYPE_" jdbcType="NUMERIC"/>
+                <result property="count" column="COUNT_" jdbcType="NUMERIC"/>
+                <result property="completeCount" column="COMPLETE_COUNT_" jdbcType="NUMERIC"/>
+                <result property="completeSetting" column="COMPLETE_SETTING_" jdbcType="NUMERIC"/>
+                <result property="noticeType" column="NOTICE_TYPE_" jdbcType="VARCHAR"/>
+                <result property="completeJudgeType" column="COMPLETE_JUDGE_TYPE_" jdbcType="VARCHAR"/>
+                <result property="taskUserId" column="TASK_USER_ID_" jdbcType="VARCHAR"/>
+                <result property="taskUserIdx" column="TASK_USER_IDX_" jdbcType="NUMERIC"/>
+                <result property="instId" column="INST_ID_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmTransfer" parameterType="java.util.Map">
+        select ID_,TASK_ID_,APPROVE_TYPE_,TRANSFER_TYPE_,COMPLETE_TYPE_,COUNT_,COMPLETE_COUNT_,COMPLETE_SETTING_,NOTICE_TYPE_,COMPLETE_JUDGE_TYPE_,TASK_USER_ID_,TASK_USER_IDX_,INST_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from bpm_transfer
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

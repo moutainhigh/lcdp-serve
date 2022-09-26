@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InfInnerMsgLogMapper">
+
+    <resultMap id="GroupMsgLog" type="com.redxun.portal.core.entity.InfInnerMsgLog">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+
+                <result property="msgId" column="MSG_ID_" jdbcType="VARCHAR"/>
+                <result property="recUserId" column="REC_USER_ID_" jdbcType="VARCHAR"/>
+                <result property="isRead" column="IS_READ_" jdbcType="VARCHAR"/>
+                <result property="isDel" column="IS_DEL_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.portal.core.entity.InfInnerMsgLog" parameterType="java.util.Map">
+        select ID_,MSG_ID_,REC_USER_ID_,IS_READ_,IS_DEL_,CREATE_TIME_,CREATE_BY_,CREATE_DEP_ID_,UPDATE_TIME_,UPDATE_BY_,TENANT_ID_ from inf_inner_msg_Log
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByMsgIdAndRecUserId" resultType="com.redxun.portal.core.entity.InfInnerMsgLog" parameterType="java.util.Map">
+        SELECT * from inf_inner_msg_Log WHERE MSG_ID_=#{msgId} and REC_USER_ID_=#{recUserId}
+    </select>
+
+    <update id="updateIsDel" >
+        UPDATE inf_inner_msg_Log SET IS_DEL_='yes' WHERE ID_=#{id}
+    </update>
+
+</mapper>
+
+

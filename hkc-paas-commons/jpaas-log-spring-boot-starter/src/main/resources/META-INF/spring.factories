@@ -1,0 +1,9 @@
+org.springframework.context.ApplicationContextInitializer=\
+com.redxun.log.config.TtlMDCAdapterInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.redxun.log.LogAutoConfigure,\
+com.redxun.log.service.impl.LoggerAuditServiceImpl,\
+com.redxun.log.service.impl.DbAuditServiceImpl,\
+com.redxun.log.service.impl.MqAuditServiceImpl,\
+com.redxun.log.aspect.LogAspect

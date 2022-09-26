@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redxun.user.org.mapper.OsRelTypeMapper">
+    <select id="findList" resultType="com.redxun.user.org.entity.OsRelType">
+        select * from os_rel_type t
+    </select>
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsRelType" parameterType="java.util.Map">
+        select * from os_rel_type
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  update_time_ DESC
+        </if>
+    </select>
+
+    <update id="updateById" parameterType="com.redxun.user.org.entity.OsRelType">
+		UPDATE os_rel_type SET
+		NAME_=#{et.name,jdbcType=VARCHAR},
+		KEY_=#{et.key,jdbcType=VARCHAR},
+		REL_TYPE_=#{et.relType,jdbcType=VARCHAR},
+		PARTY1_=#{et.party1,jdbcType=VARCHAR},
+		PARTY2_=#{et.party2,jdbcType=VARCHAR},
+		DIM_ID1_=#{et.dimId1,jdbcType=VARCHAR},
+		DIM_ID2_=#{et.dimId2,jdbcType=VARCHAR},
+		LEVEL_=#{et.level,jdbcType=NUMERIC},
+		STATUS_=#{et.status,jdbcType=VARCHAR},
+		IS_SYSTEM_=#{et.isSystem,jdbcType=VARCHAR},
+		IS_DEFAULT_=#{et.isDefault,jdbcType=VARCHAR},
+		MEMO_=#{et.memo,jdbcType=VARCHAR},
+		UPDATE_BY_=#{et.updateBy,jdbcType=VARCHAR},
+		UPDATE_TIME_=#{et.updateTime,jdbcType=TIMESTAMP}
+		WHERE
+		ID_=#{et.id}
+    </update>
+
+    <select id="getOsRelTypeOfRelType" resultType="com.redxun.user.org.entity.OsRelType" parameterType="java.util.Map">
+        select * from os_rel_type where ( TENANT_ID_=#{tenantId} or TENANT_ID_='0' )
+        and (DIM_ID1_ ='' or DIM_ID1_ is null or DIM_ID1_=#{dimId})
+        and REL_TYPE_=#{relType} and STATUS_='ENABLED'
+    </select>
+
+    <!--逻辑删除-->
+    <select id="getOsRelTypeOfRelTypeLevel" resultType="com.redxun.user.org.entity.OsRelType" parameterType="java.util.Map">
+        select * from os_rel_type where ( TENANT_ID_=#{tenantId} or TENANT_ID_='0' )
+        and (DIM_ID1_ ='' or DIM_ID1_ is null or DIM_ID1_=#{dimId})
+        and REL_TYPE_=#{relType} and STATUS_='ENABLED'
+        <if test="@rx.Ognl@isNotEmpty(deleted)">
+            and DELETED_=0
+        </if>
+        <choose>
+            <when test="level!=-1">
+                and (LEVEL_ is null or LEVEL_=#{level})
+            </when>
+            <otherwise>
+                and LEVEL_ is null
+            </otherwise>
+        </choose>
+        order by ID_ asc
+    </select>
+
+</mapper>

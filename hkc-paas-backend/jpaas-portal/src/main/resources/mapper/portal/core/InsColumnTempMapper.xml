@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InsColumnTempMapper">
+
+    <sql id="insColumnTempFields">
+		ID_,NAME_,KEY_,IS_SYS_,STATUS_,TEMP_TYPE_
+	</sql>
+    <select id="query" resultType="com.redxun.portal.core.entity.InsColumnTemp" parameterType="java.util.Map">
+        select <include refid="insColumnTempFields"></include>  from ins_column_temp
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

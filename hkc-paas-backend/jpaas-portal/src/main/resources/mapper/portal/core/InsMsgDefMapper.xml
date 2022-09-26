@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InsMsgDefMapper">
+
+    <resultMap id="InsMsgDef" type="com.redxun.portal.core.entity.InsMsgDef">
+                <id property="msgId" column="MSG_ID_" jdbcType="VARCHAR"/>
+                <result property="color" column="COLOR_" jdbcType="VARCHAR"/>
+                <result property="url" column="URL_" jdbcType="VARCHAR"/>
+                <result property="icon" column="ICON_" jdbcType="VARCHAR"/>
+                <result property="content" column="CONTENT_" jdbcType="VARCHAR"/>
+                <result property="dsName" column="DS_NAME_" jdbcType="VARCHAR"/>
+                <result property="dsAlias" column="DS_ALIAS_" jdbcType="VARCHAR"/>
+                <result property="sqlFunc" column="SQL_FUNC_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="countType" column="COUNT_TYPE_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="appId" column="APP_ID_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.portal.core.entity.InsMsgDef" parameterType="java.util.Map">
+        select MSG_ID_,COLOR_,URL_,ICON_,CONTENT_,DS_NAME_,DS_ALIAS_,SQL_FUNC_,TYPE_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,COUNT_TYPE_,CREATE_DEP_ID_,APP_ID_ from ins_msg_def
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  MSG_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getDataByBoxId" resultType="com.redxun.portal.core.entity.InsMsgDef" parameterType="java.util.Map">
+        select imd.* from ins_msgbox_def imbd,ins_msgbox_box_def imbbd,ins_msg_def imd
+        where imbd.BOX_ID_=#{boxId}
+        and   imbbd.BOX_ID_= imbd.BOX_ID_
+        and imbbd.MSG_ID_ =imd.MSG_ID_;
+    </select>
+
+    <select id="getDataByBoxId" databaseId="oracle" resultType="com.redxun.portal.core.entity.InsMsgDef" parameterType="java.util.Map">
+        select imd.* from ins_msgbox_def imbd,ins_msgbox_box_def imbbd,ins_msg_def imd
+        where imbd.BOX_ID_=#{boxId}
+        and   imbbd.BOX_ID_= imbd.BOX_ID_
+        and imbbd.MSG_ID_ =imd.MSG_ID_
+    </select>
+
+</mapper>
+
+

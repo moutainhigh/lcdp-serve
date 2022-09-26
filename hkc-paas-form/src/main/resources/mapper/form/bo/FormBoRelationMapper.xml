@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.bo.mapper.FormBoRelationMapper">
+    <select id="query" resultType="com.redxun.form.bo.entity.FormBoRelation" parameterType="java.util.Map">
+        select * from form_bo_relation
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY ID_ DESC
+        </if>
+    </select>
+
+    <!--逻辑删除-->
+    <select id="getByBoDefIdAndEntName" resultType="com.redxun.form.bo.entity.FormBoRelation">
+        select sbr.* from form_bo_relation sbr left join form_bo_entity sbe on sbe.ID_=sbr.ENT_ID_
+        where sbr.BODEF_ID_ =#{boDefId} and sbe.ALIAS_=#{entName}
+        <if test="@rx.Ognl@isNotEmpty(deleted)">
+            and sbr.DELETED_=0
+            and sbe.DELETED_=0
+        </if>
+    </select>
+
+</mapper>
+
+

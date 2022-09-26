@@ -1,0 +1,35 @@
+<resources xmlns="http://www.redxun.cn/sqlgen"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.redxun.cn/sqlgen sqlgen.xsd"
+           filePath="D:\temp\sql\init\4.2.jpaas_form_init.sql" >
+
+    <resource>
+        <sql>SELECT * FROM form_rule</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO form_rule(ID_,NAME_,PROMPT_,ALIAS_,REGULAR_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  ID_??>'${ID_}'<#else>null</#if>,          <#if  NAME_??>'${NAME_}'<#else>null</#if>,          <#if  PROMPT_??>'${PROMPT_}'<#else>null</#if>,          <#if  ALIAS_??>'${ALIAS_}'<#else>null</#if>,          <#if  REGULAR_??>'${REGULAR_}'<#else>null</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>null</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>null</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>null</#if>,          <#if  CREATE_TIME_??>'${ CREATE_TIME_}'<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>null</#if>,          <#if  UPDATE_TIME_??>'${ UPDATE_TIME_}'<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM form_codegen_template</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO form_codegen_template(ID_,NAME_,FILE_NAME_,PATH_,SINGLE_,ENABLED_,CONTENT_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>null</#if>,          <#if  NAME_??>'${NAME_}'<#else>null</#if>,          <#if  FILE_NAME_??>'${FILE_NAME_}'<#else>null</#if>,          <#if  PATH_??>'${PATH_}'<#else>null</#if>,          <#if  SINGLE_??>'${SINGLE_}'<#else>null</#if>,          <#if  ENABLED_??>'${ENABLED_}'<#else>null</#if>,          <#if  CONTENT_??>'${ CONTENT_?replace("\n","\\n")?replace("\"","\\\"")?replace("'","''")}'<#else>null</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>null</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>null</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>null</#if>,          <#if  CREATE_TIME_??>'${ CREATE_TIME_}'<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>null</#if>,          <#if  UPDATE_TIME_??>'${ UPDATE_TIME_}'<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM form_template</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO form_template(ID_,NAME_,ALIAS_,TEMPLATE_,TYPE_,CATEGORY_,FILE_NAME_,PATH_,SINGLE_,GEN_MODE_,MAIN_SUB_TYPE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  ID_??>'${ID_}'<#else>null</#if>,          <#if  NAME_??>'${NAME_}'<#else>null</#if>,          <#if  ALIAS_??>'${ALIAS_}'<#else>null</#if>,          <#if  TEMPLATE_??>'${ TEMPLATE_?replace("\n","\\n")?replace("\"","\\\"")?replace("'","''")}'<#else>null</#if>,          <#if  TYPE_??>'${TYPE_}'<#else>null</#if>,          <#if  CATEGORY_??>'${CATEGORY_}'<#else>null</#if>,          <#if  FILE_NAME_??>'${FILE_NAME_}'<#else>null</#if>,          <#if  PATH_??>'${PATH_}'<#else>null</#if>,          <#if  SINGLE_??>'${SINGLE_}'<#else>null</#if>,          <#if  GEN_MODE_??>'${GEN_MODE_}'<#else>null</#if>,          <#if  MAIN_SUB_TYPE_??>'${MAIN_SUB_TYPE_}'<#else>null</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>null</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>null</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>null</#if>,          <#if  CREATE_TIME_??>'${ CREATE_TIME_}'<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>null</#if>,          <#if  UPDATE_TIME_??>'${ UPDATE_TIME_}'<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM form_codegen_globalvar</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO form_codegen_globalvar(ID_,CONFIG_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>null</#if>,          <#if  CONFIG_??>'${CONFIG_}'<#else>null</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>null</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>null</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>null</#if>,          <#if  CREATE_TIME_??>'${ CREATE_TIME_}'<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>null</#if>,          <#if  UPDATE_TIME_??>'${ UPDATE_TIME_}'<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+
+</resources>

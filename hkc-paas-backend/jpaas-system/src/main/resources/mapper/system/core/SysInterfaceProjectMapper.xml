@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysInterfaceProjectMapper">
+
+    <resultMap id="SysInterfaceProject" type="com.redxun.system.core.entity.SysInterfaceProject">
+                <id property="projectId" column="PROJECT_ID_" jdbcType="VARCHAR"/>
+                <result property="projectAlias" column="PROJECT_ALIAS_" jdbcType="VARCHAR"/>
+                <result property="projectName" column="PROJECT_NAME_" jdbcType="VARCHAR"/>
+                <result property="treeId" column="TREE_ID_" jdbcType="VARCHAR"/>
+                <result property="description" column="DESCRIPTION_" jdbcType="VARCHAR"/>
+                <result property="domainTcp" column="DOMAIN_TCP_" jdbcType="VARCHAR"/>
+                <result property="domainPath" column="DOMAIN_PATH_" jdbcType="VARCHAR"/>
+                <result property="basePath" column="BASE_PATH_" jdbcType="VARCHAR"/>
+                <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+                <result property="globalHeaders" column="GLOBAL_HEADERS_" jdbcType="CLOB"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysInterfaceProject" parameterType="java.util.Map">
+        select PROJECT_ID_,PROJECT_ALIAS_,PROJECT_NAME_,TREE_ID_,DESCRIPTION_,DOMAIN_TCP_,DOMAIN_PATH_,BASE_PATH_,STATUS_,GLOBAL_HEADERS_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from SYS_INTERFACE_PROJECT
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  PROJECT_ID_ DESC
+        </if>
+    </select>
+
+    <select id="isExist" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from SYS_INTERFACE_PROJECT
+        <where>
+            (PROJECT_ALIAS_=#{w.projectAlias}
+            or PROJECT_NAME_=#{w.projectName})
+            <if test="@rx.Ognl@isNotEmpty(w.projectId)">
+                and PROJECT_ID_ != #{w.projectId}
+            </if>
+        </where>
+    </select>
+</mapper>
+
+

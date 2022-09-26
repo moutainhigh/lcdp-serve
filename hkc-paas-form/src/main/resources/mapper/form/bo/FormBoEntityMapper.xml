@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.bo.mapper.FormBoEntityMapper">
+    <resultMap id="FormBoEntity" type="com.redxun.form.bo.entity.FormBoEntity">
+        <id property="id" column="ID_" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+        <result property="alias" column="ALIAS_" jdbcType="VARCHAR"/>
+        <result property="isMain" column="IS_MAIN_" jdbcType="NUMERIC"/>
+        <result property="genMode" column="GEN_MODE_" jdbcType="VARCHAR"/>
+        <result property="treeId" column="TREE_ID_" jdbcType="VARCHAR"/>
+        <result property="idField" column="ID_FIELD_" jdbcType="VARCHAR"/>
+        <result property="parentField" column="PARENT_FIELD_" jdbcType="VARCHAR"/>
+        <result property="versionField" column="VERSION_FIELD_" jdbcType="VARCHAR"/>
+        <result property="gendb" column="GENDB_" jdbcType="NUMERIC"/>
+        <result property="dsAlias" column="DS_ALIAS_" jdbcType="VARCHAR"/>
+        <result property="dsName" column="DS_NAME_" jdbcType="VARCHAR"/>
+        <result property="tableName" column="TABLE_NAME_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="appId" column="APP_ID_"   jdbcType="VARCHAR"/>
+        <result property="isTenant" column="IS_TENANT_"   jdbcType="VARCHAR"/>
+        <result property="boAttrTemp" column="BO_ATTR_TEMP_"   jdbcType="VARCHAR"/>
+        <association property="boRelation" javaType="com.redxun.form.bo.entity.FormBoRelation">
+            <result column="BODEF_ID_" property="bodefId"  />
+            <result column="PARENT_ENT_ID_" property="parentEntId"/>
+            <result column="REL_TYPE_" property="type"/>
+            <result column="IS_REF_" property="isRef"/>
+            <result column="FK_FIELD_" property="fkField"/>
+            <result column="PK_FIELD_" property="pkField"/>
+        </association>
+    </resultMap>
+    <select id="query" resultType="com.redxun.form.bo.entity.FormBoEntity" parameterType="java.util.Map">
+        select * from form_bo_entity
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <!--逻辑删除-->
+    <select id="getByDefId" resultMap="FormBoEntity" >
+        select a.*,BODEF_ID_,PARENT_ENT_ID_,b.TYPE_ AS REL_TYPE_,IS_REF_,FK_FIELD_,PK_FIELD_   from form_bo_entity a,form_bo_relation b
+        where a.ID_=b.ENT_ID_ and b.BODEF_ID_=#{boDefId, jdbcType=VARCHAR}
+        <if test="@rx.Ognl@isNotEmpty(deleted)">
+            and a.DELETED_=0
+            and b.DELETED_=0
+        </if>
+    </select>
+
+    <select id="getMainEntByDefId" resultMap="FormBoEntity" >
+        select a.*  from form_bo_entity a,form_bo_relation b
+        where a.ID_=b.ENT_ID_ and b.BODEF_ID_=#{boDefId} and b.TYPE_='main'
+    </select>
+
+    <select id="getMainEntByBoAlias" resultMap="FormBoEntity" >
+        select a.*  from form_bo_entity a,form_bo_relation b,form_bo_def c
+        where a.ID_=b.ENT_ID_ and b.BODEF_ID_=c.ID_ and c.ALIAS_=#{boAlias} and b.TYPE_='main'
+    </select>
+
+</mapper>
+
+

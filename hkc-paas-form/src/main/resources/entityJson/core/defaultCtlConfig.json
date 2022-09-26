@@ -1,0 +1,778 @@
+{
+    "rx-label":{
+        "ctltype": "rx-label",
+        "instConfig":[],
+        "text":"默认值"
+    },
+    "rx-textbox": {
+        "type": "varchar",
+        "ctltype": "rx-textbox",
+        "length": "64",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "validRule": "",
+        "placeholder": "",
+        "instConfig":[],
+        "width": "100%",
+        "from": "input",
+        "seqNo": "",
+        "script": "",
+        "constant": "",
+        "readonly": false,
+        "defaultval": "",
+        "vtype": "",
+        "vtype_name": "",
+        "rule_": {},
+        "format": "",
+        "formulaval": "",
+        "valmode": "single",
+        "uniqueValue": false,
+        "link": false,
+        "linkConfig":{},
+        "isPassword":false,
+        "dickey":"",
+        "sql_key": "",
+        "sql_name": "",
+        "sqlDef": "",
+        "textfield":"",
+        "parameters":"",
+        "interfaceDef":"",
+        "interface_key": "",
+        "interface_name": "",
+        "interfacetextfield":"",
+        "tooltip":false,
+        "tooltipName":"",
+        "placement":"bottomRight"
+    },
+    "rx-textarea": {
+        "type": "varchar",
+        "ctltype": "rx-textarea",
+        "length": "200",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "placeholder": "",
+        "instConfig":[],
+        "width": "100%",
+        "valmode": "single",
+        "readonly":false
+    },
+    "rx-table": {
+        "comment": "",
+        "ctltype": "rx-table",
+        "name": "",
+        "required": false,
+        "mode": "inner",
+        "selMode": "multi",
+        "tabletype": "default",
+        "column": "twocol",
+        "width": "100%",
+        "fields": [],
+        "buttons": [],
+        "mergeCell": "",
+        "rowSummary": "",
+        "drawSummary": "",
+        "cellEdit": "",
+        "showColumns": "",
+        "isserial": true,
+        "isshowctl":false,
+        "isTitle": true,
+        "enablecalc": false,
+        "height":300
+    },
+    "rx-checkbox": {
+        "ctltype": "rx-checkbox",
+        "type": "varchar",
+        "comment": "",
+        "name": "",
+        "length": "20",
+        "required": false,
+        "truevalue": "",
+        "falsevalue": "",
+        "label": "",
+        "defaultval": false,
+        "valmode": "single"
+    },
+    "rx-form-select": {
+        "ctltype": "rx-form-select",
+        "comment": "",
+        "name": "",
+        "length": "64",
+        "type": "varchar",
+        "mode": "default",
+        "valmode": "single",
+        "required": false,
+        "label": "",
+        "datasource": {
+            "from": "custom",
+            "options": [
+                {
+                    "label":"选择一",
+                    "value":"1",
+                    "idx_":1
+                },
+                {
+                    "label":"选择二",
+                    "value":"2",
+                    "idx_":2
+                }
+            ],
+            "sql_key": "",
+            "sql_name": "",
+            "sqlDef": "",
+            "interfaceDef":"",
+            "interface_key": "",
+            "interface_name": "",
+            "dickey":""
+        },
+        "readonly": false,
+        "defaultval": "",
+        "width": "100%",
+        "hideselect": false,
+        "placeholder": "",
+        "instConfig":[]
+    },
+    "rx-checkbox-list": {
+        "ctltype": "rx-checkbox-list",
+        "comment": "",
+        "name": "",
+        "length": "64",
+        "type": "varchar",
+        "valmode": "single",
+        "required": false,
+        "label": "",
+        "datasource": {
+            "from": "custom",
+            "options": [],
+            "sql_key": "",
+            "sql_name": "",
+            "sqlDef": "",
+            "interfaceDef":"",
+            "interface_key": "",
+            "interface_name": "",
+            "dickey":""
+        },
+        "defaultval": "",
+        "width": "100%",
+        "onlyValue": false,
+        "instConfig":[]
+
+    },
+    "rx-switch": {
+        "ctltype": "rx-switch",
+        "type":"varchar",
+        "comment": "",
+        "length": "20",
+        "name": "",
+        "style": "icon",
+        "required": false,
+        "mode": "default",
+        "defaultval": false,
+        "check": "Y",
+        "uncheck": "N",
+        "valmode": "single"
+    },
+    "rx-chinese": {
+        "field": ""
+    },
+    "rx-number": {
+        "ctltype": "rx-number",
+        "type":"number",
+        "comment": "",
+        "name": "",
+        "length": "14,0",
+        "defaultval": 0,
+        "max": 100000000,
+        "min": 0,
+        "step": 1,
+        "format": {
+        "pre": "",
+        "suf": "",
+        "thousand": true,
+        "chinese": false
+        },
+        "parser": "",
+        "required": false,
+        "readonly": false,
+        "width": "100%",
+        "valmode": "single",
+        "formulaval": "",
+        "tooltip":false,
+        "tooltipname":"",
+        "instConfig":[],
+        "placement":"bottomRight"
+    },
+    "rx-radio": {
+        "ctltype": "rx-radio",
+        "comment": "",
+        "name": "",
+        "length": "64",
+        "defaultval": "",
+        "valmode": "single",
+        "mode": "default",
+        "required": false,
+        "width": "100%",
+        "datasource": {
+            "from": "custom",
+            "options": [
+                {
+                    "label":"选择一",
+                    "value":"ONE",
+                    "idx_":1
+                },
+                {
+                    "label":"选择二",
+                    "value":"TWOO",
+                    "idx_":2
+                }
+            ],
+            "sql_key": "",
+            "sql_name": "",
+            "sqlDef": "",
+            "interfaceDef":"",
+            "interface_key": "",
+            "interface_name": "",
+            "dickey":""
+        },
+        "agreement": {},
+        "instConfig":[],
+        "onlyValue": false
+    },
+    "rx-date": {
+        "ctltype": "rx-date",
+        "comment": "",
+        "name": "",
+        "format": "YYYY-MM-DD HH:mm:ss",
+        "showtime": false,
+        "today": false,
+        "defaultnow": true,
+        "required": false,
+        "readonly": false,
+        "relate": "none",
+        "ctl": "",
+        "cscript": "",
+        "compare": "lt",
+        "width": "100%",
+        "valmode": "single",
+        "type": "date",
+        "instConfig":[]
+    },
+    "rx-rate": {
+        "ctltype": "rx-rate",
+        "comment": "",
+        "name": "",
+        "allowHalf": "all",
+        "required": false,
+        "icontype": "iconxingshi",
+        "count": 5,
+        "defaultval": 0,
+        "valmode": "single"
+    },
+    "rx-time": {
+        "ctltype": "rx-time",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "defaultnow": true,
+        "format": "HH:mm:ss",
+        "width": "100%",
+        "valmode": "single",
+        "instConfig":[]
+    },
+    "rx-month": {
+        "ctltype": "rx-month",
+        "comment": "",
+        "name": "",
+        "format": "YYYY-MM",
+        "required": false,
+        "defaultnow": true,
+        "relate": "none",
+        "ctl": "",
+        "cscript": "",
+        "compare": "lt",
+        "width": "100%",
+        "valmode": "single"
+    },
+    "rx-week": {
+        "ctltype": "rx-week",
+        "comment": "",
+        "name": "",
+        "format": "",
+        "required": false,
+        "defaultnow": true,
+        "relate": "none",
+        "ctl": "",
+        "cscript": "",
+        "compare": "lt",
+        "width": "100%",
+        "valmode": "single"
+    },
+    "rx-date-range": {
+        "ctltype": "rx-date-range",
+        "comment": "",
+        "name": "",
+        "format": "YYYY-MM-DD",
+        "required": false,
+        "defaultnow": true,
+        "relate": "none",
+        "ctl": "",
+        "cscript": "",
+        "compare": "lt",
+        "width": "220px",
+        "valmode": "single"
+    },
+    "rx-quill-editor": {
+        "ctltype": "rx-quill-editor",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "height": 300,
+        "width": "100%",
+        "valmode": "single"
+    },
+    "rx-button-edit": {
+        "ctltype": "rx-button-edit",
+        "comment": "",
+        "name": "",
+        "length": "200",
+        "required": false,
+        "valmode": "double",
+        "mode": "method",
+        "dialog": "",
+        "method": "",
+        "width": "100%",
+        "showtype": false,
+        "link": false,
+        "instConfig":[],
+        "dialogConfig":"",
+        "linkConfig":{}
+    },
+    "rx-form-button": {
+        "ctltype": "rx-button-edit",
+        "comment": "",
+        "name": "",
+        "mode": "method",
+        "dialog": "",
+        "method": "",
+        "width": "200px"
+    },
+    "rx-upload": {
+        "ctltype": "rx-upload",
+        "name": "",
+        "comment": "",
+        "type": "varchar",
+        "length": "200",
+        "required": false,
+        "width": "100%",
+        "height": "300px",
+        "isShow": true,
+        "single": false,
+        "attachtype": "attach",
+        "imagerwidth": "120",
+        "imagerheight": "120",
+        "checkedtype": [],
+        "size": "50",
+        "valmode": "single",
+        "template": {},
+        "amount": 0,
+        "showtype":"default"
+    },
+    "rx-image": {
+        "ctltype": "rx-image",
+        "name": "",
+        "comment": "",
+        "type":"varchar",
+        "length": "200",
+        "amount":0,
+        "size":50,
+        "showtype":"list",
+        "width":"102px",
+        "height":"102px",
+        "carwidth":"300px",
+        "carHeight":"200px",
+        "readonly": false,
+        "required":false
+    },
+    "rx-user": {
+        "ctltype": "rx-user",
+        "comment": "",
+        "name": "",
+        "type": "varchar",
+        "length": "512",
+        "required": false,
+        "width": "100%",
+        "single": false,
+        "orgconfig": "",
+        "group": {},
+        "dimId": "",
+        "initRankLevel": "",
+        "curuser": true,
+        "readonly": false,
+        "valmode": "double",
+        "bindfield":{"field":""},
+        "gridname":"main"
+    },
+    "rx-group": {
+        "ctltype": "rx-group",
+        "comment": "",
+        "name": "",
+        "type": "varchar",
+        "length": "64",
+        "required": false,
+        "width": "100%",
+        "single": false,
+        "curgroup": true,
+        "orgconfig": "",
+        "group": {},
+        "showDeptPath":false,
+        "deptPathLevel":0,
+        "showDimId": true,
+        "dimId": "",
+        "initRankLevel": "",
+        "readonly": false,
+        "valmode": "double",
+        "bindfield":{"field":""},
+        "gridname":"main"
+        },
+        "rx-table-onetoone": {
+        "ctltype": "rx-table-onetoone",
+        "comment": "",
+        "name": "",
+        "column": "four",
+        "noborder": "noborder",
+        "fields": []
+    },
+    "rx-tree-select": {
+        "ctltype": "rx-tree-select",
+        "comment": "",
+        "name": "",
+        "type": "varchar",
+        "length": "100",
+        "required": false,
+        "width": "100%",
+        "single": false,
+        "label": "",
+        "mode": "default",
+        "valmode": "single",
+        "selectable": false,
+        "datasource": {
+            "from": "",
+            "options": [
+                {
+                    "label":"选择一",
+                    "value":"ONE",
+                    "idx_":1
+                },
+                {
+                    "label":"选择二",
+                    "value":"TWOO",
+                    "idx_":2
+                }
+            ],
+            "sql_key": "",
+            "sql_name": "",
+            "sqlDef": "",
+            "interfaceDef":"",
+            "interface_key": "",
+            "interface_name": "",
+            "async": false,
+            "dickey":""
+        },
+        "defaultval": "",
+        "showSearch":false
+    },
+    "rx-barcode": {
+        "ctltype": "rx-barcode",
+        "comment": "",
+        "name": "",
+        "initialValue": "",
+        "qrcodeSize": "100",
+        "width": "100%",
+        "valmode": "single"
+    },
+    "rx-office": {
+        "ctltype": "rx-office",
+        "type": "varchar",
+        "length": "200",
+        "comment": "",
+        "name": "",
+        "isversion": false,
+        "doctype": "",
+        "width": "100%",
+        "from": "input",
+        "readonly": false,
+        "valmode": "single"
+    },
+    "rx-address": {
+        "ctltype": "rx-address",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "width": "100%",
+        "valmode": "multi",
+        "setting": {
+            "isCity": true,
+            "isCounty": true,
+            "isAddress": true
+        }
+    },
+    "rx-fieldset": {
+        "id": "",
+        "condit": "",
+        "type": "fieldset",
+        "rule": ""
+    },
+    "rx-data-list": {
+        "alias": "",
+        "reltype": "list",
+        "formAlias": ""
+        },
+        "rx-form-signbox": {
+        "comment": "",
+        "name": "",
+        "type": "varchar",
+        "length": "1000",
+        "valmode": "single",
+        "mode":"single",
+        "showtime":false,
+        "format":"YYYY-MM-DD HH:mm:ss"
+    },
+    "rx-two-table": {
+        "formcolor": "white",
+        "column": "two",
+        "borders": "noborder"
+    },
+    "rx-four-table": {
+        "formcolor": "white",
+        "column": "four",
+        "borders": "noborder"
+    },
+    "rx-six-table": {
+        "formcolor": "white",
+        "column": "six",
+        "borders": "noborder"
+    },
+    "rx-eight-table": {
+        "formcolor": "white",
+        "column": "eight",
+        "borders": "noborder"
+    },
+    "rx-approval-history": {
+
+    },
+    "rx-opinion": {
+        "comment": "",
+        "name": ""
+        },
+        "rx-tabs": {
+        "width": "100%",
+        "height": "300px",
+        "toolwidth": "100",
+        "direction": "top",
+        "margins": "yesBorder",
+        "tabsData": [
+            {"name": "Tab1", "meta": ""},
+            {"name": "Tab2", "meta": ""},
+            {"name": "Tab3", "meta": ""}
+        ]
+    },
+    "rx-calc": {
+        "formulaval": "",
+        "calcid": "",
+        "name": "calc"
+        },
+        "rx-anchor": {
+        "name": "md",
+        "comment": "锚点",
+        "uid": ""
+    },
+    "rx-navigation": {
+        "direction": "rightCenter",
+        "distanceY": "10",
+        "distanceX": "10",
+        "datas": [
+            {"name": "页面一", "id": "ymy"}
+        ]
+    },
+    "rx-form-nav": {
+        "btnpostion": "top",
+        "btnalign": "right",
+        "treepostion": "left",
+        "pkfield": "",
+        "navSetting": [],
+        "selectChangeFunc":"",
+        "buttons":[],
+        "height": "600px"
+        },
+        "rx-view-word": {
+            "title": "打印",
+            "idval": "ID_",
+            "alias": "",
+            "jsonconfig": []
+        },
+        "rx-form-hidden": {
+        "ctltype": "rx-form-hidden",
+        "type": "varchar",
+        "length": "64",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "width": "100%",
+        "cscript": "",
+        "defaultval": "",
+        "valmode": "single"
+        },
+        "rx-relate-process": {
+        "ctltype": "rx-relate-process",
+        "type": "varchar",
+        "length": "2000",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "width": "100%",
+        "readonly": false,
+        "bpmdef": {"text": "","val":""},
+        "mode": "default",
+        "valmode": "single",
+        "configuration":"flow",
+        "processClassification":{
+            "name":"",
+            "pkid":"",
+            "alias":"",
+            "path":""
+        }
+    },
+    "rx-conditions": {
+        "name": "",
+        "comment": "",
+        "condition": "",
+        "state": "display",
+        "width": "100%"
+        },
+        "rx-flow-chart": {
+        "name": "",
+        "comment": "",
+        "width": "100%",
+        "height": "250px"
+    },
+    "rx-dynamic-textbox": {
+        "type": "varchar",
+        "ctltype": "rx-dynamic-textbox",
+        "length": "400",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "readonly": false
+    },
+    "rx-general-field": {
+        "async": false,
+        "createformat": "createAccount-createname",
+        "updateformat": "updateAccount-updatename"
+        },
+        "rx-form-group": {
+        "name": "",
+        "comment": "",
+        "customData": [],
+        "pkfield": "",
+        "type": "varchar",
+        "length": "400"
+    },
+    "rx-grid-layout":{
+        "laytype":"two",
+        "column":"1:1",
+        "width":"100%",
+        "gap":"10px",
+        "height":"360px"
+    },
+    "rx-classify":{
+        "height":"360px",
+        "title":"分组布局",
+        "isicon":"no",
+        "icon":"menu"
+    },
+    "rx-map": {
+        "ctltype": "rx-map",
+        "width": "100%",
+        "readonly": false,
+        "comment": "",
+        "name": "",
+        "type": "varchar",
+        "length": "200",
+        "valmode": "double",
+        "mapprovider":"baidu",
+        "locations":"",
+        "display":[]
+    },
+    "rx-cc-record": {
+
+    },
+    "rx-district": {
+        "ctltype": "rx-district",
+        "length": "255",
+        "type": "varchar",
+        "comment": "",
+        "name": "",
+        "required": false,
+        "width": "100%",
+        "setting": {
+            "isCity": true,
+            "isCounty": true
+        },
+        "valmode": "single"
+    },
+    "rx-show-field": {
+        "ctltype": "rx-show-field",
+        "type": "varchar",
+        "comment": "",
+        "name": "",
+        "width": "100%",
+        "valmode": "single",
+        "isnoattr":true,
+        "tablename":""
+        },
+        "rx-form-qrcode":{
+        "ctltype": "rx-form-qrcode",
+        "setting":"add",
+        "width": "100%"
+    },
+    "rx-markdown":{
+        "ctltype": "rx-markdown",
+        "comment": "MARKDOWN",
+        "type": "clob",
+        "name": "",
+        "required": true,
+        "height": 300,
+        "valmode": "single"
+     },
+    "ID_":{
+        "name": "id",
+        "fieldName": "ID_",
+        "comment": "主键",
+        "control": "mainId",
+        "ctr": "singleVal",
+        "isSingle": 1,
+        "valType": "varchar"
+    },
+    "REF_ID_":{
+        "name": "refId",
+        "fieldName": "REF_ID_",
+        "comment": "副键",
+        "control": "refId",
+        "ctr": "singleVal",
+        "isSingle": 1,
+        "valType": "varchar",
+        "mainFieldName":"ID_",
+        "mainAlias":"",
+        "mainId":"id"
+    },
+    "PARENT_ID_":{
+        "name": "parentId",
+        "fieldName": "PARENT_ID_",
+        "comment": "父键",
+        "control": "parentId",
+        "ctr": "singleVal",
+        "isSingle": 1,
+        "valType": "varchar"
+    }
+}

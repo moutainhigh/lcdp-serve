@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.ListHistoryMapper">
+
+    <resultMap id="ListHistory" type="com.redxun.form.core.entity.ListHistory">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="listId" column="LIST_ID_" jdbcType="VARCHAR"/>
+                <result property="content" column="CONTENT_" jdbcType="CLOB"/>
+                <result property="mobileContent" column="MOBILE_CONTENT_" jdbcType="CLOB"/>
+                <result property="remark" column="REMARK_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="version" column="VERSION_" jdbcType="NUMERIC"/>
+
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.ListHistory" parameterType="java.util.Map">
+        select ID_,LIST_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,VERSION_,REMARK_ from form_bo_list_history
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getMaxVersion" resultType="java.lang.Integer">
+        select max(VERSION_) from form_bo_list_history where LIST_ID_ =#{listID}
+    </select>
+
+    <select id="selectByNum" resultType="com.redxun.form.core.entity.ListHistory">
+        select *  from form_bo_list_history WHERE LIST_ID_ =#{listId} order by CREATE_TIME_ desc limit 1 offset #{num} ;
+    </select>
+</mapper>
+
+

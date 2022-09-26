@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysAppFavoritesMapper">
+
+    <resultMap id="SysAppFavorites" type="com.redxun.system.core.entity.SysAppFavorites">
+                <id property="favId" column="FAV_ID_" jdbcType="VARCHAR"/>
+                <result property="userId" column="USER_ID_" jdbcType="VARCHAR"/>
+                <result property="appId" column="APP_ID_" jdbcType="VARCHAR"/>
+                <result property="isFav" column="IS_FAV_" jdbcType="NUMERIC"/>
+                <result property="favTime" column="FAV_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="lastUseTime" column="LAST_USE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysAppFavorites" parameterType="java.util.Map">
+        select FAV_ID_,USER_ID_,APP_ID_,IS_FAV_,FAV_TIME_,LAST_USE_TIME_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from sys_app_favorites
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  FAV_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getFavorites"  resultType="com.redxun.system.core.entity.SysApp">
+        SELECT a.*,f.IS_FAV_,f.LAST_USE_TIME_,f.FAV_TIME_ FROM sys_app a JOIN sys_app_favorites f ON (a.APP_ID_=f.APP_ID_ AND f.USER_ID_=#{userId})
+        WHERE  f.IS_FAV_=1 ORDER BY f.LAST_USE_TIME_ DESC
+    </select>
+
+    <select id="getLastUse"  resultType="com.redxun.system.core.entity.SysApp">
+        SELECT a.*,f.IS_FAV_,f.LAST_USE_TIME_,f.FAV_TIME_ FROM sys_app a JOIN sys_app_favorites f ON (a.APP_ID_=f.APP_ID_ AND f.USER_ID_=#{userId})
+        WHERE  f.LAST_USE_TIME_ IS NOT NULL ORDER BY f.LAST_USE_TIME_ DESC
+    </select>
+</mapper>
+
+

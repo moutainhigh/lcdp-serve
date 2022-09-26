@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="jpaas-common-spring-boot-starter" />
+        <module name="jpaas-sentinel-spring-boot-starter" />
+        <module name="jpaas-swagger2-spring-boot-starter" />
+        <module name="jpaas-cache-spring-boot-starter" />
+        <module name="jpaas-bpm" />
+        <module name="jpaas-common-cloud" />
+        <module name="jpaas-redis-spring-boot-starter" />
+        <module name="jpaas-idempotence-spring-boot-starter" />
+        <module name="jpaas-common-tool" />
+        <module name="jpaas-common-dto" />
+        <module name="jpaas-job" />
+        <module name="jpaas-msgsend-spring-boot-starter" />
+        <module name="jpaas-ureport" />
+        <module name="jpaas-common-milvus" />
+        <module name="jpaas-gencode-spring-boot-starter" />
+        <module name="jpaas-auth-client-spring-boot-starter" />
+        <module name="jpaas-auth" />
+        <module name="jpaas-log-spring-boot-starter" />
+        <module name="jpaas-gateway" />
+        <module name="jpaas-user" />
+        <module name="jpaas-share" />
+        <module name="jpaas-datart" />
+        <module name="jpaas-ribbon-spring-boot-starter" />
+        <module name="jpaas-system" />
+        <module name="jpaas-portal" />
+        <module name="jpaas-form" />
+        <module name="jpaas-common-core" />
+        <module name="jpaas-db-spring-boot-starter" />
+        <module name="jpaas-job-spring-boot-starter" />
+        <module name="jpaas-web-spring-boot-starter" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="jpaas-auth" target="1.8" />
+      <module name="jpaas-auth-client-spring-boot-starter" target="1.8" />
+      <module name="jpaas-bpm" target="1.8" />
+      <module name="jpaas-cache-spring-boot-starter" target="1.8" />
+      <module name="jpaas-cloud" target="1.8" />
+      <module name="jpaas-common-cloud" target="1.8" />
+      <module name="jpaas-common-core" target="1.8" />
+      <module name="jpaas-common-dto" target="1.8" />
+      <module name="jpaas-common-milvus" target="1.8" />
+      <module name="jpaas-common-spring-boot-starter" target="1.8" />
+      <module name="jpaas-common-tool" target="1.8" />
+      <module name="jpaas-commons" target="1.8" />
+      <module name="jpaas-config" target="1.5" />
+      <module name="jpaas-datart" target="1.8" />
+      <module name="jpaas-db-spring-boot-starter" target="1.8" />
+      <module name="jpaas-form" target="1.8" />
+      <module name="jpaas-gateway" target="1.8" />
+      <module name="jpaas-gencode-spring-boot-starter" target="1.8" />
+      <module name="jpaas-idempotence-spring-boot-starter" target="1.8" />
+      <module name="jpaas-job" target="1.8" />
+      <module name="jpaas-job-spring-boot-starter" target="1.8" />
+      <module name="jpaas-log-spring-boot-starter" target="1.8" />
+      <module name="jpaas-msgsend-spring-boot-starter" target="1.8" />
+      <module name="jpaas-portal" target="1.8" />
+      <module name="jpaas-redis-spring-boot-starter" target="1.8" />
+      <module name="jpaas-ribbon-spring-boot-starter" target="1.8" />
+      <module name="jpaas-sentinel-spring-boot-starter" target="1.8" />
+      <module name="jpaas-share" target="1.8" />
+      <module name="jpaas-swagger2-spring-boot-starter" target="1.8" />
+      <module name="jpaas-system" target="1.8" />
+      <module name="jpaas-ureport" target="1.8" />
+      <module name="jpaas-user" target="1.8" />
+      <module name="jpaas-web-spring-boot-starter" target="1.8" />
+      <module name="release" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="jpaas-auth" options="-parameters" />
+      <module name="jpaas-auth-client-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-bpm" options="-parameters" />
+      <module name="jpaas-cache-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-common-cloud" options="-parameters" />
+      <module name="jpaas-common-core" options="-parameters" />
+      <module name="jpaas-common-dto" options="-parameters" />
+      <module name="jpaas-common-milvus" options="-parameters" />
+      <module name="jpaas-common-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-common-tool" options="-parameters" />
+      <module name="jpaas-datart" options="-parameters" />
+      <module name="jpaas-db-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-form" options="-parameters" />
+      <module name="jpaas-gateway" options="-parameters" />
+      <module name="jpaas-gencode-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-idempotence-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-job" options="-parameters" />
+      <module name="jpaas-job-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-log-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-msgsend-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-portal" options="-parameters" />
+      <module name="jpaas-redis-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-ribbon-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-sentinel-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-share" options="-parameters" />
+      <module name="jpaas-swagger2-spring-boot-starter" options="-parameters" />
+      <module name="jpaas-system" options="-parameters" />
+      <module name="jpaas-ureport" options="-parameters" />
+      <module name="jpaas-user" options="-parameters" />
+      <module name="jpaas-web-spring-boot-starter" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-auth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-auth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-datart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-datart/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-job/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-job/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-portal/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-portal/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-share/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-ureport/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-ureport/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-user/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-user/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-bpm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-bpm/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-auth-client-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-auth-client-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-cache-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-cache-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-cloud/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-cloud/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-dto/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-dto/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-milvus/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-milvus/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-tool/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-tool/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-db-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-db-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-gencode-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-idempotence-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-idempotence-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-job-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-job-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-log-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-log-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-msgsend-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-msgsend-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-redis-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-redis-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-ribbon-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-ribbon-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-sentinel-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-sentinel-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-swagger2-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-swagger2-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-web-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-web-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-form/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hkc-paas-form/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

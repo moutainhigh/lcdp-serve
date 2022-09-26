@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmRemindInstMapper">
+
+    <resultMap id="BpmRemindInst" type="com.redxun.bpm.core.entity.BpmRemindInst">
+        <id property="id" column="ID_" jdbcType="VARCHAR"/>
+        <result property="taskId" column="TASK_ID_" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+        <result property="action" column="ACTION_" jdbcType="VARCHAR"/>
+        <result property="expireDate" column="EXPIRE_DATE_" jdbcType="TIMESTAMP"/>
+        <result property="script" column="SCRIPT_" jdbcType="VARCHAR"/>
+        <result property="notifyType" column="NOTIFY_TYPE_" jdbcType="VARCHAR"/>
+        <result property="timeToSend" column="TIME_TO_SEND_" jdbcType="TIMESTAMP"/>
+        <result property="sendTimes" column="SEND_TIMES_" jdbcType="NUMERIC"/>
+        <result property="sendInterval" column="SEND_INTERVAL_" jdbcType="NUMERIC"/>
+        <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmRemindInst" parameterType="java.util.Map">
+        select
+        ID_,TASK_ID_,NAME_,ACTION_,EXPIRE_DATE_,SCRIPT_,NOTIFY_TYPE_,TIME_TO_SEND_,SEND_TIMES_,SEND_INTERVAL_,STATUS_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_
+        from bpm_remind_inst
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY ID_ DESC
+        </if>
+    </select>
+
+    <insert id="archiveByArchiveDate">
+		insert into bpm_remind_inst_${tableId} select * from bpm_remind_inst A
+		WHERE EXISTS (SELECT 1 FROM BPM_INST B WHERE A.INST_ID_=B.INST_ID_ AND END_TIME_ &lt;=#{archiveDate} and B.TENANT_ID_=#{tenantId})
+	</insert>
+
+    <delete id="removeByArchiveDate">
+        <if test="dbType=='mysql'">
+            DELETE from BPM_REMIND_INST A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate} and B.TENANT_ID_=#{tenantId}) limit ${batSize}
+        </if>
+        <if test="dbType=='sqlserver'">
+            DELETE top(${batSize}) from BPM_REMIND_INST A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate}  and B.TENANT_ID_=#{tenantId})
+        </if>
+        <if test="dbType=='oracle'">
+            DELETE from BPM_REMIND_INST A  WHERE EXISTS (SELECT 1 FROM BPM_INST B   WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate}  and B.TENANT_ID_=#{tenantId}) and rownum &lt;= ${batSize}
+        </if>
+    </delete>
+
+    <delete id="delArchiveByInstId" parameterType="java.util.Map">
+        delete from BPM_REMIND_INST_${tableId} where INST_ID_=#{instId}
+    </delete>
+
+</mapper>
+
+

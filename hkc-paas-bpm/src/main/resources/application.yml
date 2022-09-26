@@ -1,0 +1,133 @@
+server:
+  port: 7301
+
+defaultDs:
+  string:
+    url: ${bpm.datasource.url}
+    username: ${bpm.datasource.username}
+    password: ${bpm.datasource.password}
+    driverClassName: ${bpm.datasource.driver}
+    connection-init-sqls: ${bpm.datasource.connection}
+    validationQuery: ${bpm.datasource.vaildQuery}
+    filters: stat
+  int:
+    initialSize: ${bpm.datasource.minSize}
+    minIdle: ${bpm.datasource.minSize}
+    maxActive: ${bpm.datasource.maxSize}
+    maxPoolPreparedStatementPerConnectionSize: 20
+  long:
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+  boolean:
+    testWhileIdle: true
+    testOnBorrow: ${bpm.datasource.testOnBorrow}
+    testOnReturn: false
+    poolPreparedStatements: true
+
+
+
+
+
+
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+
+
+#security:
+#  oauth2:
+#    client:
+#      client-id: ceshi1
+#      client-secret: webApp
+#      user-authorization-uri: ${auth-server}/oauth/authorize
+#      access-token-uri: ${auth-server}/oauth/code/token
+#    resource:
+#      # jwt:
+#      #   key-uri: ${auth-server}/oauth/token_key
+#      #   key-value: webApp
+#      # userInfoUri: ${auth-server}/user/oauth/sso
+#      token-info-uri: ${auth-server}/oauth/check_token
+
+xxl-job:
+  enabled: ${job.bpm:false}
+  mode: nacos
+  admin:
+    admin-addresses: ${job.center:localhost:7878}
+  executor:
+    app-name: bpm-job #默认为 xxl-job-executor
+    address: ${spring.application.name}
+    access-token: #默认为空
+    log-path: logs/applogs/xxl-job/jobhandler #默认为 logs/applogs/xxl-job/jobhandler
+    log-retention-days: 10 #默认为 10
+    ip: #默认为空
+    port: 7676 #默认为 9999
+
+
+redxun:
+  swagger:
+    enabled: true
+    title: 流程管理中心
+    description: 流程管理中心文档
+    version: 1.0
+    base-package: com.redxun.bpm.core.controller
+  cache-manager:
+    configs:
+      - key: bpm
+        second: 300
+
+  #多租户配置
+  tenant:
+    enable: false
+    ignoreTables:
+      - sys_tree_cat
+      - sys_tree
+      - act_ru_task
+      - act_ru_execution
+
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: bpm_tx_group
+  enable-auto-data-source-proxy: true
+
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      namespace: ${nacos.namespace:local}
+      server-addr: ${nacos.address:localhost:8848}
+      group: DEFAULT_GROUP
+      userName:
+      password:
+
+  config:
+    type: nacos
+    nacos:
+      namespace: ${nacos.namespace:local}
+      serverAddr: ${nacos.address:localhost:8848}
+      group: SEATA_GROUP
+      cluster: default
+      userName:
+      password:
+      data-id: seataServer.properties
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+  activiti:
+    # 自动建表
+    database-schema-update: none
+    history-level: none
+    db-history-used: false
+    # 是否启用job
+    async-executor-activate: false
+    check-process-definitions: false
+
+# 开发者每个客户端 都需要进行配置。
+  cloud:
+    nacos:
+      discovery:
+        metadata:
+          developer: ray

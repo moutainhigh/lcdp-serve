@@ -1,0 +1,88 @@
+#
+#defaultDs:
+#  string:
+#    url: jdbc:mysql://${redxun.datasource.ip}:3306/jpaas-form?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+#    username: ${redxun.datasource.username}
+#    password: ${redxun.datasource.password}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    validationQuery: select 1
+#    filters: stat
+#  int:
+#    initialSize: 5
+#    minIdle: 5
+#    maxActive: 10
+#    maxPoolPreparedStatementPerConnectionSize: 20
+#  long:
+#    maxWait: 60000
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#  boolean:
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+#
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/mybatis/Mapper.xml
+#  global-config:
+#    db-config:
+#      id-type: auto
+#    # 配置slq打印日志
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#
+#
+#customDataSource: ds1
+#
+#ds1:
+#  string:
+#    url: jdbc:mysql://${redxun.datasource.ip}:3306/jpaas-bpm?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+#    username: ${redxun.datasource.username}
+#    password: ${redxun.datasource.password}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    validationQuery: select 1
+#    filters: stat
+#  int:
+#    initialSize: 5
+#    minIdle: 5
+#    maxActive: 10
+#    maxPoolPreparedStatementPerConnectionSize: 20
+#  long:
+#    maxWait: 60000
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#  boolean:
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+
+#ds2:
+#  string:
+#    url: jdbc:mysql://${redxun.datasource.ip}:3306/jpaas-portal?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+#    username: ${redxun.datasource.username}
+#    password: ${redxun.datasource.password}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    validationQuery: select 1
+#    filters: stat
+#  int:
+#    initialSize: 5
+#    minIdle: 5
+#    maxActive: 10
+#    maxPoolPreparedStatementPerConnectionSize: 20
+#  long:
+#    maxWait: 60000
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#  boolean:
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+
+
+
+
+
+
+

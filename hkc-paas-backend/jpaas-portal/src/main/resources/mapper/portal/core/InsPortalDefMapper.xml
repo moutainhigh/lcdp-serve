@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InsPortalDefMapper">
+
+    <sql id="queryFieldsSql">
+        PORT_ID_,NAME_,KEY_,IS_DEFAULT_,PRIORITY_,IS_MOBILE_,CREATE_TIME_,APP_ID_,COMPANY_ID_
+    </sql>
+
+    <sql id="fieldsSql">
+        PORT_ID_,NAME_,KEY_,IS_DEFAULT_,PRIORITY_,IS_MOBILE_,CREATE_TIME_,LAYOUT_JSON_,LAYOUT_HTML_,APP_ID_,COMPANY_ID_
+    </sql>
+
+    <sql id="aliasFieldsSql">
+        A.PORT_ID_,A.NAME_,A.KEY_,A.IS_DEFAULT_,A.PRIORITY_,A.IS_MOBILE_,A.CREATE_TIME_,A.LAYOUT_JSON_,A.LAYOUT_HTML_,APP_ID_,A.COMPANY_ID_
+    </sql>
+
+
+
+    <select id="query" resultType="com.redxun.portal.core.entity.InsPortalDef" parameterType="java.util.Map">
+        select <include refid="queryFieldsSql"></include> from ins_portal_def
+        <where>
+            1=1
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                AND ${w.whereSql}
+            </if>
+            <if test="@rx.Ognl@isEmpty(w.APP_ID_)">
+                AND ( APP_ID_ = '' OR APP_ID_ IS NULL )
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  PORT_ID_ DESC
+        </if>
+    </select>
+
+
+    <select id="getListByType" resultType="com.redxun.portal.core.entity.InsPortalDef">
+         select <include refid="fieldsSql"></include> from ins_portal_def
+         where
+         1=1
+       <if test="isMobile != null and isMobile != ''">
+            and IS_MOBILE_ = #{isMobile}
+        </if>
+        <if test="isDefault != null and isDefault != ''">
+            and IS_DEFAULT_ = #{isDefault}
+        </if>
+        <if test="tenantId != null and tenantId != ''">
+            and TENANT_ID_ in ( '0' ,#{tenantId})
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(appId)">
+            and APP_ID_=#{appId}
+        </if>
+        <if test="@rx.Ognl@isEmpty(appId)">
+            and (APP_ID_='' OR APP_ID_ IS NULL )
+        </if>
+        ORDER BY  PRIORITY_ DESC
+    </select>
+
+
+    <select id="getByOwner"   parameterType="java.util.Map" resultType="com.redxun.portal.core.entity.InsPortalDef">
+        SELECT
+        <include refid="aliasFieldsSql"></include>
+        FROM
+        ins_portal_def A,
+        ins_portal_permission B
+        WHERE
+        B.MENU_TYPE_ ='portal'
+        AND B.type_ = 'ALL'
+        AND A.IS_MOBILE_ = 'NO'
+        and A.PORT_ID_=B.LAYOUT_ID_
+        and (A.APP_ID_='' OR A.APP_ID_ IS NULL )
+        <foreach collection="params.profileMap" index="key"  item="ids">
+            UNION ALL
+            SELECT
+            <include refid="aliasFieldsSql"></include>
+            FROM
+            ins_portal_def A,
+            ins_portal_permission B
+            WHERE
+            B.MENU_TYPE_ ='portal'
+            AND B.type_ = #{key}
+            AND A.IS_MOBILE_ = 'NO'
+            and A.PORT_ID_=B.LAYOUT_ID_
+            and (A.APP_ID_='' OR A.APP_ID_ IS NULL )
+            and B.OWNER_ID_  IN
+            <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+
+        </foreach>
+
+    </select>
+
+    <select id="listMobilePortals"   parameterType="java.util.Map" resultType="com.redxun.portal.core.entity.InsPortalDef">
+        SELECT
+        <include refid="aliasFieldsSql"></include>
+        FROM
+        ins_portal_def A,
+        ins_portal_permission B
+        WHERE
+        B.type_ = 'all'
+        AND A.IS_MOBILE_ = 'YES'
+        and A.PORT_ID_=B.LAYOUT_ID_
+        <if test="@rx.Ognl@isNotEmpty(params.appId)">
+            and A.APP_ID_=#{params.appId}
+        </if>
+        <foreach collection="params.profileMap" index="key"  item="ids">
+            UNION ALL
+            SELECT
+            <include refid="aliasFieldsSql"></include>
+            FROM
+            ins_portal_def A,
+            ins_portal_permission B
+            WHERE
+            B.type_ = #{key}
+            AND A.IS_MOBILE_ = 'YES'
+            and A.PORT_ID_=B.LAYOUT_ID_
+            and B.OWNER_ID_  IN
+            <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+
+        </foreach>
+
+    </select>
+</mapper>
+
+

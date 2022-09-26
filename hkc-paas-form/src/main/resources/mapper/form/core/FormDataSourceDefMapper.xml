@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormDataSourceDefMapper">
+    <select id="query" resultType="com.redxun.form.core.entity.FormDataSourceDef" parameterType="java.util.Map">
+        select ID_,NAME_,ALIAS_,ENABLE_,ENCRYPT_,DB_TYPE_,INIT_ON_START_,APP_NAME_,CREATE_TIME_,APP_ID_ from form_datasource_def
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

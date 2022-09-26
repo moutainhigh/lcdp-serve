@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-auth/jpaas-auth.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-auth/jpaas-auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-auth-client-spring-boot-starter/jpaas-auth-client-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-auth-client-spring-boot-starter/jpaas-auth-client-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-bpm/jpaas-bpm.iml" filepath="$PROJECT_DIR$/hkc-paas-bpm/jpaas-bpm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-cache-spring-boot-starter/jpaas-cache-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-cache-spring-boot-starter/jpaas-cache-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-cloud.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-cloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-cloud/jpaas-common-cloud.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-common-cloud/jpaas-common-cloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-core/jpaas-common-core.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-common-core/jpaas-common-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-dto/jpaas-common-dto.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-common-dto/jpaas-common-dto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-milvus/jpaas-common-milvus.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-common-milvus/jpaas-common-milvus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-spring-boot-starter/jpaas-common-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-common-spring-boot-starter/jpaas-common-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-common-tool/jpaas-common-tool.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-common-tool/jpaas-common-tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-commons.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-datart/jpaas-datart.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-datart/jpaas-datart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-db-spring-boot-starter/jpaas-db-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-db-spring-boot-starter/jpaas-db-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-form/jpaas-form.iml" filepath="$PROJECT_DIR$/hkc-paas-form/jpaas-form.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-gateway/jpaas-gateway.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-gateway/jpaas-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-gencode-spring-boot-starter/jpaas-gencode-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-gencode-spring-boot-starter/jpaas-gencode-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-idempotence-spring-boot-starter/jpaas-idempotence-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-idempotence-spring-boot-starter/jpaas-idempotence-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-job/jpaas-job.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-job/jpaas-job.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-job-spring-boot-starter/jpaas-job-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-job-spring-boot-starter/jpaas-job-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-log-spring-boot-starter/jpaas-log-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-log-spring-boot-starter/jpaas-log-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-msgsend-spring-boot-starter/jpaas-msgsend-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-msgsend-spring-boot-starter/jpaas-msgsend-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-portal/jpaas-portal.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-portal/jpaas-portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-redis-spring-boot-starter/jpaas-redis-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-redis-spring-boot-starter/jpaas-redis-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-ribbon-spring-boot-starter/jpaas-ribbon-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-ribbon-spring-boot-starter/jpaas-ribbon-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-sentinel-spring-boot-starter/jpaas-sentinel-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-sentinel-spring-boot-starter/jpaas-sentinel-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-share/jpaas-share.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-share/jpaas-share.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-swagger2-spring-boot-starter/jpaas-swagger2-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-swagger2-spring-boot-starter/jpaas-swagger2-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-system/jpaas-system.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-system/jpaas-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-ureport/jpaas-ureport.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-ureport/jpaas-ureport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/jpaas-user/jpaas-user.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/jpaas-user/jpaas-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-commons/jpaas-web-spring-boot-starter/jpaas-web-spring-boot-starter.iml" filepath="$PROJECT_DIR$/hkc-paas-commons/jpaas-web-spring-boot-starter/jpaas-web-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lcdp-serve.iml" filepath="$PROJECT_DIR$/.idea/lcdp-serve.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hkc-paas-backend/release/release.iml" filepath="$PROJECT_DIR$/hkc-paas-backend/release/release.iml" />
+    </modules>
+  </component>
+</project>

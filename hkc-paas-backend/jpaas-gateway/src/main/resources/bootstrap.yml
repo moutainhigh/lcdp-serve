@@ -1,0 +1,17 @@
+server:
+  port: 9900
+
+spring:
+  application:
+    name: jpaas-gateway-server
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    tags:
+      application: ${spring.application.name}

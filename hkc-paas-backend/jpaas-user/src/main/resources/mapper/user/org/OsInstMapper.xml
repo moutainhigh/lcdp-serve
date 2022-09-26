@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redxun.user.org.mapper.OsInstMapper">
+    <select id="findList" resultType="com.redxun.user.org.entity.OsInst">
+        select a.*, b.TYPE_NAME_  from os_inst a left join os_inst_type b on b.TYPE_ID_ = a.INST_TYPE_
+    </select>
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsInst" parameterType="java.util.Map">
+        select a.*, b.TYPE_NAME_  from os_inst a left join os_inst_type b on b.TYPE_ID_ = a.INST_TYPE_
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  a.update_time_ DESC
+        </if>
+    </select>
+
+    <select id="getByUserIdAndStatus" resultType="com.redxun.user.org.entity.OsInst" parameterType="java.util.Map">
+        SELECT
+        a.INST_ID_,
+        a.NAME_CN_,
+        a.DOMAIN_,
+        a.STATUS_,
+        b.CREATE_TYPE_ as moreInstCreateType,
+        b.APPLY_STATUS_ as moreInstStatus,
+        b.APPLY_NOTE_ as moreInstNote
+        FROM
+        os_inst a,
+        os_inst_users b
+        <where>
+            b.USER_ID_ = #{w.userId}
+            AND a.STATUS_ = 'ENABLED'
+            AND b.TENANT_ID_ = a.INST_ID_
+            <if test="w.status!=null">
+                AND b.STATUS_ =#{w.status}
+            </if>
+        </where>
+    </select>
+
+    <select id="getPageByUserIdAndStatus" resultType="com.redxun.user.org.entity.OsInst" parameterType="java.util.Map">
+        SELECT
+        a.INST_ID_,
+        a.NAME_CN_,
+        a.DOMAIN_,
+        a.STATUS_,
+        b.CREATE_TYPE_ as moreInstCreateType,
+        b.APPLY_STATUS_ as moreInstStatus,
+        b.APPLY_NOTE_ as moreInstNote
+        FROM
+        os_inst a,
+        os_inst_users b
+        <where>
+        b.USER_ID_ = #{w.userId}
+        AND a.STATUS_ = 'ENABLED'
+        AND b.TENANT_ID_ = a.INST_ID_
+            <if test="w.status!=null">
+                AND b.STATUS_ =#{w.status}
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                AND ${w.whereSql}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

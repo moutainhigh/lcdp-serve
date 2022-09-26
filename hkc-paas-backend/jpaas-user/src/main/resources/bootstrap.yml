@@ -1,0 +1,19 @@
+server:
+  port: 7001
+  max-http-header-size: 20480
+
+
+spring:
+  application:
+    name: jpaas-user
+
+
+# 配置 prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+  tags:
+    application: ${spring.application.name}

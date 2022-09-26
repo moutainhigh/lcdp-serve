@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.ActRuVariableMapper">
+
+    <resultMap id="ActRuVariable" type="com.redxun.bpm.core.entity.ActRuVariable">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="bytearrayId" column="BYTEARRAY_ID_" jdbcType="VARCHAR"/>
+                <result property="double" column="DOUBLE_" jdbcType="NUMERIC"/>
+                <result property="executionId" column="EXECUTION_ID_" jdbcType="VARCHAR"/>
+                <result property="long" column="LONG_" jdbcType="NUMERIC"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="procInstId" column="PROC_INST_ID_" jdbcType="VARCHAR"/>
+                <result property="rev" column="REV_" jdbcType="NUMERIC"/>
+                <result property="taskId" column="TASK_ID_" jdbcType="VARCHAR"/>
+                <result property="text2" column="TEXT2_" jdbcType="VARCHAR"/>
+                <result property="text" column="TEXT_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.ActRuVariable" parameterType="java.util.Map">
+        select BYTEARRAY_ID_,DOUBLE_,EXECUTION_ID_,ID_,LONG_,NAME_,PROC_INST_ID_,REV_,TASK_ID_,TEXT2_,TEXT_,TYPE_ from act_ru_variable
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

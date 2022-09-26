@@ -1,0 +1,111 @@
+#  示例 add by zyg 更新用户数据数据  2022-01-24
+
+Data ID:  nacos-config.properties
+Group: DEFAULT_GROUP
+内容:
+#忽略验证码
+props.ignoreValidCode=true
+
+
+# 2022-2-14 gjh dbFieldType
+# 新增数据库字段类型配置 Data ID 为 dbFieldType  Group 为 DEFAULT_GROUP
+{
+"mysql":{
+"varchar":["varchar","char"],
+"clob":["text","longtext"],
+"number":["float","decimal","double"],
+"date":["date","datetime","timestamp"],
+"int":["int","bigint"]
+},
+"oracle":{
+"varchar":["CHAR","VARCHAR2"],
+"clob":["CLOB"],
+"number":["NUMBER","FLOAT","LONG"],
+"date":["DATE","TIMESTAMP"],
+"int":["INTEGER"]
+}
+}
+
+
+#增加审批类型 2022-03-29
+#Data ID:  nacos-config.properties
+#Group: DEFAULT_GROUP
+props.checkType={'AGREE': '通过','SKIP': '跳过','RECOVER':'撤回','REFUSE': '不同意','COMMUNICATE': '沟通','REPLY_COMMUNICATE':'回复沟通','BACK':'驳回','BACK_TO_STARTOR':'驳回到发起人'}
+
+# 2022-04-06 hj nacos-config-dev.properties
+#接口调用配置
+#重试次数
+retry.maxAttempts=3
+#重试时间间隔
+retry.delay=2000
+#延迟倍数
+retry.multiplier=1.5
+#最大失败次数
+retry.maxError=3
+
+
+
+#增加公司分级是否开放 2022-04-18
+#Data ID:  nacos-config.properties
+#Group: DEFAULT_GROUP
+props.supportGrade=false
+
+#增加日志数据源配置 2022-04-18
+#Data ID:  nacos-config-dev.properties
+#Group: DEFAULT_GROUP
+# 日志输出模式 (db 记录到数据库,logger 保存到日志文件, mq 通过rocketmq发送写入数据库)
+redxun.audit-log.log-type=db
+redxun.audit-log.datasource.jdbcUrl=jdbc:mysql://192.168.109.100:3306/jpaas_system?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+redxun.audit-log.datasource.username=root
+redxun.audit-log.datasource.password=root123WSXasd
+redxun.audit-log.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+
+
+
+#消息发送由bpm模块改成jpaas-system统一发送，支持所有模块可发送消息
+# 2022-04-28 szw jpaas-bpm-dev.properties 流程MQ配置删除
+#----删除---begin
+#Data ID:  jpaas-bpm-dev.properties
+#Group: DEFAULT_GROUP
+spring.cloud.stream.bindings.output.destination=bpmmessage
+spring.cloud.stream.bindings.output.group= bpmmessage-group
+spring.cloud.stream.bindings.input.destination= bpmmessage
+spring.cloud.stream.bindings.input.group= bpmmessage-group-consumer
+#----删除---end
+
+# 2022-04-28 szw jpaas-system-dev.properties 统一消息MQ配置增加
+#----增加---begin
+# 统一发送消息消费队列
+#Data ID:  jpaas-system-dev.properties
+#Group: DEFAULT_GROUP
+spring.cloud.stream.bindings.msgInput.destination= jpaas-msg
+spring.cloud.stream.bindings.msgInput.group= msg-group-consumer
+#----增加---end
+
+# 2022-04-28 szw nacos-config-dev.properties 统一消息MQ配置增加
+#----增加---begin
+# 统一发送消息输入
+#Data ID:  nacos-config-dev.properties
+#Group: DEFAULT_GROUP
+spring.cloud.stream.bindings.msgOutput.destination=jpaas-msg
+spring.cloud.stream.bindings.msgOutput.group= msg-group
+#----增加---end
+
+# 2022-04-28 szw nacos-config.properties jpaas整合cas配置增加
+#----增加---begin
+# 统一发送消息输入
+#Data ID:  nacos-config.properties
+#Group: DEFAULT_GROUP
+#cas服务器验证ST
+props.casServiceUrl=http://cas(域名):端口/cas/serviceValidate
+#cas调整jpaasURL
+props.casJpaasUrl=http://jpaas(IP/域名):端口/jpaas/user/login
+#----增加---end
+
+# 2022-06-16 hj jpaas-bpm-dev.properties 增加追踪消息类型配置
+#----增加---begin
+# 增加追踪消息类型配置
+#Data ID:  jpaas-bpm-dev.properties
+#Group: DEFAULT_GROUP
+messageType.tracked=inner,mail
+#----增加---end

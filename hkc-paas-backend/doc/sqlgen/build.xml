@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="生成SQL"  default="生成SQL">
+	<property name="lib.dir" value="refLib"/>
+    <property file="jdbc.properties"/>
+
+	<path id="refLib">
+		<fileset dir="${lib.dir}" includes="*.jar" /> 
+		<fileset file="${java.home}\lib\rt.jar"  /> 
+		
+    </path>
+
+
+	<taskdef name="genSql" classname="com.redxun.main.Sqlgen">
+		<classpath refid="refLib" />
+	</taskdef>
+
+
+
+    <target   name="生成SQL" description="生成SQL">
+        <echo message="${java.home}"></echo>
+        <java classname="com.redxun.main.Sqlgen" classpathref="refLib">
+            <arg value="${templatefile}"/>
+        </java>
+
+    </target>
+	
+
+</project>

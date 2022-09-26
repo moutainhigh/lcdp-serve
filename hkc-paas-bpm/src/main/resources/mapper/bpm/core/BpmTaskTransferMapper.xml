@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmTaskTransferMapper">
+
+    <resultMap id="BpmTaskTransfer" type="com.redxun.bpm.core.entity.BpmTaskTransfer">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="instId" column="INST_ID_" jdbcType="VARCHAR"/>
+                <result property="ownerId" column="OWNER_ID_" jdbcType="VARCHAR"/>
+                <result property="subject" column="SUBJECT_" jdbcType="VARCHAR"/>
+                <result property="taskId" column="TASK_ID_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="toUserId" column="TO_USER_ID_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmTaskTransfer" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,ID_,INST_ID_,OWNER_ID_,SUBJECT_,TASK_ID_,TENANT_ID_,TO_USER_ID_,TYPE_,UPDATE_BY_,UPDATE_TIME_ from BPM_TASK_TRANSFER
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getMyTransOutTask" resultType="com.redxun.bpm.core.entity.BpmTaskTransfer" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,ID_,INST_ID_,OWNER_ID_,SUBJECT_,TASK_ID_,
+            TENANT_ID_,TO_USER_ID_,TYPE_,UPDATE_BY_,UPDATE_TIME_ from BPM_TASK_TRANSFER
+            where OWNER_ID_=#{w.OWNER_ID_}
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                and ${w.whereSql}
+            </if>
+
+            <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+                ORDER BY ${w.orderBySql}
+            </if>
+            <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+                ORDER BY  ID_ DESC
+            </if>
+    </select>
+
+    <select id="getMyReceiveTask" resultType="com.redxun.bpm.core.entity.BpmTaskTransfer" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,ID_,INST_ID_,OWNER_ID_,SUBJECT_,TASK_ID_,
+        TENANT_ID_,TO_USER_ID_,TYPE_,UPDATE_BY_,UPDATE_TIME_ from BPM_TASK_TRANSFER
+        <where>
+            TO_USER_ID_=#{w.TO_USER_ID_}
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+               AND ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+
+
+
+
+
+</mapper>
+
+

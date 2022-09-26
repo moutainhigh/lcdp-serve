@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysInterfaceClassificationMapper">
+
+    <resultMap id="SysInterfaceClassification" type="com.redxun.system.core.entity.SysInterfaceClassification">
+                <id property="classificationId" column="CLASSIFICATION_ID_" jdbcType="VARCHAR"/>
+                <result property="classificationName" column="CLASSIFICATION_NAME_" jdbcType="VARCHAR"/>
+                <result property="description" column="DESCRIPTION_" jdbcType="VARCHAR"/>
+                <result property="projectId" column="PROJECT_ID_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysInterfaceClassification" parameterType="java.util.Map">
+        select CLASSIFICATION_ID_,CLASSIFICATION_NAME_,DESCRIPTION_,PROJECT_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from SYS_INTERFACE_CLASS
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  CLASSIFICATION_ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

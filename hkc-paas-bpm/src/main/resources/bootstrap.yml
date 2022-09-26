@@ -1,0 +1,15 @@
+server:
+  port: 7301
+
+spring:
+  application:
+    name: jpaas-bpm
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+  tags:
+    application: ${spring.application.name}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormPdfTemplateMapper">
+
+    <resultMap id="FormPdfTemplate" type="com.redxun.form.core.entity.FormPdfTemplate">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="key" column="KEY_" jdbcType="VARCHAR"/>
+                <result property="treeId" column="TREE_ID_" jdbcType="VARCHAR"/>
+                <result property="boDefId" column="BO_DEF_ID_" jdbcType="VARCHAR"/>
+                <result property="pdfHtml" column="PDF_HTML_" jdbcType="CLOB"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="TIMESTAMP"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="appId" column="APP_ID_"   jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormPdfTemplate" parameterType="java.util.Map">
+        select a.* from form_pdf_template a inner join form_bo_def b on a.BO_DEF_ID_=b.ID_
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

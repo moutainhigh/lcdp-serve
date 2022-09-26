@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmInstTrackedMapper">
+
+    <resultMap id="BpmInstTracked" type="com.redxun.bpm.core.entity.BpmInstTracked">
+        <id property="id" column="ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="curNode" column="CUR_NODE_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="instId" column="INST_ID_" jdbcType="VARCHAR"/>
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="companyId" column="COMPANY_ID_" jdbcType="VARCHAR" />
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+        <association property="bpmInst" javaType="com.redxun.bpm.core.entity.BpmInst">
+            <result property="subject" column="SUBJECT_"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmInstTracked" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,ID_,INST_ID_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_ from BPM_INST_TRACKED
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getMyTracked" resultMap="BpmInstTracked" >
+        select a.ID_,a.CREATE_BY_,a.CREATE_DEP_ID_,a.CREATE_TIME_,a.INST_ID_,a.TENANT_ID_,a.UPDATE_BY_,a.UPDATE_TIME_,
+        a.CUR_NODE_,b.SUBJECT_
+        from bpm_inst_tracked  a, bpm_inst b  where a.inst_id_=b.inst_id_ and a.CREATE_BY_=#{w.createBy}
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+            and  ${w.whereSql}
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  b.CREATE_TIME_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

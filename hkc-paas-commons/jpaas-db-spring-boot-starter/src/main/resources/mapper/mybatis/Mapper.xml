@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.sql.common">
+    <update id="execute" parameterType="java.util.Map">
+        ${sql}
+    </update>
+
+    <select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+        ${w.sql}
+    </select>
+
+    <select id="queryObject" parameterType="java.util.Map" resultType="java.lang.Object">
+        ${sql}
+    </select>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="java.util.HashMap">
+        ${w.sql}
+        <where>
+            <if test="w.whereSql!=null">
+                    ${w.whereSql}
+            </if>
+            <if test="w.orderBySql!=null">
+                ${w.orderBySql}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
+
+

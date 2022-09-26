@@ -1,0 +1,28 @@
+server:
+  port: 7200
+
+spring:
+  application:
+    name: jpaas-form
+
+
+
+#        metadata:
+#          version: redxun
+  devtools:
+    restart:
+      #热部署生效
+      enabled: true
+        #设置重启的目录
+        #additional-paths: src/main/java
+      #classpath目录下的WEB-INF文件夹内容修改不重启
+      exclude: WEB-INF/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    tags:
+      application: ${spring.application.name}

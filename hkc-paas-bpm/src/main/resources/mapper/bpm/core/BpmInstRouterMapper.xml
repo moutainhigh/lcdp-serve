@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmInstRouterMapper">
+
+    <resultMap id="BpmInstRouter" type="com.redxun.bpm.core.entity.BpmInstRouter">
+                <id property="instId" column="INST_ID_" jdbcType="VARCHAR"/>
+                <result property="tableId" column="TABLE_ID_" jdbcType="NUMERIC"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmInstRouter" parameterType="java.util.Map">
+        select INST_ID_,TABLE_ID_ from bpm_inst_router
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  INST_ID_ DESC
+        </if>
+    </select>
+
+    <insert id="archiveByArchiveDate">
+		insert into BPM_INST_ROUTER select INST_ID_,${tableId} from BPM_INST  WHERE TENANT_ID_=#{tenantId} and END_TIME_ &lt;=#{archiveDate}
+	</insert>
+
+</mapper>
+
+

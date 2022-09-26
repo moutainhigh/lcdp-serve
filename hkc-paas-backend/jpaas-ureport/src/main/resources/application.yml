@@ -1,0 +1,89 @@
+defaultDs:
+  string:
+    url: ${ureport.datasource.url}
+    username: ${ureport.datasource.username}
+    password: ${ureport.datasource.password}
+    driver-class-name: ${ureport.datasource.driver}
+    connection-init-sqls: ${ureport.datasource.connection}
+    validationQuery: ${ureport.datasource.vaildQuery}
+    filters: stat
+  int:
+    initialSize: 5
+    minIdle: 5
+    maxActive: 10
+    maxPoolPreparedStatementPerConnectionSize: 20
+  long:
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+  boolean:
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+
+# 日志配置
+logging:
+  level:
+    org.apache.ibatis: DEBUG
+
+
+# ureport Mysql 存储
+ureport.db.provider:
+  prefix: qiaolin-
+  disabled: false
+
+redxun:
+  swagger:
+    enabled: true
+    title: 表单中心
+    description: 表单文档
+    version: 1.0
+    base-package: com.redxun.ureport.core.controller
+  cache-manager:
+    configs:
+      - key: ureport
+        second: 300
+      - key: ureport
+        second: 1800
+  #多租户配置
+  tenant:
+    enable: true
+    ignoreTables:
+
+
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: ureport_tx_group
+  enable-auto-data-source-proxy: false
+
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      namespace: ${nacos.namespace:local}
+      server-addr: ${nacos.address:localhost:8848}
+      group: DEFAULT_GROUP
+      userName:
+      password:
+
+  config:
+    type: nacos
+    nacos:
+      namespace: ${nacos.namespace:local}
+      serverAddr: ${nacos.address:localhost:8848}
+      group: SEATA_GROUP
+      cluster: default
+      userName:
+      password:
+      data-id: seataServer.properties
+feign:
+  compression:
+    request:
+      enabled: false
+    response:
+      enabled: false

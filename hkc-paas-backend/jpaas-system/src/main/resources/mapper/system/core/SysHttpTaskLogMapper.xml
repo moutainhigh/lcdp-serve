@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysHttpTaskLogMapper">
+
+    <resultMap id="SysHttpTaskLog" type="com.redxun.system.core.entity.SysHttpTaskLog">
+                <id property="logId" column="LOG_ID_" jdbcType="VARCHAR"/>
+                <result property="taskId" column="TASK_ID_" jdbcType="VARCHAR"/>
+                <result property="logUrl" column="LOG_URL_" jdbcType="VARCHAR"/>
+                <result property="logHeaders" column="LOG_HEADERS_" jdbcType="CLOB"/>
+                <result property="logQuery" column="LOG_QUERY_" jdbcType="CLOB"/>
+                <result property="logBody" column="LOG_BODY_" jdbcType="CLOB"/>
+                <result property="responseState" column="RESPONSE_STATE_" jdbcType="VARCHAR"/>
+                <result property="responseData" column="RESPONSE_DATA_" jdbcType="CLOB"/>
+                <result property="timeConsuming" column="TIME_CONSUMING_" jdbcType="VARCHAR"/>
+                <result property="errorMessage" column="ERROR_MESSAGE_" jdbcType="CLOB"/>
+                <result property="result" column="RESULT_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysHttpTaskLog" parameterType="java.util.Map">
+        select * from sys_http_task_log
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  LOG_ID_ DESC
+        </if>
+    </select>
+    <update id="clearAll">
+        truncate table sys_http_task_log
+    </update>
+
+    <select id="getAllByTaskId" resultType="com.redxun.system.core.entity.SysHttpTaskLog">
+        select * from sys_http_task_log where TASK_ID_=#{w.taskId}
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+            and  ${w.whereSql}
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            order by LOG_ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

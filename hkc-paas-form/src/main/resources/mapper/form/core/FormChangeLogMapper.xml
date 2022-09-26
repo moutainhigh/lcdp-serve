@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormChangeLogMapper">
+
+    <resultMap id="FormChangeLog" type="com.redxun.form.core.entity.FormChangeLog">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="boAlias" column="BO_ALIAS_" jdbcType="VARCHAR"/>
+                <result property="boName" column="BO_NAME_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="sn" column="SN_" jdbcType="VARCHAR"/>
+                <result property="sql" column="SQL_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormChangeLog" parameterType="java.util.Map">
+        select BO_ALIAS_,BO_NAME_,CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,TYPE_,ID_,SN_,SQL_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_ from FORM_CHANGE_LOG
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getMaxSn" resultType="java.lang.Integer">
+        SELECT MAX(SN_) FROM FORM_CHANGE_LOG
+    </select>
+
+    <select id="queryChangeLog" resultType="com.redxun.form.core.entity.FormChangeLog">
+        SELECT * FROM FORM_CHANGE_LOG WHERE ID_ NOT IN (SELECT CHANGE_LOG_ID_ FROM FORM_EXECUTE_LOG WHERE DATASOURCE_=#{dsAlias} AND (STATUS_='1' OR STATUS_='-1')  )
+        <if test="@rx.Ognl@isNotEmpty(queryParams.boAlias)">
+            AND BO_ALIAS_=#{queryParams.boAlias}
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(queryParams.type)">
+            AND TYPE_=#{queryParams.type}
+        </if>
+            ORDER BY SN_ ASC
+    </select>
+
+    <select id="getExecutedLog" resultType="com.redxun.form.core.entity.FormExecuteLog">
+        SELECT c.BO_NAME_ as boName,c.BO_ALIAS_ as boAlias,e.* FROM FORM_CHANGE_LOG  c INNER JOIN FORM_EXECUTE_LOG e ON c.ID_=e.CHANGE_LOG_ID_
+        WHERE e.DATASOURCE_ = #{dsAlias} AND e.STATUS_='1'
+        ORDER BY e.CREATE_TIME_ DESC
+    </select>
+
+    <select id="getIgnoreFormChangeLog" resultType="com.redxun.form.core.entity.FormChangeLog">
+        SELECT * FROM FORM_CHANGE_LOG WHERE ID_ IN (SELECT CHANGE_LOG_ID_ FROM FORM_EXECUTE_LOG WHERE DATASOURCE_=#{dsAlias} AND STATUS_='-1')
+    </select>
+
+
+</mapper>
+
+

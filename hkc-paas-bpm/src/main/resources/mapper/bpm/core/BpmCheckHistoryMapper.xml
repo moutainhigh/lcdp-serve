@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmCheckHistoryMapper">
+
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.util.Map">
+        select HIS_ID_,ACT_DEF_ID_,INST_ID_,NODE_NAME_,NODE_ID_,TASK_ID_,COMPLETE_TIME_,DURATION_,
+        SUBJECT_,DURATION_VAL_,OWNER_ID_,HANDLER_ID_,AGENT_USER_ID_,CHECK_STATUS_,JUMP_TYPE_,REMARK_,
+        OPINION_NAME_,HANDLE_DEP_ID_,HANDLE_DEP_FULL_,ENABLE_MOBILE_,TENANT_ID_,
+        CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from bpm_check_history
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  HIS_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByInstId" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.lang.String">
+        select * from BPM_CHECK_HISTORY where INST_ID_=#{instId} order by COMPLETE_TIME_ desc
+    </select>
+
+    <delete id="delByInstId" parameterType="java.lang.String">
+        delete from BPM_CHECK_HISTORY where INST_ID_=#{instId}
+    </delete>
+
+    <select id="getByInstIdDesc" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.lang.String">
+        select * from BPM_CHECK_HISTORY where INST_ID_=#{instId} order by CREATE_TIME_ desc
+    </select>
+
+    <select id="getByCmStTaskId" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.lang.String">
+        select * from BPM_CHECK_HISTORY where cm_st_task_id_=#{cmStTaskId} order by CREATE_TIME_ asc
+    </select>
+
+    <select id="getMyApproved" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" >
+        select HIS_ID_,ACT_DEF_ID_,INST_ID_,NODE_NAME_,NODE_ID_,TASK_ID_,COMPLETE_TIME_,DURATION_,
+        SUBJECT_,DURATION_VAL_,OWNER_ID_,HANDLER_ID_,AGENT_USER_ID_,CHECK_STATUS_,JUMP_TYPE_,REMARK_,
+        OPINION_NAME_,HANDLE_DEP_ID_,HANDLE_DEP_FULL_,ENABLE_MOBILE_,TENANT_ID_,CREATE_DEP_ID_,
+        CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from bpm_check_history
+
+        where HANDLER_ID_=#{w.HANDLER_ID_} and TENANT_ID_=#{w.TENANT_ID_}
+
+
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+           and  ${w.whereSql}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  CREATE_TIME_ DESC
+        </if>
+    </select>
+
+    <select id="getMyApprovedCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from (select HIS_ID_,ACT_DEF_ID_,INST_ID_,NODE_NAME_,NODE_ID_,TASK_ID_,COMPLETE_TIME_,DURATION_,
+        SUBJECT_,DURATION_VAL_,OWNER_ID_,HANDLER_ID_,AGENT_USER_ID_,CHECK_STATUS_,JUMP_TYPE_,REMARK_,
+        OPINION_NAME_,HANDLE_DEP_ID_,HANDLE_DEP_FULL_,ENABLE_MOBILE_,TENANT_ID_,CREATE_DEP_ID_,
+        CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from bpm_check_history
+
+        where HANDLER_ID_=#{userId} and tenant_id_=#{tenantId}
+        )  v
+    </select>
+
+    <select id="getOpinionNameNotEmpty" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.lang.String">
+        select * from BPM_CHECK_HISTORY where INST_ID_=#{instId} AND (OPINION_NAME_ is not null or OPINION_NAME_!='') order by CREATE_TIME_ asc
+    </select>
+
+    <select id="getByInstIdNodeId" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.util.Map">
+        select * from  BPM_CHECK_HISTORY where INST_ID_=#{instId} AND NODE_ID_=#{nodeId} order by CREATE_TIME_ desc
+    </select>
+
+    <select id="getLatestByInstIdNodeId" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.util.Map">
+        select v.* from ( select his.*,row_number() over(order by CREATE_TIME_ ) as rwnum from bpm_check_history his where act_inst_id_ and node_id_='UserTask_03s1iuv') v where rwnum=1;
+    </select>
+
+    <insert id="archiveByArchiveDate">
+		insert into BPM_CHECK_HISTORY_${tableId} select * from BPM_CHECK_HISTORY A
+		WHERE EXISTS (SELECT 1 FROM BPM_INST B WHERE A.INST_ID_=B.INST_ID_ AND END_TIME_ &lt;=#{archiveDate}  AND B.TENANT_ID_=#{tenantId})
+	</insert>
+
+    <delete id="removeByArchiveDate">
+        <if test="dbType=='mysql'">
+            DELETE from BPM_CHECK_HISTORY A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate}  AND B.TENANT_ID_=#{tenantId} ) limit ${batSize}
+        </if>
+        <if test="dbType=='sqlserver'">
+            DELETE top(${batSize}) from BPM_CHECK_HISTORY A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate}  AND B.TENANT_ID_=#{tenantId} )
+        </if>
+        <if test="dbType=='oracle'">
+            DELETE from BPM_CHECK_HISTORY A  WHERE EXISTS (SELECT 1 FROM BPM_INST B   WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate} AND B.TENANT_ID_=#{tenantId}) and rownum &lt;= ${batSize}
+        </if>
+    </delete>
+
+    <select id="getArchiveByOpinionNameNotEmpty" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.util.Map">
+        select * from BPM_CHECK_HISTORY_${tableId} where INST_ID_=#{instId} AND (OPINION_NAME_ is not null or OPINION_NAME_!='') order by CREATE_TIME_ asc
+    </select>
+
+    <select id="getByArchiveLog" resultType="com.redxun.bpm.core.entity.BpmCheckHistory" parameterType="java.lang.String">
+        select * from BPM_CHECK_HISTORY_${tableId} where INST_ID_=#{instId} order by COMPLETE_TIME_ asc
+    </select>
+
+    <delete id="delArchiveByInstId" parameterType="java.util.Map">
+        delete from BPM_CHECK_HISTORY_${tableId} where INST_ID_=#{instId}
+    </delete>
+
+</mapper>
+
+

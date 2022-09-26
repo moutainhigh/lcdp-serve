@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.user.org.mapper.OsGradeAdminMapper">
+
+    <resultMap id="OsGradeAdmin" type="com.redxun.user.org.entity.OsGradeAdmin">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="groupId" column="GROUP_ID_" jdbcType="VARCHAR"/>
+                <result property="userId" column="USER_ID_" jdbcType="VARCHAR"/>
+                <result property="fullname" column="FULLNAME_" jdbcType="VARCHAR"/>
+                <result property="parentId" column="PARENT_ID_" jdbcType="VARCHAR"/>
+                <result property="depth" column="DEPTH_" jdbcType="NUMERIC"/>
+                <result property="path" column="PATH_" jdbcType="VARCHAR"/>
+                <result property="sn" column="SN_" jdbcType="NUMERIC"/>
+                <result property="childs" column="CHILDS_" jdbcType="NUMERIC"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsGradeAdmin" parameterType="java.util.Map">
+        select ID_,GROUP_ID_,USER_ID_,FULLNAME_,PARENT_ID_,DEPTH_,PATH_,SN_,CHILDS_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from os_grade_admin
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getAdminByUserIdAndTenantId" resultType="com.redxun.user.org.entity.OsGradeAdmin" parameterType="java.util.Map">
+        select * from os_grade_admin where USER_ID_=#{p.userId}
+        <if test="@rx.Ognl@isNotEmpty(p.tenantId)">
+            and TENANT_ID_=#{p.tenantId}
+        </if>
+    </select>
+
+</mapper>
+
+

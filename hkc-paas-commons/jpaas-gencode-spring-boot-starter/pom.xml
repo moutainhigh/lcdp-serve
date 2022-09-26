@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.redxun</groupId>
+        <artifactId>jpaas-commons</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+
+    <artifactId>jpaas-gencode-spring-boot-starter</artifactId>
+    <description>基于业务模型的代码生成器基础服务包</description>
+    <packaging>jar</packaging>
+    <name>jpaas-gencode-spring-boot-starter-${project.version}</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.redxun</groupId>
+            <artifactId>jpaas-log-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.redxun</groupId>
+            <artifactId>jpaas-idempotence-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.redxun</groupId>
+            <artifactId>jpaas-common-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.redxun</groupId>
+            <artifactId>jpaas-common-tool</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.redxun</groupId>
+            <artifactId>jpaas-web-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+</project>

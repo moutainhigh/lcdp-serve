@@ -1,0 +1,50 @@
+<resources xmlns="http://www.redxun.cn/sqlgen"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.redxun.cn/sqlgen sqlgen.xsd"
+           filePath="D:\temp\sql\init\4.2jpaas_form_init.sql" >
+
+    <resource>
+        <sql>SELECT * FROM form_rule</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO form_rule(ID_,NAME_,PROMPT_,ALIAS_,REGULAR_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  PROMPT_??>'${PROMPT_}'<#else>''</#if>,          <#if  ALIAS_??>'${ALIAS_}'<#else>''</#if>,          <#if  REGULAR_??>'${REGULAR_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM form_codegen_template</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO form_codegen_template(ID_,NAME_,FILE_NAME_,PATH_,SINGLE_,ENABLED_,CONTENT_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  FILE_NAME_??>'${FILE_NAME_}'<#else>''</#if>,          <#if  PATH_??>'${PATH_}'<#else>''</#if>,          <#if  SINGLE_??>'${SINGLE_}'<#else>''</#if>,          <#if  ENABLED_??>'${ENABLED_}'<#else>''</#if>,          <#if  CONTENT_??>''<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+
+        DECLARE
+         content_6 CLOB:='${ CONTENT_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update form_codegen_template set CONTENT_=content_6 where ID_='${ ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM form_template</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO form_template(ID_,NAME_,ALIAS_,TEMPLATE_,TYPE_,CATEGORY_,FILE_NAME_,PATH_,SINGLE_,GEN_MODE_,MAIN_SUB_TYPE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  ALIAS_??>'${ALIAS_}'<#else>''</#if>,          <#if  TEMPLATE_??>''<#else>''</#if>,          <#if  TYPE_??>'${TYPE_}'<#else>''</#if>,          <#if  CATEGORY_??>'${CATEGORY_}'<#else>''</#if>,          <#if  FILE_NAME_??>'${FILE_NAME_}'<#else>''</#if>,          <#if  PATH_??>'${PATH_}'<#else>''</#if>,          <#if  SINGLE_??>'${SINGLE_}'<#else>''</#if>,          <#if  GEN_MODE_??>'${GEN_MODE_}'<#else>''</#if>,          <#if  MAIN_SUB_TYPE_??>'${MAIN_SUB_TYPE_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+
+        DECLARE
+         content_3 CLOB:='${ TEMPLATE_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update form_template set TEMPLATE_=content_3 where ID_='${ ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM form_codegen_globalvar</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO form_codegen_globalvar(ID_,CONFIG_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  CONFIG_??>'${CONFIG_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+</resources>

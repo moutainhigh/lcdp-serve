@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysKettleDbdefMapper">
+
+    <resultMap id="SysKettleDbdef" type="com.redxun.system.core.entity.SysKettleDbdef">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="DATE"/>
+                <result property="database" column="DATABASE_" jdbcType="VARCHAR"/>
+                <result property="dbType" column="DB_TYPE_" jdbcType="VARCHAR"/>
+                <result property="host" column="HOST_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="password" column="PASSWORD_" jdbcType="VARCHAR"/>
+                <result property="port" column="PORT_" jdbcType="VARCHAR"/>
+                <result property="resPwd" column="RES_PWD_" jdbcType="VARCHAR"/>
+                <result property="resUser" column="RES_USER_" jdbcType="VARCHAR"/>
+                <result property="status" column="STATUS_" jdbcType="NUMERIC"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="DATE"/>
+                <result property="user" column="USER_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysKettleDbdef" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,DATABASE_,DB_TYPE_,HOST_,ID_,NAME_,PASSWORD_,PORT_,RES_PWD_,RES_USER_,STATUS_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_,USER_ from SYS_KETTLE_DBDEF
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getAllByStatus" resultType="com.redxun.system.core.entity.SysKettleDbdef" parameterType="java.util.Map">
+        select * from SYS_KETTLE_DBDEF WHERE STATUS_=#{status}
+    </select>
+
+
+</mapper>
+
+

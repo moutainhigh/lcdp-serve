@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormCustomQueryMapper">
+    <select id="query" resultType="com.redxun.form.core.entity.FormCustomQuery" parameterType="java.util.Map">
+        select ID_,NAME_,KEY_,TABLE_NAME_,IS_PAGE_,PAGE_SIZE_,DS_ALIAS_,
+                TABLE_,SQL_BUILD_TYPE_,TREE_ID_,CREATE_TIME_,RESULT_FIELD_,WHERE_FIELD_,APP_ID_ from form_custom_query
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

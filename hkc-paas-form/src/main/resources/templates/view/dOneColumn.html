@@ -1,0 +1,18 @@
+<table class="table-detail column-two table-align" id="dialog_<%=tableName%>" style="display: none" v-if="0">
+    <caption><%=tableComment%></caption>
+    <tbody>
+    <%for(var i=0,j=controls.length;i<j;i++){
+    var control=controls[i];
+    %>
+    <tr>
+        <td><%=control.comment%></td>
+        <td>
+            <%=ControllerHtml(control,Util.camelToStrikethrough(control.ctltype),"onetomany",tableName)%>
+        </td>
+    </tr>
+
+    <%}%>
+
+    </tbody>
+</table>
+

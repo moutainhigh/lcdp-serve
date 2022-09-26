@@ -1,0 +1,87 @@
+<resources xmlns="http://www.redxun.cn/sqlgen"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.redxun.cn/sqlgen sqlgen.xsd"
+           filePath="D:\temp\sql\init\6.2jpaas_system_init.sql" >
+
+    <resource>
+        <sql>SELECT * FROM sys_app</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO sys_app(APP_ID_,CLIENT_CODE_,CLIENT_NAME_,CATEGORY_ID_,ICON_,STATUS_,DESCP_,HOME_TYPE_,URL_TYPE_,LAYOUT_,PARENT_MODULE_,ICON_PIC_,HOME_URL_,SN_,PARAMS_,AUTH_SETTING_,SHARE_,FREE_,IS_AUTH_,APP_TYPE_,BACK_COLOR_,VERSION_,COPYRIGHT_,PC_USE_,MOBILE_USE_,MOBILE_HOME_,PATH_,MENU_NAV_TYPE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>,          <#if  CLIENT_CODE_??>'${CLIENT_CODE_}'<#else>''</#if>,          <#if  CLIENT_NAME_??>'${CLIENT_NAME_}'<#else>''</#if>,          <#if  CATEGORY_ID_??>'${CATEGORY_ID_}'<#else>''</#if>,          <#if  ICON_??>'${ICON_}'<#else>''</#if>,          <#if  STATUS_??>'${STATUS_}'<#else>''</#if>,          <#if  DESCP_??>'${DESCP_}'<#else>''</#if>,          <#if  HOME_TYPE_??>'${HOME_TYPE_}'<#else>''</#if>,          <#if  URL_TYPE_??>'${URL_TYPE_}'<#else>''</#if>,          <#if  LAYOUT_??>'${LAYOUT_}'<#else>''</#if>,          <#if  PARENT_MODULE_??>'${PARENT_MODULE_}'<#else>''</#if>,          <#if  ICON_PIC_??>'${ICON_PIC_}'<#else>''</#if>,          <#if  HOME_URL_??>'${HOME_URL_}'<#else>''</#if>,          <#if  SN_??>${ SN_}<#else>null</#if>,          <#if  PARAMS_??>'${PARAMS_}'<#else>''</#if>,          <#if  AUTH_SETTING_??>''<#else>''</#if>,          <#if  SHARE_??>'${SHARE_}'<#else>''</#if>,          <#if  FREE_??>'${FREE_}'<#else>''</#if>,          <#if  IS_AUTH_??>'${IS_AUTH_}'<#else>''</#if>,          <#if  APP_TYPE_??>'${ APP_TYPE_}'<#else>null</#if>,          <#if  BACK_COLOR_??>'${BACK_COLOR_}'<#else>''</#if>,          <#if  VERSION_??>'${VERSION_}'<#else>''</#if>,          <#if  COPYRIGHT_??>'${COPYRIGHT_}'<#else>''</#if>,          <#if  PC_USE_??>'${ PC_USE_}'<#else>null</#if>,          <#if  MOBILE_USE_??>'${ MOBILE_USE_}'<#else>null</#if>,          <#if  MOBILE_HOME_??>'${MOBILE_HOME_}'<#else>''</#if>,          <#if  PATH_??>'${PATH_}'<#else>''</#if>,          <#if  MENU_NAV_TYPE_??>'${ MENU_NAV_TYPE_}'<#else>null</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+
+        DECLARE
+         content_15 CLOB:='${ AUTH_SETTING_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update sys_app set AUTH_SETTING_=content_15 where APP_ID_='${ APP_ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM sys_dic</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO sys_dic(DIC_ID_,TREE_ID_,NAME_,VALUE_,DESCP_,SN_,PATH_,PARENT_ID_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  DIC_ID_??>'${DIC_ID_}'<#else>''</#if>,          <#if  TREE_ID_??>'${TREE_ID_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  VALUE_??>'${VALUE_}'<#else>''</#if>,          <#if  DESCP_??>'${DESCP_}'<#else>''</#if>,          <#if  SN_??>${ SN_}<#else>null</#if>,          <#if  PATH_??>'${PATH_}'<#else>''</#if>,          <#if  PARENT_ID_??>'${PARENT_ID_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM sys_menu</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO sys_menu(MENU_ID_,APP_ID_,NAME_,ICON_PC_,ICON_PIC_,ICON_APP_,PARENT_ID_,PATH_,SN_,SHOW_TYPE_,MENU_KEY_,MENU_TYPE_,COMPONENT_,SETTING_TYPE_,BO_LIST_KEY_,URL_,METHOD_,PARAMS_,INST_CONFIG_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  MENU_ID_??>'${MENU_ID_}'<#else>''</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  ICON_PC_??>'${ICON_PC_}'<#else>''</#if>,          <#if  ICON_PIC_??>'${ICON_PIC_}'<#else>''</#if>,          <#if  ICON_APP_??>'${ICON_APP_}'<#else>''</#if>,          <#if  PARENT_ID_??>'${PARENT_ID_}'<#else>''</#if>,          <#if  PATH_??>'${PATH_}'<#else>''</#if>,          <#if  SN_??>${ SN_}<#else>null</#if>,          <#if  SHOW_TYPE_??>'${SHOW_TYPE_}'<#else>''</#if>,          <#if  MENU_KEY_??>'${MENU_KEY_}'<#else>''</#if>,          <#if  MENU_TYPE_??>'${MENU_TYPE_}'<#else>''</#if>,          <#if  COMPONENT_??>'${COMPONENT_}'<#else>''</#if>,          <#if  SETTING_TYPE_??>'${SETTING_TYPE_}'<#else>''</#if>,          <#if  BO_LIST_KEY_??>'${BO_LIST_KEY_}'<#else>''</#if>,          <#if  URL_??>'${URL_}'<#else>''</#if>,          <#if  METHOD_??>'${METHOD_}'<#else>''</#if>,          <#if  PARAMS_??>'${PARAMS_}'<#else>''</#if>,          <#if  INST_CONFIG_??>''<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+
+        DECLARE
+         content_18 CLOB:='${ INST_CONFIG_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update sys_menu set INST_CONFIG_=content_18 where MENU_ID_='${ MENU_ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM sys_route_type</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO sys_route_type(ID_,ROUTE_TYPE_NAME_,DESCRIBE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  ROUTE_TYPE_NAME_??>'${ROUTE_TYPE_NAME_}'<#else>''</#if>,          <#if  DESCRIBE_??>'${DESCRIBE_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM sys_routing</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO sys_routing(ID_,ROUTING_NAME_,ROUTE_TYPE_,CONDITION_,CONDITION_PARAMETERS_,FILTER_,FILTER_PARAMETERS_,URI_,REMARK_,STATUS_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  ROUTING_NAME_??>'${ROUTING_NAME_}'<#else>''</#if>,          <#if  ROUTE_TYPE_??>'${ROUTE_TYPE_}'<#else>''</#if>,          <#if  CONDITION_??>'${CONDITION_}'<#else>''</#if>,          <#if  CONDITION_PARAMETERS_??>'${CONDITION_PARAMETERS_}'<#else>''</#if>,          <#if  FILTER_??>'${FILTER_}'<#else>''</#if>,          <#if  FILTER_PARAMETERS_??>'${FILTER_PARAMETERS_}'<#else>''</#if>,          <#if  URI_??>'${URI_}'<#else>''</#if>,          <#if  REMARK_??>'${REMARK_}'<#else>''</#if>,          <#if  STATUS_??>'${STATUS_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM sys_tree</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO sys_tree(TREE_ID_,CODE_,NAME_,PATH_,PARENT_ID_,ALIAS_,DESCP_,CAT_KEY_,SN_,DATA_SHOW_TYPE_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_)
+        values(          <#if  TREE_ID_??>'${TREE_ID_}'<#else>''</#if>,          <#if  CODE_??>'${CODE_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  PATH_??>'${PATH_}'<#else>''</#if>,          <#if  PARENT_ID_??>'${PARENT_ID_}'<#else>''</#if>,          <#if  ALIAS_??>'${ALIAS_}'<#else>''</#if>,          <#if  DESCP_??>'${DESCP_}'<#else>''</#if>,          <#if  CAT_KEY_??>'${CAT_KEY_}'<#else>''</#if>,          <#if  SN_??>${ SN_}<#else>null</#if>,          <#if  DATA_SHOW_TYPE_??>'${DATA_SHOW_TYPE_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  APP_ID_??>'${APP_ID_}'<#else>''</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM sys_tree_cat</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO sys_tree_cat(CAT_ID_,KEY_,NAME_,SN_,DESCP_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  CAT_ID_??>'${CAT_ID_}'<#else>''</#if>,          <#if  KEY_??>'${KEY_}'<#else>''</#if>,          <#if  NAME_??>'${NAME_}'<#else>''</#if>,          <#if  SN_??>${ SN_}<#else>null</#if>,          <#if  DESCP_??>'${DESCP_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM sys_external_api</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO sys_external_api(ID_,SERVICE_,API_NAME_,PATH_,METHOD_,PARAMS_,HEADERS_,BODY_,TYPE_,CREATE_DEP_ID_,DELETED_,COMPANY_ID_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+        values(          <#if  ID_??>'${ID_}'<#else>''</#if>,          <#if  SERVICE_??>'${SERVICE_}'<#else>''</#if>,          <#if  API_NAME_??>'${API_NAME_}'<#else>''</#if>,          <#if  PATH_??>'${PATH_}'<#else>''</#if>,          <#if  METHOD_??>'${METHOD_}'<#else>''</#if>,          <#if  PARAMS_??>''<#else>''</#if>,          <#if  HEADERS_??>'${HEADERS_}'<#else>''</#if>,          <#if  BODY_??>''<#else>''</#if>,          <#if  TYPE_??>'${TYPE_}'<#else>''</#if>,          <#if  CREATE_DEP_ID_??>'${CREATE_DEP_ID_}'<#else>''</#if>,          <#if  DELETED_??>${ DELETED_}<#else>null</#if>,          <#if COMPANY_ID_?? >  <#if COMPANY_ID_!='0'>'${ COMPANY_ID_}'<#else>'0'</#if><#else>'0'</#if>,          <#if  TENANT_ID_??>'${TENANT_ID_}'<#else>''</#if>,          <#if  CREATE_BY_??>'${CREATE_BY_}'<#else>''</#if>,          <#if  CREATE_TIME_??>TO_DATE('${ CREATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_BY_??>'${UPDATE_BY_}'<#else>''</#if>,          <#if  UPDATE_TIME_??>TO_DATE('${ UPDATE_TIME_}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+
+        DECLARE
+         content_5 CLOB:='${ PARAMS_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}'; content_7 CLOB:='${ BODY_ ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update sys_external_api set PARAMS_=content_5 where ID_='${ ID_}';    update sys_external_api set BODY_=content_7 where ID_='${ ID_}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+
+</resources>

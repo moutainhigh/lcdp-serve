@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.portal.core.mapper.InsRemindDefMapper">
+
+    <resultMap id="InsRemindDef" type="com.redxun.portal.core.entity.InsRemindDef">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="subject" column="SUBJECT_" jdbcType="VARCHAR"/>
+                <result property="url" column="URL_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="VARCHAR"/>
+                <result property="setting" column="SETTING_" jdbcType="CLOB"/>
+                <result property="description" column="DESCRIPTION_" jdbcType="VARCHAR"/>
+                <result property="sn" column="SN_" jdbcType="NUMERIC"/>
+                <result property="enabled" column="ENABLED_" jdbcType="VARCHAR"/>
+                <result property="icon" column="ICON_" jdbcType="VARCHAR"/>
+                <result property="dsName" column="DS_NAME_" jdbcType="VARCHAR"/>
+                <result property="dsAlias" column="DS_ALIAS_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.portal.core.entity.InsRemindDef" parameterType="java.util.Map">
+        select ID_,SUBJECT_,URL_,TYPE_,SETTING_,DESCRIPTION_,SN_,ENABLED_,ICON_,DS_NAME_,DS_ALIAS_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,CREATE_DEP_ID_ from ins_remind_def
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByOwner"   parameterType="java.util.Map" resultType="com.redxun.portal.core.entity.InsRemindDef">
+
+        select  c.* from (
+            SELECT
+            A.*
+            FROM
+            ins_remind_def A,
+            ins_portal_permission B
+            WHERE
+            B.MENU_TYPE_ ='remind'
+            AND B.type_ = 'ALL'
+            and A.ID_=B.LAYOUT_ID_
+
+            <foreach collection="params.profileMap" index="key" item="ids">
+                UNION ALL
+                SELECT
+                A.*
+                FROM
+                ins_remind_def A,
+                ins_portal_permission B
+                WHERE
+                B.MENU_TYPE_ ='remind'
+                AND B.type_ = #{key}
+                and A.ID_=B.LAYOUT_ID_
+                and B.OWNER_ID_ IN
+                <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+                    #{id}</foreach>
+
+            </foreach>
+        ) c
+        ORDER BY c.SN_ DESC
+
+    </select>
+
+</mapper>
+
+

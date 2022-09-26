@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysAppInstallMapper">
+
+    <!--获取应用市场数据-->
+    <select id="getAppMarketData" resultType="com.redxun.system.core.entity.SysApp">
+        select a.* from sys_app a INNER JOIN SYS_TREE b on b.TREE_ID_ = a.CATEGORY_ID_
+        where  a.STATUS_ = '1'  and a.APP_TYPE_ > 0
+        <if test="tenantId != '1'.toString()">
+            and (a.TENANT_ID_ = #{tenantId} or SHARE_='Y')
+        </if>
+    </select>
+
+    <!--获取我的应用-->
+    <select id="getMyApp" resultType="com.redxun.system.core.entity.SysApp">
+        select a.APP_ID_ as appId, a.CLIENT_NAME_ as clientName, b.ENABLE_ as status, a.BACK_COLOR_ as backColor,
+               a.FREE_ as free, a.ICON_ as icon, a.TENANT_ID_ as tenantId
+        from sys_app a INNER JOIN sys_app_install b on a.APP_ID_ = b.APP_ID_
+        WHERE 1 = 1
+        <if test="tenantId != null and tenantId != ''">
+            and b.TENANT_ID_ = #{tenantId}
+        </if>
+    </select>
+
+    <!--获取安装应用信息-->
+    <select id="listInstallApp" resultType="com.redxun.system.core.entity.SysAppInstall">
+        select a.ID_, a.APP_ID_, b.CLIENT_NAME_ as appName, a.ENABLE_, a.FREE_, a.TENANT_ID_
+        from sys_app_install a LEFT JOIN sys_app b on a.APP_ID_ = b.APP_ID_  where 1 = 1
+        <if test="appId != null and appId != ''">
+            and a.APP_ID_ = #{appId}
+        </if>
+        <if test="tenantId != null and tenantId != ''">
+            and a.TEANANT_ID_ = #{tenantId}
+        </if>
+    </select>
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysAppInstall" parameterType="java.util.Map">
+        select a.ID_, a.APP_ID_, b.CLIENT_NAME_ as appName, a.ENABLE_, a.FREE_, a.TENANT_ID_
+        from sys_app_install a LEFT JOIN sys_app b on a.APP_ID_ = b.APP_ID_
+        where 1 = 1
+        <if test="w.containsKey('tenantId')">
+            and a.TENANT_ID_ = #{w.tenantId}
+        </if>
+    </select>
+
+    <!--暂停使用-->
+    <update id="startOrStop" parameterType="com.redxun.system.core.entity.SysAppInstall">
+        update sys_app_install set ENABLE_ = #{enable} where APP_ID_ = #{appId}
+    </update>
+
+    <!--卸载-->
+    <delete id="uninstall" parameterType="com.redxun.system.core.entity.SysAppInstall">
+        delete from sys_app_install where APP_ID_ = #{appId}
+    </delete>
+
+    <!--移除安装应用-->
+    <delete id="removeInstallApp">
+        delete from sys_app_install where 1 = 1
+        <if test="appId != null and appId != ''">
+            and APP_ID_ = #{appId}
+        </if>
+        <if test="tenantId != null and tenantId != ''">
+            and TENANT_ID_ = #{tenantId}
+        </if>
+    </delete>
+
+</mapper>
+
+

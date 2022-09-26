@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.form.core.mapper.FormExecuteLogMapper">
+
+    <resultMap id="FormExecuteLog" type="com.redxun.form.core.entity.FormExecuteLog">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="changeLogId" column="CHANGE_LOG_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="datasource" column="DATASOURCE_" jdbcType="VARCHAR"/>
+                <result property="sql" column="SQL_" jdbcType="VARCHAR"/>
+                <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+                <result property="record" column="RECORD_" jdbcType="VARCHAR"/>
+                <result property="batch" column="BATCH_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="createByName" column="CREATE_BY_NAME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.form.core.entity.FormExecuteLog" parameterType="java.util.Map">
+        select CHANGE_LOG_ID_,CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,DATASOURCE_,ID_,STATUS_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_,CREATE_BY_NAME_,BATCH_ from FORM_EXECUTE_LOG
+        <where>
+            STATUS_!='-1'
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+               AND ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <delete id="delIgnoreFormChangeLog">
+        delete from FORM_EXECUTE_LOG where CHANGE_LOG_ID_ = #{changeLogId} AND DATASOURCE_= #{dsAlias}
+    </delete>
+
+
+    <select id="getExecuteLog" resultType="com.redxun.form.core.entity.FormExecuteLog" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_TIME_,CREATE_BY_NAME_,BATCH_ from FORM_EXECUTE_LOG
+        <where>
+            STATUS_!='-1'
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                AND ${w.whereSql}
+            </if>
+        </where>
+        GROUP BY BATCH_
+    </select>
+
+    <select id="getByBatch" resultType="com.redxun.form.core.entity.FormExecuteLog">
+        select * from FORM_EXECUTE_LOG where BATCH_=#{batch}
+    </select>
+</mapper>
+
+

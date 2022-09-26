@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.flow.mapper.ActReDeploymentMapper">
+
+    <resultMap id="ActReDeployment" type="com.redxun.bpm.flow.entity.ActReDeployment">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="category" column="CATEGORY_" jdbcType="VARCHAR"/>
+                <result property="key" column="KEY_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="deployTime" column="DEPLOY_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="engineVersion" column="ENGINE_VERSION_" jdbcType="VARCHAR"/>
+                <result property="version" column="version_" jdbcType="NUMERIC"/>
+                <result property="projectReleaseVersion" column="PROJECT_RELEASE_VERSION_" jdbcType="NUMERIC"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.bpm.flow.entity.ActReDeployment" parameterType="java.util.Map">
+        select ID_,NAME_,CATEGORY_,KEY_,TENANT_ID_,DEPLOY_TIME_,ENGINE_VERSION_,version_,PROJECT_RELEASE_VERSION_ from act_re_deployment
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

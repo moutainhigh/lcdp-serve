@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<project name="拷贝代码"  basedir=".">
+
+    <property file="build.properties"/>
+
+    <target name="打包源代码">
+
+        <delete dir="${jpaasoutDir}" />
+        <mkdir dir="${jpaasoutDir}" />
+
+        <copy todir="${jpaasoutDir}/jpaas-backend">
+             <fileset dir="${jpaas-backend}"
+                      excludes="${excludes}">
+             </fileset>
+        </copy>
+
+        <copy todir="${jpaasoutDir}/jpaas-bpm">
+            <fileset dir="${jpaas-bpm}"
+                     excludes="${excludes}">
+            </fileset>
+        </copy>
+
+        <copy todir="${jpaasoutDir}/jpaas-form">
+            <fileset dir="${jpaas-form}"
+                     excludes="${excludes}">
+            </fileset>
+        </copy>
+
+        <copy todir="${jpaasoutDir}/jpaas-front">
+            <fileset dir="${jpaas-front}"
+                     excludes="${excludes}">
+            </fileset>
+        </copy>
+
+
+        <copy todir="${jpaasoutDir}/jpaas-bpm-designer">
+            <fileset dir="${jpaas-bpm-designer}"
+                     excludes="${excludes}">
+            </fileset>
+        </copy>
+
+        <copy todir="${jpaasoutDir}/jpaas-form-designer">
+            <fileset dir="${jpaas-form-designer}"
+                     excludes="${excludes}">
+            </fileset>
+        </copy>
+
+        <copy todir="${jpaasoutDir}/jpaas-common-lib">
+            <fileset dir="${jpaas-common-lib}"
+                     excludes="${excludes}">
+            </fileset>
+        </copy>
+
+        <zip destfile="${jpaasoutDir}/jpaas.zip">
+            <zipfileset dir="${jpaasoutDir}"/>
+        </zip>
+
+
+
+    </target>
+
+
+</project>

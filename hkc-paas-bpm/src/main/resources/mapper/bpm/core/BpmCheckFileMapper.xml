@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmCheckFileMapper">
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmCheckFile" parameterType="java.util.Map">
+        select ID_,FILE_ID_,FILE_NAME_,INST_ID_,JUMP_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from bpm_check_file
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <insert id="archiveByArchiveDate">
+		insert into bpm_check_file_${tableId} select * from bpm_check_file A
+		WHERE EXISTS (SELECT 1 FROM BPM_INST B WHERE A.INST_ID_=B.INST_ID_ AND END_TIME_ &lt;=#{archiveDate} AND B.TENANT_ID_=#{tenantId})
+	</insert>
+
+    <delete id="removeByArchiveDate">
+        <if test="dbType=='mysql'">
+            DELETE from BPM_CHECK_FILE A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate} AND B.TENANT_ID_=#{tenantId}) limit ${batSize}
+        </if>
+        <if test="dbType=='sqlserver'">
+            DELETE top(${batSize}) from BPM_CHECK_FILE A  WHERE EXISTS (SELECT 1 FROM BPM_INST B  WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate}  AND B.TENANT_ID_=#{tenantId})
+        </if>
+        <if test="dbType=='oracle'">
+            DELETE from BPM_CHECK_FILE A  WHERE EXISTS (SELECT 1 FROM BPM_INST B   WHERE A.INST_ID_=B.INST_ID_ and B.END_TIME_ &lt;=#{archiveDate}  AND B.TENANT_ID_=#{tenantId}) and rownum &lt;= ${batSize}
+        </if>
+    </delete>
+
+    <select id="getByArchiveLog" resultType="com.redxun.bpm.core.entity.BpmCheckFile" parameterType="java.util.Map">
+        select * from BPM_CHECK_FILE_${tableId} where JUMP_ID_=#{hisId} order by CREATE_TIME_ asc
+    </select>
+
+    <delete id="delArchiveByInstId" parameterType="java.util.Map">
+        delete from BPM_CHECK_FILE_${tableId} where INST_ID_=#{instId}
+    </delete>
+
+</mapper>
+
+

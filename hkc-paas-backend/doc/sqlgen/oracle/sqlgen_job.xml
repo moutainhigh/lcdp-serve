@@ -1,0 +1,29 @@
+<resources xmlns="http://www.redxun.cn/sqlgen"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.redxun.cn/sqlgen sqlgen.xsd"
+filePath="D:\temp\sql\init\8.2jpaas_job_init.sql" >
+
+    <resource>
+        <sql>SELECT * FROM xxl_job_group</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO xxl_job_group(ID,APP_NAME,TITLE,ORDER_,ADDRESS_TYPE,ADDRESS_LIST,UPDATE_TIME)
+        values(          <#if  ID??>'${ID}'<#else>''</#if>,          <#if  APP_NAME??>'${APP_NAME}'<#else>''</#if>,          <#if  TITLE??>'${TITLE}'<#else>''</#if>,          <#if  ORDER_??>${ ORDER_}<#else>null</#if>,          <#if  ADDRESS_TYPE??>'${ ADDRESS_TYPE}'<#else>null</#if>,          <#if  ADDRESS_LIST??>'${ADDRESS_LIST}'<#else>''</#if>,          <#if  UPDATE_TIME??>TO_DATE('${ UPDATE_TIME}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>);
+        ]]>
+        </template>
+    </resource>
+    <resource>
+        <sql>SELECT * FROM xxl_job_info</sql>
+        <template><![CDATA[<#setting number_format="#">INSERT INTO xxl_job_info(ID,JOB_GROUP,JOB_DESC,ADD_TIME,UPDATE_TIME,AUTHOR,ALARM_EMAIL,EXECUTOR_ROUTE_STRATEGY,EXECUTOR_HANDLER,EXECUTOR_PARAM,EXECUTOR_BLOCK_STRATEGY,EXECUTOR_TIMEOUT,EXECUTOR_FAIL_RETRY_COUNT,GLUE_TYPE,GLUE_SOURCE,GLUE_REMARK,GLUE_UPDATETIME,CHILD_JOBID,TRIGGER_STATUS,TRIGGER_LAST_TIME,TRIGGER_NEXT_TIME,SCHEDULE_TYPE,SCHEDULE_CONF,MISFIRE_STRATEGY)
+        values(          <#if  ID??>'${ID}'<#else>''</#if>,          <#if  JOB_GROUP??>'${JOB_GROUP}'<#else>''</#if>,          <#if  JOB_DESC??>'${JOB_DESC}'<#else>''</#if>,          <#if  ADD_TIME??>TO_DATE('${ ADD_TIME}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  UPDATE_TIME??>TO_DATE('${ UPDATE_TIME}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  AUTHOR??>'${AUTHOR}'<#else>''</#if>,          <#if  ALARM_EMAIL??>'${ALARM_EMAIL}'<#else>''</#if>,          <#if  EXECUTOR_ROUTE_STRATEGY??>'${EXECUTOR_ROUTE_STRATEGY}'<#else>''</#if>,          <#if  EXECUTOR_HANDLER??>'${EXECUTOR_HANDLER}'<#else>''</#if>,          <#if  EXECUTOR_PARAM??>'${EXECUTOR_PARAM}'<#else>''</#if>,          <#if  EXECUTOR_BLOCK_STRATEGY??>'${EXECUTOR_BLOCK_STRATEGY}'<#else>''</#if>,          <#if  EXECUTOR_TIMEOUT??>${ EXECUTOR_TIMEOUT}<#else>null</#if>,          <#if  EXECUTOR_FAIL_RETRY_COUNT??>${ EXECUTOR_FAIL_RETRY_COUNT}<#else>null</#if>,          <#if  GLUE_TYPE??>'${GLUE_TYPE}'<#else>''</#if>,          <#if  GLUE_SOURCE??>''<#else>''</#if>,          <#if  GLUE_REMARK??>'${GLUE_REMARK}'<#else>''</#if>,          <#if  GLUE_UPDATETIME??>TO_DATE('${ GLUE_UPDATETIME}', 'yyyy-MM-dd HH24:mi:ss')<#else>null</#if>,          <#if  CHILD_JOBID??>'${CHILD_JOBID}'<#else>''</#if>,          <#if  TRIGGER_STATUS??>'${ TRIGGER_STATUS}'<#else>null</#if>,          <#if  TRIGGER_LAST_TIME??>${ TRIGGER_LAST_TIME}<#else>null</#if>,          <#if  TRIGGER_NEXT_TIME??>${ TRIGGER_NEXT_TIME}<#else>null</#if>,          <#if  SCHEDULE_TYPE??>'${SCHEDULE_TYPE}'<#else>''</#if>,          <#if  SCHEDULE_CONF??>'${SCHEDULE_CONF}'<#else>''</#if>,          <#if  MISFIRE_STRATEGY??>'${MISFIRE_STRATEGY}'<#else>''</#if>);
+
+        DECLARE
+         content_14 CLOB:='${ GLUE_SOURCE ?replace("\n","")?replace("\\\"","\"")?replace("'","''")?replace("&&","' || '&&' || '")?replace("&amp;&amp;","' || '&&' || '")?replace("&lt;","<")?replace("&gt;",">")}';
+        BEGIN
+            update xxl_job_info set GLUE_SOURCE=content_14 where ID='${ ID}';
+        commit;
+        end ;
+        /
+        ]]>
+        </template>
+    </resource>
+
+</resources>

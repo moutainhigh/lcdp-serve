@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmInstMapper">
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmInst" parameterType="java.util.Map">
+        select i.* from BPM_INST i left join bpm_def d on i.def_id_ = d.def_id_
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  INST_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByActInstId" parameterType="java.lang.String" resultType="com.redxun.bpm.core.entity.BpmInst">
+        select * from BPM_INST where ACT_INST_ID_=#{actInstId}
+    </select>
+
+    <select id="getByUserId" parameterType="java.lang.String" resultType="com.redxun.bpm.core.entity.BpmInst">
+        select i.* from BPM_INST i left join bpm_def d on i.def_id_ = d.def_id_
+        where i.create_by_ = #{w.userId}
+        <if test="@rx.Ognl@isNotEmpty(w.defKey)">
+            and i.DEF_CODE_=#{w.defKey}
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+            and ${w.whereSql}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  INST_ID_ DESC
+        </if>
+
+    </select>
+
+    <select id="getMyApproved" parameterType="java.util.Map" resultType="com.redxun.bpm.core.entity.BpmInst">
+        select  i.* from BPM_INST i where exists (select 1 from bpm_check_history h
+            where i.inst_id_=h.inst_id_ and h.handler_id_ = #{w.userId}
+            <if test="@rx.Ognl@isNotEmpty(w.defKey)">
+                and i.DEF_CODE_=#{w.defKey}
+            </if>
+        )
+
+
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+            and ${w.whereSql}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  INST_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getMyApprovedCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from (select distinct i.* from BPM_INST i left join
+        bpm_check_history h on i.inst_id_=h.inst_id_
+        where h.handler_id_ = #{userId} and h.tenant_id_=#{tenantId}
+        )  v
+    </select>
+
+    <update id="updateStatusByInstId" parameterType="java.util.Map">
+        update BPM_INST set STATUS_=#{status} where INST_ID_=#{instId}
+    </update>
+
+    <insert id="archiveByArchiveDate">
+		insert into BPM_INST_${tableId} (INST_ID_,TREE_ID_,FORM_SOLUTION_ALIAS,DEF_ID_,ACT_INST_ID_,ACT_DEF_ID_,PARENT_ACT_INST_ID_,DEF_CODE_,INST_NO_,BILL_TYPE_,BILL_NO_,SUBJECT_,STATUS_,VERSION_,BUS_KEY_,CHECK_FILE_ID_,IS_TEST_,ERRORS_,END_TIME_,DATA_SAVE_MODE_,SUPPORT_MOBILE_,START_DEP_ID_,START_DEP_FULL_,LOCKED_BY_,IS_LIVE_,LIVE_INST_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_)
+		select INST_ID_,TREE_ID_,FORM_SOLUTION_ALIAS,DEF_ID_,ACT_INST_ID_,ACT_DEF_ID_,PARENT_ACT_INST_ID_,DEF_CODE_,INST_NO_,BILL_TYPE_,BILL_NO_,SUBJECT_,"ARCHIVED",VERSION_,BUS_KEY_,CHECK_FILE_ID_,IS_TEST_,ERRORS_,END_TIME_,DATA_SAVE_MODE_,SUPPORT_MOBILE_,START_DEP_ID_,START_DEP_FULL_,LOCKED_BY_,IS_LIVE_,LIVE_INST_ID_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from BPM_INST
+		WHERE END_TIME_ &lt;=#{archiveDate} and TENANT_ID_=#{tenantId}
+	</insert>
+
+    <delete id="removeByArchiveDate">
+        <if test="dbType=='mysql'">
+            delete from BPM_INST WHERE  END_TIME_  &lt;=#{archiveDate} AND B.TENANT_ID_=#{tenantId} limit ${batSize}
+        </if>
+        <if test="dbType=='sqlserver'">
+            DELETE top(${batSize}) from BPM_INST WHERE  EXISTS (SELECT 1 FROM BPM_INST   WHERE  END_TIME_  &lt;=#{archiveDate} AND B.TENANT_ID_=#{tenantId})
+        </if>
+        <if test="dbType=='oracle'">
+            delete from BPM_INST WHERE  END_TIME_  &lt;=#{archiveDate} AND B.TENANT_ID_=#{tenantId} and rownum &lt;= ${batSize}
+        </if>
+    </delete>
+
+    <select id="queryByArchiveLog" resultType="com.redxun.bpm.core.entity.BpmInst" parameterType="java.util.Map">
+        select i.* from BPM_INST_${tableId} i left join bpm_def d on i.def_id_ = d.def_id_
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  INST_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByArchiveLog" resultType="com.redxun.bpm.core.entity.BpmInst" parameterType="java.util.Map">
+        select * from BPM_INST_${tableId} where INST_ID_=#{instId}
+    </select>
+
+    <delete id="delArchiveByInstId" parameterType="java.util.Map">
+        delete from BPM_INST_${tableId} where INST_ID_=#{instId}
+    </delete>
+</mapper>
+
+

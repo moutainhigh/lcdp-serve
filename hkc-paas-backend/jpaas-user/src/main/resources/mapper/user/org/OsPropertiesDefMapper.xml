@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.user.org.mapper.OsPropertiesDefMapper">
+
+    <resultMap id="OsPropertiesDef" type="com.redxun.user.org.entity.OsPropertiesDef">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="ctltype" column="CTLTYPE_" jdbcType="VARCHAR"/>
+                <result property="dataType" column="DATA_TYPE_" jdbcType="VARCHAR"/>
+                <result property="dimId" column="DIM_ID_" jdbcType="VARCHAR"/>
+                <result property="extJson" column="EXT_JSON_" jdbcType="VARCHAR"/>
+                <result property="groupId" column="GROUP_ID_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsPropertiesDef" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,CTLTYPE_,DATA_TYPE_,DIM_ID_,EXT_JSON_,GROUP_ID_,ID_,NAME_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_ from os_properties_def
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+    
+    <delete id="deleteByGroupId">
+        DELETE FROM os_properties_def WHERE GROUP_ID_=#{groupId}
+    </delete>
+
+    <select id="getPropertiesByDimId" resultType="com.redxun.user.org.entity.OsPropertiesDef" parameterType="java.util.Map">
+        select CREATE_BY_,CREATE_DEP_ID_,CREATE_TIME_,CTLTYPE_,DATA_TYPE_,DIM_ID_,EXT_JSON_,GROUP_ID_,ID_,NAME_,TENANT_ID_,UPDATE_BY_,UPDATE_TIME_ from os_properties_def
+        WHERE  DIM_ID_=#{dimId} and TENANT_ID_=#{tenantId}
+    </select>
+
+</mapper>
+
+

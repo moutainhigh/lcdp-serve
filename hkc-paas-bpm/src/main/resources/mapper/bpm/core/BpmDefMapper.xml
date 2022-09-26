@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.bpm.core.mapper.BpmDefMapper">
+    <sql id="fields">
+        DEF_ID_,TREE_ID_,NAME_,KEY_,DESCP_ ,ACT_DEF_ID_,ACT_DEP_ID_ ,STATUS_ ,VERSION_ ,IS_MAIN_ , MAIN_DEF_ID_,
+        BO_DEF_IDS_ ,ICON_ ,COLOR_,FORMAL_,TENANT_ID_ ,CREATE_DEP_ID_,CREATE_BY_ ,CREATE_TIME_ ,UPDATE_BY_ ,UPDATE_TIME_,APP_ID_
+    </sql>
+    <select id="query" resultType="com.redxun.bpm.core.entity.BpmDef" parameterType="java.util.Map">
+        select <include refid="fields"></include>
+        from bpm_def
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  DEF_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getMainByKey" resultType="com.redxun.bpm.core.entity.BpmDef" parameterType="java.util.Map">
+        select <include refid="fields"></include> from bpm_def where key_=#{key} and is_main_='YES'
+    </select>
+
+    <select id="getMaxVersion" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select max(version_) from bpm_def where key_=#{key}
+    </select>
+
+    <update id="updateMainDefIdIsMain" parameterType="java.util.Map">
+        update bpm_def set is_main_=#{w.isMain,jdbcType=VARCHAR}, main_def_id_=#{w.newMainDefId,jdbcType=VARCHAR} where main_def_id_=#{w.oldMainDefId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getAllVersionsByMainDefId" resultType="com.redxun.bpm.core.entity.BpmDef" parameterType="java.util.Map">
+        select * from bpm_def where main_def_id_=#{mainDefId} order by version_ desc
+    </select>
+
+</mapper>
+
+
