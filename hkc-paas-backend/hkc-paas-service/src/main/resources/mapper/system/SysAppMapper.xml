@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysAppMapper">
+    <select id="query" resultType="com.redxun.system.core.entity.SysApp" parameterType="java.util.Map">
+        select * from sys_app
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  sn_ asc
+        </if>
+    </select>
+
+    <select id="getAppsByIds" parameterType="java.lang.String" resultType="com.redxun.system.core.entity.SysApp">
+        select * from sys_app where (STATUS_ = '1' or STATUS_ IS NULL)
+        <if test="@rx.Ognl@isNotEmpty(appIds)">
+            and app_id_ in (${appIds})
+        </if>
+        AND  APP_TYPE_ != 2
+        order by sn_ asc
+    </select>
+
+    <select id="getApps"  resultType="com.redxun.system.core.entity.SysApp">
+        select * from sys_app where  (PARENT_MODULE_ != 'InnerLayout' or PARENT_MODULE_ IS NULL)
+        and (STATUS_ = '1' or STATUS_ IS NULL)
+        <choose>
+            <when test='tenantId=="1"'>
+                and (TENANT_ID_ ='1' or (TENANT_ID_!='1' and SHARE_='Y') )
+            </when>
+            <otherwise>
+                and TENANT_ID_ in ( #{tenantId})
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="appId != null and appId !=''">
+                and APP_ID_ = #{appId}
+            </when>
+            <otherwise>
+                and  (APP_TYPE_ = 0 OR APP_TYPE_ = 2)
+            </otherwise>
+        </choose>
+         ORDER BY sn_ ASC
+    </select>
+
+    <select id="getAppByTenant"  resultType="com.redxun.system.core.entity.SysApp">
+        select * from sys_app where
+        <choose>
+            <when test='tenantId=="1"'>
+                 (TENANT_ID_ ='1' or (TENANT_ID_!='1' and SHARE_='Y'))
+            </when>
+            <otherwise>
+                 TENANT_ID_ in ( '1' ,#{tenantId})
+            </otherwise>
+        </choose>
+        and (STATUS_ = '1' or STATUS_ IS NULL)
+        <if test="@rx.Ognl@isNotEmpty(deleted)">
+            and DELETED_=0
+        </if>
+        ORDER BY sn_ ASC
+    </select>
+
+    <select id="getById"  resultType="com.redxun.system.core.entity.SysApp">
+        select * from sys_app where (STATUS_ = '1' or STATUS_ IS NULL)
+        <choose>
+            <when test="appId != null and appId !=''">
+                and APP_ID_ = #{appId}
+            </when>
+            <otherwise>
+                and  APP_TYPE_ = 0
+            </otherwise>
+        </choose>
+        ORDER BY sn_ ASC
+    </select>
+
+    <select id="getAllByStatus"  resultType="com.redxun.system.core.entity.SysApp">
+        select * from sys_app where and  APP_TYPE_ != 2 AND ( STATUS_ = '1' or STATUS_ IS NULL) ORDER BY sn_ ASC
+    </select>
+
+    <select id="getMenusByAppKey"  resultType="com.redxun.system.core.entity.SysApp">
+        select * from sys_app where CLIENT_CODE_= #{appKey} AND  APP_TYPE_ != 2
+    </select>
+
+
+    <select id="getAppsByIdsAndType" resultType="com.redxun.system.core.entity.SysApp">
+       SELECT * FROM sys_app WHERE APP_ID_ IN (${appIds}) AND APP_TYPE_ =${appType}
+    </select>
+
+    <select id="getCountByCategory" resultType="hashmap">
+        SELECT  a.CID,t.NAME_ AS CNAME,a.CNT FROM SYS_TREE t JOIN (
+            SELECT CATEGORY_ID_ AS CID ,COUNT(1) AS CNT FROM sys_app
+            WHERE APP_TYPE_>0  and  TENANT_ID_ = #{tenantId}
+            <if test="authSql != null and authSql !=''">
+                and ${authSql}
+            </if>
+            GROUP BY CATEGORY_ID_) a ON t.TREE_ID_=a.CID
+    </select>
+</mapper>
+
+

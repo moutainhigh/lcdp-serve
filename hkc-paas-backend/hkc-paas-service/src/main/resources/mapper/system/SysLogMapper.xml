@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysLogMapper">
+
+    <resultMap id="SysLog" type="com.redxun.system.core.entity.SysLog">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="appName" column="APP_NAME_" jdbcType="VARCHAR"/>
+                <result property="module" column="MODULE_" jdbcType="VARCHAR"/>
+                <result property="subModule" column="SUB_MODULE_" jdbcType="VARCHAR"/>
+                <result property="className" column="CLASS_NAME_" jdbcType="VARCHAR"/>
+                <result property="methodName" column="METHOD_NAME_" jdbcType="VARCHAR"/>
+                <result property="action" column="ACTION_" jdbcType="VARCHAR"/>
+                <result property="pkValue" column="PK_VALUE_" jdbcType="VARCHAR"/>
+                <result property="ip" column="IP_" jdbcType="VARCHAR"/>
+                <result property="operation" column="OPERATION_" jdbcType="VARCHAR"/>
+                <result property="detail" column="DETAIL_" jdbcType="VARCHAR"/>
+                <result property="userName" column="USER_NAME_" jdbcType="VARCHAR"/>
+                <result property="duration" column="DURATION_" jdbcType="NUMERIC"/>
+                <result property="busType" column="BUS_TYPE_" jdbcType="VARCHAR"/>
+                <result property="isResume" column="IS_RESUME_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysLog" parameterType="java.util.Map">
+        select ID_,APP_NAME_,MODULE_,SUB_MODULE_,CLASS_NAME_,METHOD_NAME_,ACTION_,PK_VALUE_,IP_,OPERATION_,DETAIL_,USER_NAME_,DURATION_,BUS_TYPE_,IS_RESUME_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from SYS_LOG
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

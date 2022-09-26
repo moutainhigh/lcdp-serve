@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysKettleLogMapper">
+
+    <resultMap id="SysKettleLog" type="com.redxun.system.core.entity.SysKettleLog">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="druation" column="DRUATION_" jdbcType="NUMERIC"/>
+                <result property="kettleId" column="KETTLE_ID_" jdbcType="VARCHAR"/>
+                <result property="log" column="LOG_" jdbcType="CLOB"/>
+                <result property="status" column="STATUS_" jdbcType="NUMERIC"/>
+                <result property="startTime" column="START_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="endTime" column="END_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="kettleJobId" column="KETTLE_JOB_ID_" jdbcType="VARCHAR"/>
+                <result property="kettleJobName" column="KETTLE_JOB_NAME_" jdbcType="VARCHAR"/>
+                <result property="kettleType" column="KETTLE_TYPE_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysKettleLog" parameterType="java.util.Map">
+        select * from SYS_KETTLE_LOG
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

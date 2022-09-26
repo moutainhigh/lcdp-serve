@@ -1,0 +1,57 @@
+#bpm:
+#  datasource:
+#    ip: localhost
+#    name: jpaas_bpm
+#    password: root
+#    port: 3306
+#    username: root
+#form:
+#  datasource:
+#    ip: localhost
+#    name: jpaas_form
+#    password: root
+#    port: 3306
+#    username: root
+#portal:
+#  datasource:
+#    ip: localhost
+#    name: jpaas_portal
+#    password: root
+#    port: 3306
+#    username: root
+#spring:
+#  cloud:
+#    stream:
+#      binders:
+#        local_rabbit:
+#          environment:
+#            spring:
+#              rabbitmq:
+#                host: 192.168.1.10
+#                password: admin
+#                port: 5672
+#                username: admin
+#                virtual-host: /
+#          type: rabbit
+#      rocketmq:
+#        binder:
+#          name-server: 192.168.1.10:9876
+#  redis:
+#    host: localhost
+#    password: redxun
+#    port: 6379
+#    timeout: 5000
+#system:
+#  datasource:
+#    ip: localhost
+#    name: jpaas_system
+#    password: root
+#    port: 3306
+#    username: root
+#user:
+#  datasource:
+#    ip: localhost
+#    name: jpaas_user
+#    password: root
+#    port: 3306
+#    username: root

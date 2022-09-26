@@ -1,0 +1,23 @@
+{
+    "mysql":{
+        "varchar":["varchar","char"],
+        "clob":["text","longtext"],
+        "number":["decimal","float","double"],
+        "date":["datetime","date","timestamp"],
+        "int":["int","bigint"]
+    },
+    "oracle":{
+        "varchar":["VARCHAR2","CHAR"],
+        "clob":["CLOB"],
+        "number":["NUMBER","FLOAT","LONG"],
+        "date":["DATE","TIMESTAMP"],
+        "int":["INTEGER"]
+    },
+     "postgresql":{
+        "varchar":["varchar","char"],
+        "clob":["text"],
+        "number":["decimal"],
+        "date":["date","timestamp"],
+        "int":["int","smallint","bigint"]
+    }
+}

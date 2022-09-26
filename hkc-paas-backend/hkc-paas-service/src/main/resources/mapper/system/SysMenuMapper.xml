@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redxun.system.core.mapper.SysMenuMapper">
+
+
+
+    <resultMap type="com.redxun.system.core.entity.SysMenu" id="SysMenuResult">
+        <id property="id" column="MENU_ID_" />
+        <result property="appId" column="APP_ID_"   jdbcType="VARCHAR"/>
+        <result property="name" column="NAME_"/>
+        <result property="parentId" column="PARENT_ID_"/>
+        <result property="sn" column="SN_"/>
+		<result property="showType" column="SHOW_TYPE_"/>
+		<result property="menuKey" column="menu_key_"/>
+        <result property="menuType" column="menu_type_"/>
+        <result property="iconPc" column="ICON_PC_"/>
+		<result property="settingType" column="SETTING_TYPE_"/>
+        <result property="component" column="component_"/>
+        <result property="params" column="params_"/>
+		<result property="boListKey" column="BO_LIST_KEY_" />
+        <result property="createBy" column="CREATE_BY_"/>
+        <result property="createTime" column="CREATE_TIME_"/>
+        <result property="updateTime" column="UPDATE_TIME_"/>
+        <result property="updateBy" column="UPDATE_BY_"/>
+		<result property="iconPic" column="ICON_PIC_"/>
+		<result property="url" column="URL_"/>
+		<result property="method" column="METHOD_"/>
+		<result property="instConfig" column="INST_CONFIG_"/>
+    </resultMap>
+
+	<sql id="fieldSql">
+		APP_ID_, MENU_ID_, NAME_, PARENT_ID_, menu_type_, menu_key_,SHOW_TYPE_,
+		ICON_PC_, ICON_PIC_,SETTING_TYPE_, component_,params_,bo_list_key_, create_by_,
+		create_time_,SN_,URL_,METHOD_,INST_CONFIG_
+
+	</sql>
+
+    <select id="query" resultMap="SysMenuResult" parameterType="java.util.Map">
+        select  <include refid="fieldSql"></include>
+         from sys_menu
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  SN_ ASC
+        </if>
+    </select>
+
+	<select id="selectAllMenusAndPerms" resultMap="SysMenuResult">
+		select <include refid="fieldSql"></include>
+		from sys_menu
+		m
+		order by m.SN_
+	</select>
+
+
+
+
+
+    <select id="getMenusByType" resultMap="SysMenuResult">
+		select distinct <include refid="fieldSql"></include>
+		from sys_menu
+
+		<if test="@rx.Ognl@isNotEmpty(menuType)">
+			where  MENU_TYPE_ = #{menuType}
+		</if>
+
+		order by SN_
+	</select>
+
+
+
+    <select id="getMenusByIdsAndType" resultMap="SysMenuResult">
+		select distinct <include refid="fieldSql"></include>
+		from sys_menu where MENU_ID_ in (${menuIds})
+		<if test="@rx.Ognl@isNotEmpty(menuType)">
+			and  MENU_TYPE_ = #{menuType}
+		</if>
+		order by SN_
+	</select>
+
+
+
+
+	<select id="getMenusByIds" resultMap="SysMenuResult">
+		select <include refid="fieldSql"></include> from sys_menu m
+		where m.MENU_ID_ in (${menuIds}) order by m.SN_
+	</select>
+
+	<select id="getChildrenList" resultMap="SysMenuResult" parameterType="java.util.Map">
+		select <include refid="fieldSql"></include> from sys_menu
+		WHERE PARENT_ID_=#{menuId}
+		order by SN_
+	</select>
+
+	<select id = "getInterfaceByParent" resultMap="SysMenuResult">
+		select <include refid="fieldSql"></include> from sys_menu
+		WHERE PARENT_ID_=#{ParentId} AND MENU_TYPE_ = 'I'
+	</select>
+
+	<select id = "getInterface" resultMap="SysMenuResult">
+		select <include refid="fieldSql"></include> from sys_menu
+		WHERE  MENU_TYPE_ = 'I'
+	</select>
+
+	<select id="listMenusByAppId" resultMap="SysMenuResult">
+		select <include refid="fieldSql"></include>
+		from sys_menu m where MENU_TYPE_='C' and m.APP_ID_ = #{appId}
+		order by m.PARENT_ID_ ASC, m.SN_ ASC
+	</select>
+
+</mapper>

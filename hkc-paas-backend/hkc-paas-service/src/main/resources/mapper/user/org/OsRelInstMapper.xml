@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redxun.user.org.mapper.OsRelInstMapper">
+    <select id="findList" resultType="com.redxun.user.org.entity.OsRelInst">
+        select * from os_rel_inst t
+    </select>
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsRelInst" parameterType="java.util.Map">
+        select * from os_rel_inst
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  update_time_ DESC
+        </if>
+    </select>
+
+    <select id="getByParty1Party2RelTypeId" resultType="com.redxun.user.org.entity.OsRelInst">
+        select * from os_rel_inst where PARTY1_=#{party1} and PARTY2_=#{party2} and REL_TYPE_ID_=#{relTypeId}
+    </select>
+
+    <select id="getByRelTypeIdParty2" resultType="com.redxun.user.org.entity.OsRelInst">
+        select * from os_rel_inst where PARTY2_=#{party2} and REL_TYPE_ID_=#{relTypeId}
+    </select>
+
+    <select id="getByRelTypeIdParty1" resultType="com.redxun.user.org.entity.OsRelInst">
+        select * from os_rel_inst where TENANT_ID_=#{tenantId} and PARTY1_=#{party1} and REL_TYPE_ID_=#{relTypeId}
+    </select>
+
+    <select id="getByParty1RelTypeKey" resultType="com.redxun.user.org.entity.OsRelInst">
+        select * from os_rel_inst where PARTY1_ = #{party1} and REL_TYPE_KEY_=#{relTypeKey}
+    </select>
+
+    <select id="getUserIdsByParty1RelTypeKey" resultType="java.lang.String">
+        select t.PARTY2_  from os_rel_inst t where  t.PARTY1_=#{party1} and t.REL_TYPE_KEY_=#{relTypeKey}
+    </select>
+
+    <select id="getUserListByGroupIdAndRelTypeIdPage" resultType="com.redxun.user.org.entity.OsRelInst">
+        select orl.*,ou.FULLNAME_ fullname,ou.USER_NO_ userNo,ou.MOBILE_,ou.EMAIL_ from os_rel_inst orl
+        inner join os_user ou on orl.PARTY2_=ou.USER_ID_
+        <where>
+            and orl.TENANT_ID_=#{u.tenantId}
+            and REL_TYPE_ID_=#{u.relTypeId}
+            and PARTY1_ = #{u.groupId}
+            <if test="u.fullname != null and u.fullname != ''">
+                and ou.FULLNAME_ like concat('%', #{u.fullname}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getUserListByGroupIdAndRelTypeId" resultType="com.redxun.user.org.entity.OsRelInst">
+        select orl.*,ou.FULLNAME_ fullname,ou.USER_NO_ userNo from os_rel_inst orl inner join os_user ou on orl.PARTY2_=ou.USER_ID_
+        <where>
+            and orl.TENANT_ID_=#{u.tenantId}
+            and REL_TYPE_ID_=#{u.relTypeId}
+            and ou.STATUS_='1'
+            <if test="u.groupId != null and u.groupId != ''">
+                and PARTY1_ = #{u.groupId}
+            </if>
+            <if test="u.userno != null and u.userno != ''">
+                and ou.USER_NO_ like concat('%', #{u.userno}, '%')
+            </if>
+            <if test="u.fullname != null and u.fullname != ''">
+                and ou.FULLNAME_ like concat('%', #{u.fullname}, '%')
+            </if>
+            <if test="u.isMain != null and u.isMain != ''">
+                and orl.IS_MAIN_ = #{u.isMain}
+            </if>
+            ORDER BY ou.SN_ ASC
+        </where>
+    </select>
+
+    <select id="getGroupListByGroupIdAndRelTypeId" resultType="com.redxun.user.org.entity.OsRelInst">
+        select orl.* from os_rel_inst orl inner join os_group og on orl.PARTY2_= og.GROUP_ID_
+        <where>
+            and orl.TENANT_ID_=#{p.tenantId}
+            and REL_TYPE_ID_=#{p.relTypeId}
+            <if test="p.groupId != null and p.groupId != ''">
+                and PARTY1_ = #{p.groupId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByParty2AndTenantId">
+        delete from os_rel_inst
+        where party2_=#{party2}
+    </delete>
+
+    <delete id="delByParty1Party2RelTypeId">
+        delete from os_rel_inst
+        where PARTY1_=#{party1} and PARTY2_=#{party2} and REL_TYPE_ID_=#{relTypeId}
+    </delete>
+
+    <select id="isPartyExistInRelation"   parameterType="java.util.Map" resultType="java.lang.Long">
+        select count(*) from os_rel_inst where (PARTY1_=#{party1} or PARTY2_=#{party2}) and REL_TYPE_ID_=#{relTypeId}
+    </select>
+
+    <select id="getByPathRelTypeId" resultType="com.redxun.user.org.entity.OsRelInst">
+        select * from os_rel_inst where REL_TYPE_ID_ = #{relTypeId} and path_ like #{path}
+    </select>
+
+    <delete id="deleteByUserId">
+        delete from os_rel_inst where PARTY2_=#{userId} or PARTY1_=#{userId}
+    </delete>
+
+    <select id="getUserListByGroupId" resultType="com.redxun.user.org.entity.OsRelInst">
+        select orl.*,ou.FULLNAME_ fullname,ou.USER_NO_ userNo from os_rel_inst orl inner join os_user ou on orl.PARTY2_=ou.USER_ID_
+        <where>
+            and orl.TENANT_ID_=#{p.tenantId}
+            and REL_TYPE_ID_=#{relTypeId}
+            and IS_MAIN_='YES'
+            and ou.STATUS_='1'
+            <if test="p.groupId != null and p.groupId != ''">
+                and PARTY1_ = #{p.groupId}
+            </if>
+            ORDER BY ou.SN_ ASC
+        </where>
+    </select>
+
+    <select id="getUserIdsByGroupIdsRoleIds" resultType="java.lang.String" parameterType="java.util.Map">
+        select DISTINCT PARTY2_ from ( select  party2_ from os_rel_inst where rel_type_id_='1' and PARTY1_ in
+        <foreach collection="groupIds"  item="id" separator="," open="(" close=")">#{id}</foreach> ) t1 where  exists
+        ( select  party2_ from os_rel_inst t2 where rel_type_id_='1' and PARTY1_ in
+        <foreach collection="roleIds"  item="id" separator="," open="(" close=")">#{id}</foreach>
+        and t2.PARTY2_ =t1.PARTY2_)
+    </select>
+
+    <select id="getUserIdsByGroupId1GroupId2" resultType="java.lang.String" parameterType="java.util.Map">
+        select distinct party2_ from (select  party2_ from os_rel_inst where rel_type_id_='1' and PARTY1_ = #{groupId1}) t1 where  exists
+            ( select  party2_ from os_rel_inst t2 where rel_type_id_='1' and PARTY1_ =#{groupId2}
+        and t2.PARTY2_ =t1.PARTY2_ )
+    </select>
+
+    <select id="getGroupListByGroupIdAndRelTypeIdAndParty2" resultType="com.redxun.user.org.entity.OsRelInst">
+        select orl.* from os_rel_inst orl inner join os_group og on orl.PARTY2_= og.GROUP_ID_
+        <where>
+            and orl.TENANT_ID_=#{p.tenantId}
+            and REL_TYPE_ID_=#{p.relTypeId}
+            <if test="p.groupId != null and p.groupId != ''">
+                and PARTY1_ = #{p.groupId}
+            </if>
+            and PARTY2_=#{p.party2}
+            and DIM1_=#{p.dimId}
+        </where>
+    </select>
+
+    <select id="getUserListByGroupIdAndRelTypeIdAndDimId" resultType="com.redxun.user.org.entity.OsRelInst">
+        SELECT
+            orl.*,
+            ou.FULLNAME_ fullname,
+            ou.USER_NO_ userNo
+            FROM
+            os_rel_inst orl,
+            os_group og,
+            os_user ou
+        WHERE
+            og.GROUP_ID_=#{u.groupId}
+            AND og.DIM_ID_=#{u.dimId}
+            AND orl.PARTY1_ = og.GROUP_ID_
+            AND orl.PARTY2_ = ou.USER_ID_
+            AND  orl.TENANT_ID_ =#{u.tenantId}
+            AND REL_TYPE_ID_ =#{u.relTypeId}
+    </select>
+
+</mapper>

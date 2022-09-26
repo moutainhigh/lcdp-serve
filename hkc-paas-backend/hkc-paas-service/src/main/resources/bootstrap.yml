@@ -1,0 +1,19 @@
+server:
+  port: 7009
+
+spring:
+  application:
+    name: jpaas-system
+  profiles:
+    active: dev
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    tags:
+      application: ${spring.application.name}

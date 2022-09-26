@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redxun.user.org.mapper.OsGroupMapper">
+
+    <resultMap id="osGroup" type="com.redxun.user.org.entity.OsGroup">
+        <id property="groupId" column="GROUP_ID_" jdbcType="VARCHAR"/>
+        <result property="areaCode" column="AREA_CODE_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="descp" column="DESCP_" jdbcType="VARCHAR"/>
+        <result property="dimId" column="DIM_ID_" jdbcType="VARCHAR"/>
+        <result property="form" column="FORM_" jdbcType="VARCHAR"/>
+        <result property="isDefault" column="IS_DEFAULT_" jdbcType="VARCHAR"/>
+        <result property="isLeaf" column="is_leaf_" jdbcType="VARCHAR"/>
+        <result property="key" column="KEY_" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+        <result property="parentId" column="PARENT_ID_" jdbcType="VARCHAR"/>
+        <result property="path" column="PATH_" jdbcType="VARCHAR"/>
+        <result property="rankLevel" column="RANK_LEVEL_" jdbcType="NUMERIC"/>
+        <result property="sn" column="SN_" jdbcType="NUMERIC"/>
+        <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+        <result property="syncWx" column="SYNC_WX_" jdbcType="NUMERIC"/>
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="wxParentPid" column="WX_PARENT_PID_" jdbcType="NUMERIC"/>
+        <result property="wxPid" column="WX_PID_" jdbcType="NUMERIC"/>
+        <result property="shortName" column="SHORT_NAME_" jdbcType="VARCHAR"/>
+        <result property="groupCode" column="GROUP_CODE_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="OsGroupExt" type="com.redxun.user.org.entity.OsGroup">
+        <result property="childAmount" column="CHILDS" jdbcType="NUMERIC"/>
+        <result property="userAmount" column="USERS" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <select id="getByLikePath" resultType="com.redxun.user.org.entity.OsGroup">
+        select * from os_group t where t.PATH_ like #{path}
+    </select>
+
+
+    <select id="findList" resultType="com.redxun.user.org.entity.OsGroup">
+        select * from os_group t
+    </select>
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsGroup" parameterType="java.util.Map">
+        select * from os_group
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  update_time_ DESC
+        </if>
+    </select>
+
+
+
+    <select id="getByParentId" resultMap="OsGroupExt" parameterType="java.util.Map">
+         select  A.*,(SELECT COUNT(*) AMOUNT FROM os_group B WHERE B.PARENT_ID_=A.GROUP_ID_) CHILDS from os_group A
+         where A.PARENT_ID_=#{parentId}
+        <if test="@rx.Ognl@isNotEmpty(initRankLevel)">
+        AND A.RANK_LEVEL_=#{initRankLevel}
+        </if>
+         order by A.sn_ asc
+    </select>
+
+    <select id="getOsGroupByExcludeGroupId" resultMap="OsGroupExt"  parameterType="java.util.Map">
+        SELECT
+            A.*,
+            ( SELECT COUNT( * ) AMOUNT FROM os_group B WHERE B.PARENT_ID_ = A.GROUP_ID_ ) CHILDS
+        FROM
+            os_group A
+        WHERE  A.DIM_ID_ =#{dimId}
+          and  A.GROUP_ID_ !=#{groupId}
+          and  A.PARENT_ID_=#{parentId}
+          and a.TENANT_ID_=#{tenantId}
+        order by A.sn_ asc
+    </select>
+
+
+
+    <select id="getOsGroupByGroupId" resultType="com.redxun.user.org.entity.OsGroup" parameterType="java.util.Map">
+        select * from os_group
+        where path_ like #{path}
+        <if test="@rx.Ognl@isNotEmpty(initRankLevel)">
+            AND RANK_LEVEL_=#{initRankLevel}
+        </if>
+    </select>
+
+    <select id="getByDimIdUserIdRelTypeIdIsMain" resultType="com.redxun.user.org.entity.OsGroup" parameterType="java.util.Map">
+        select ou.*,asou.IS_MAIN_ from OS_GROUP ou
+        JOIN (
+            select oi.PARTY1_,oi.IS_MAIN_ from OS_REL_INST oi
+            WHERE oi.DIM1_=#{dimId} AND oi.REL_TYPE_ID_ = #{relTypeId} AND oi.PARTY2_ = #{userId}
+            AND oi.IS_MAIN_ = #{isMain} AND oi.TENANT_ID_ = #{tenantId}
+        ) asou ON ou.GROUP_ID_ = asou.PARTY1_
+
+    </select>
+
+    <select id="getByParty2RelType" resultType="com.redxun.user.org.entity.OsGroup" parameterType="java.util.Map">
+        select ou.* from os_group ou inner join os_rel_inst oi on ou.group_id_=oi.party1_
+        where oi.party2_=#{party2} and oi.rel_type_=#{relType} AND ou.TENANT_ID_ = #{tenantId}
+        and oi.rel_type_id_='1' and oi.is_main_='NO'
+    </select>
+
+
+    <select id="getByUserIdRelTypeId" parameterType="java.util.Map" resultType="com.redxun.user.org.entity.OsGroup">
+		SELECT distinct ou.*,oi.IS_MAIN_ IS_MAIN_ FROM OS_GROUP ou INNER JOIN OS_REL_INST oi on ou.GROUP_ID_=oi.PARTY1_
+		WHERE oi.REL_TYPE_ID_=#{params.relTypeId} and oi.PARTY2_=#{params.userId}
+	</select>
+
+    <select id="getByDimIdUserIdRelTypeId" parameterType="java.util.Map" resultType="com.redxun.user.org.entity.OsGroup">
+		SELECT ou.*,oi.IS_MAIN_ IS_MAIN_ FROM OS_GROUP ou  JOIN OS_REL_INST oi on ou.GROUP_ID_=oi.PARTY1_ WHERE oi.DIM1_=#{params.dimId} and oi.REL_TYPE_ID_=#{params.relTypeId} and oi.PARTY2_=#{params.userId}
+	</select>
+
+    <select id="getByDimIdAdmin" resultType="com.redxun.user.org.entity.OsGroup" parameterType="java.util.Map">
+        <if test="userId!=1">
+            select * from os_group where DIM_ID_=#{dimId} and PARENT_ID_ in
+            (select parent_id_ from os_group where group_id_ in (SELECT PARTY1_ FROM OS_REL_INST
+            WHERE REL_TYPE_ID_='1' and PARTY2_=#{userId}))
+            order by PATH_ asc
+        </if>
+        <if test="userId==1">
+            select * from os_group where DIM_ID_=#{dimId} order by PATH_ asc
+        </if>
+    </select>
+    <select id="getByDimIdRole" resultType="com.redxun.user.org.entity.OsGroup" parameterType="java.util.Map">
+        select * from os_group where TENANT_ID_=#{tenantId} and  DIM_ID_=#{dimId}   and group_id_ in (
+                    select GROUP_ID_ from os_grade_role where admin_id_ in (
+                        select ID_ from os_grade_admin where user_id_ = #{userId}
+        <if test="@rx.Ognl@isNotEmpty(companyId)">
+            and group_id_ = #{companyId}
+        </if>
+                        )
+                )
+        order by PATH_ asc
+    </select>
+    <select id="getByDimId" resultType="com.redxun.user.org.entity.OsGroup" parameterType="java.util.Map">
+        select * from os_group where DIM_ID_=#{dimId} and STATUS_='ENABLED' order by PATH_ asc
+    </select>
+
+    <select id="getMainGroup" resultType="com.redxun.user.org.entity.OsGroup" parameterType="java.util.Map">
+        select ou.* from OS_GROUP ou,OS_REL_INST oi WHERE ou.GROUP_ID_=oi.PARTY1_ AND oi.PARTY2_ = #{userId} AND oi.IS_MAIN_ = 'YES' AND oi.DIM1_='1' AND oi.REL_TYPE_ID_ = '1' AND oi.TENANT_ID_=#{tenantId}
+    </select>
+
+    <select id="queryGroups" resultMap="OsGroupExt" parameterType="java.util.Map">
+        select  A.*,(SELECT COUNT(*) AMOUNT FROM os_group B WHERE B.PARENT_ID_=A.GROUP_ID_) CHILDS
+        from os_group A where A.DIM_ID_=#{dimId}
+            and A.PARENT_ID_=#{parentId}
+            and A.TENANT_ID_=#{tenantId}
+             order by A.sn_ asc
+    </select>
+
+    <select id="queryOrgs" resultMap="OsGroupExt" parameterType="java.util.Map">
+        select  A.*,(SELECT COUNT(*) AMOUNT FROM os_group B WHERE B.PARENT_ID_=A.GROUP_ID_) CHILDS
+        from os_group A where A.DIM_ID_=#{dimId}
+
+        <if test="@rx.Ognl@isNotEmpty(orgId)">
+            and A.GROUP_ID_=#{orgId}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(parentId)">
+            and A.PARENT_ID_=#{parentId}
+        </if>
+
+            and A.TENANT_ID_=#{tenantId}
+             order by A.sn_ asc
+    </select>
+
+    <!--逻辑删除-->
+    <select id="getByGroupIds" resultMap="OsGroupExt" parameterType="java.util.Map">
+        SELECT
+            A.*,
+            ( SELECT COUNT( * ) AMOUNT FROM os_group B WHERE B.PARENT_ID_ = A.GROUP_ID_ ) CHILDS
+        FROM
+            os_group A
+        WHERE
+            A.GROUP_ID_ in
+            <foreach collection="groupIds" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        <if test="@rx.Ognl@isNotEmpty(deleted)">
+            AND A.DELETED_=0
+        </if>
+             order by A.sn_ asc
+    </select>
+
+    <select id="getGroupAndUserByParentId" resultMap="OsGroupExt" parameterType="java.util.Map">
+        select  A.*,(SELECT COUNT(*) AMOUNT FROM os_group B WHERE B.PARENT_ID_=A.GROUP_ID_) CHILDS,
+        ( SELECT COUNT( * ) AMOUNT FROM OS_REL_INST C WHERE C.PARTY1_ = A.GROUP_ID_ AND C.REL_TYPE_ID_= '1' AND IS_MAIN_='YES' ) USERS
+        FROM os_group A where A.PARENT_ID_=#{parentId}
+        <if test="@rx.Ognl@isNotEmpty(tenantId)">
+            AND A.TENANT_ID_=#{tenantId}
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(dimId)">
+            AND A.DIM_ID_=#{dimId}
+        </if>
+        order by A.sn_ asc
+    </select>
+
+
+
+    <select id="getTopGroup" resultMap="OsGroupExt" parameterType="java.util.Map">
+        select  A.*,(SELECT COUNT(*) AMOUNT FROM os_group B WHERE B.PARENT_ID_=A.GROUP_ID_) CHILDS from os_group A
+        where A.PARENT_ID_=#{parentId} and A.DIM_ID_=#{dimId} and a.TENANT_ID_=#{tenantId}
+        order by A.sn_ asc
+    </select>
+
+    <select id="getOsGroupsByRelTypeId" resultMap="OsGroupExt" parameterType="java.lang.String">
+        select og.* from os_group og,os_rel_type ort
+	    where ort.DIM_ID2_=og.DIM_ID_
+	    and ort.ID_=#{relTypeId}
+    </select>
+
+    <select id="getByDimIdAndKeyOrName" resultMap="OsGroupExt" parameterType="java.util.Map">
+        SELECT
+            og.*
+        FROM
+            os_group og
+        WHERE
+            og.DIM_ID_ = #{u.dimId}
+            and og.TENANT_ID_=#{u.tenantId}
+        <if test="@rx.Ognl@isNotEmpty(u.groupKey)">
+            AND og.KEY_=#{u.groupKey}
+        </if>
+        <if test="@rx.Ognl@isNotEmpty(u.groupName)">
+            AND og.NAME_=#{u.groupName}
+        </if>
+    </select>
+
+    <!--逻辑删除-->
+    <select id="getByFlatCompany" resultMap="OsGroupExt" parameterType="java.util.Map">
+        select  A.* from os_group A where A.DIM_ID_=#{dimId}
+                                      and A.TENANT_ID_=#{tenantId}
+                                      and A.COMPANY_ID_ in (${companyId})
+        <if test="@rx.Ognl@isNotEmpty(deleted)">
+            AND A.DELETED_=0
+        </if>
+        order by A.sn_ asc
+    </select>
+
+    <!--逻辑删除-->
+    <select id="getByTreeCompany" resultMap="OsGroupExt" parameterType="java.util.Map">
+        select  A.*,(SELECT COUNT(*) AMOUNT FROM os_group B WHERE B.PARENT_ID_=A.GROUP_ID_) CHILDS
+        from os_group A where A.DIM_ID_=#{dimId}
+                          and A.PARENT_ID_=#{parentId}
+                          and A.TENANT_ID_=#{tenantId}
+                          and A.COMPANY_ID_ in (${companyId})
+        <if test="@rx.Ognl@isNotEmpty(deleted)">
+            AND A.DELETED_=0
+        </if>
+        order by A.sn_ asc
+    </select>
+
+
+    <select id="getByGroupId" resultMap="OsGroupExt" parameterType="java.util.Map">
+        SELECT A.*,
+               ( SELECT COUNT( * ) AMOUNT FROM os_group B WHERE B.PARENT_ID_ = A.GROUP_ID_ ) CHILDS
+        FROM os_group A  WHERE A.GROUP_ID_ =#{groupId}
+    </select>
+
+</mapper>

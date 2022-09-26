@@ -1,0 +1,91 @@
+
+/**
+ * <pre>
+ *
+ * 描述：sys_dic实体类定义
+ * 表:sys_dic
+ * 作者：csx
+ * 邮箱: csx@redxun.cn
+ * 日期:2019-12-08 12:39:34
+ * 版权：广州红迅软件
+ * </pre>
+ */
+package com.redxun.system.core.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.redxun.common.base.entity.BaseExtEntity;
+import com.redxun.log.annotation.FieldDef;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@TableName(value = "sys_dic")
+public class SysDic  extends BaseExtEntity<String> {
+    /**
+     * 树节点
+     */
+    public final static Short IS_LEAF=1;
+    /**
+     * 非树节点
+     */
+    public final static Short IS_NOT_LEAF=0;
+
+    @JsonCreator
+    public SysDic() {
+    }
+
+    //主键
+    @TableId(value = "DIC_ID_",type = IdType.INPUT)
+	private String dicId;
+
+    //分类Id
+    @TableField(value = "TREE_ID_")
+    private String treeId;
+    //项名
+    @TableField(value = "NAME_")
+    private String name;
+    //项值
+    @TableField(value = "VALUE_")
+    private String value;
+    //描述
+    @TableField(value = "DESCP_")
+    private String descp;
+    //序号
+    @TableField(value = "SN_")
+    private Integer sn = 1;
+    //路径
+    @TableField(value = "PATH_")
+    private String path;
+    //父ID
+    @TableField(value = "PARENT_ID_")
+    private String parentId;
+
+    @TableField(exist = false)
+    private List<SysTree> children;
+
+    @TableField(exist = false)
+    private Integer childAmount;
+
+    @FieldDef(comment = "应用ID")
+    @TableField(value = "APP_ID_")
+    private String appId;
+
+
+    @Override
+    public String getPkId() {
+        return dicId;
+    }
+
+    @Override
+    public void setPkId(String pkId) {
+        this.dicId=pkId;
+    }
+}
+
+
+

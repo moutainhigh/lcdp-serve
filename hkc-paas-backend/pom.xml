@@ -93,6 +93,7 @@
     </properties>
 
     <modules>
+        <module>hkc-paas-service</module>
         <module>jpaas-auth</module>
         <module>jpaas-gateway</module>
         <module>jpaas-job</module>

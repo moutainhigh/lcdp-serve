@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.user.org.mapper.OsUserMapper">
+
+
+    <resultMap id="OsUser" type="com.redxun.user.org.entity.OsUser">
+        <id property="userId" column="USER_ID_" jdbcType="VARCHAR"/>
+        <result property="fullName" column="FULLNAME_" jdbcType="VARCHAR"/>
+        <result property="userNo" column="USER_NO_" jdbcType="VARCHAR"/>
+        <result property="pwd" column="PWD_" jdbcType="VARCHAR"/>
+        <result property="entryTime" column="ENTRY_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="quitTime" column="QUIT_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="userType" column="USER_TYPE_" jdbcType="VARCHAR"/>
+        <result property="from" column="FROM_" jdbcType="VARCHAR"/>
+        <result property="birthday" column="BIRTHDAY_" jdbcType="TIMESTAMP"/>
+        <result property="sex" column="SEX_" jdbcType="VARCHAR"/>
+        <result property="mobile" column="MOBILE_" jdbcType="VARCHAR"/>
+        <result property="email" column="EMAIL_" jdbcType="VARCHAR"/>
+        <result property="address" column="ADDRESS_" jdbcType="VARCHAR"/>
+        <result property="urgent" column="URGENT_" jdbcType="VARCHAR"/>
+        <result property="syncWx" column="SYNC_WX_" jdbcType="NUMERIC"/>
+        <result property="urgentMobile" column="URGENT_MOBILE_" jdbcType="VARCHAR"/>
+        <result property="qq" column="QQ_" jdbcType="VARCHAR"/>
+        <result property="photo" column="PHOTO_" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS_" jdbcType="VARCHAR"/>
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="wxOpenId" column="WX_OPEN_ID_" jdbcType="VARCHAR"/>
+        <result property="ddId" column="DD_ID_" jdbcType="VARCHAR"/>
+        <result property="admin" column="IS_ADMIN_" jdbcType="NUMERIC"/>
+        <result property="isLock" column="IS_LOCK_" jdbcType="VARCHAR"/>
+        <result property="pwdUpdateTime" column="PWD_UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="isFirstLogin" column="IS_FIRST_LOGIN_" jdbcType="VARCHAR"/>
+        <result property="sn" column="SN_" jdbcType="INTEGER"/>
+
+    </resultMap>
+
+
+    <sql id="where">
+		<where>
+            <if test="u.userIds != null and u.userIds != ''">
+                and t.USER_ID_ in (${u.userIds})
+            </if>
+			<if test="u.id != null and u.id != ''">
+				and t.USER_ID_ like concat('%', #{u.id}, '%')
+			</if>
+			<if test="u.username != null and u.username != ''">
+				and t.USER_NO_ like concat('%', #{u.username}, '%')
+			</if>
+			<if test="u.nickname != null and u.nickname != ''">
+				and t.USER_NO_ like concat('%', #{u.nickname}, '%')
+			</if>
+
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='user_id'">
+				and t.USER_ID_  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='username'">
+				and t.USER_NO_  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='nick_name'">
+				and t.USER_NO_  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='mobile'">
+				and t.MOBILE_  like concat('%', #{u.searchValue}, '%')
+			</if>
+            AND t.status_ = '1'
+		</where>
+	</sql>
+
+	<select id="findList" resultType="com.redxun.user.org.entity.OsUser">
+		select t.* from os_user t
+		<include refid="where" />
+        ORDER BY t.SN_ ASC
+	</select>
+
+    <select id="getQuitTimeUsers" resultType="com.redxun.user.org.entity.OsUser">
+        select * from os_user where quit_time_ &lt;= #{quitTime} and STATUS_='1' ORDER BY SN_ ASC
+    </select>
+
+    <select id="getListByGroupIdAndRelTypeId" resultType="com.redxun.user.org.entity.OsUser">
+        select t.* from os_user t,os_rel_inst oi
+        where t.user_id_=oi.party2_ and oi.rel_type_id_=#{relTypeId}
+        and oi.party1_=#{groupId} AND t.status_ = '1' ORDER BY t.SN_ ASC
+    </select>
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsUser" parameterType="java.util.Map">
+        select * from os_user
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  SN_ ASC
+        </if>
+    </select>
+
+    <select id="searchByBelongGroupId" resultType="com.redxun.user.org.entity.OsUser" parameterType="java.util.Map">
+        <choose>
+            <when test="@rx.Ognl@isNotEmpty(w.groupId)">
+                select DISTINCT u.* ,(SELECT t.NAME_ from os_user_type t where t.CODE_=os.USER_TYPE_ ) userTypeName from os_user u
+                    inner join os_inst_users os on os.USER_ID_=u.USER_ID_
+                    left join os_rel_inst i on u.user_id_=i.PARTY2_ where  i.REL_TYPE_KEY_='GROUP-USER-BELONG' and i.PARTY1_=#{w.groupId}
+                    and os.TENANT_ID_=#{w.tenantId}
+                    and os.APPLY_STATUS_='ENABLED'
+                <if test="@rx.Ognl@isNotEmpty(w.groupIds)">
+                    and i.PARTY1_ in (${w.groupIds})
+                </if>
+                <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                    and ${w.whereSql}
+                </if>
+                <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+                    ORDER BY ${w.orderBySql}
+                </if>
+                <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+                    ORDER BY  u.SN_ ASC
+                </if>
+            </when>
+            <when test="@rx.Ognl@isNotEmpty(w.dimId)">
+                select DISTINCT u.*,(SELECT t.NAME_ from os_user_type t where t.CODE_=os.USER_TYPE_ ) userTypeName from os_user u
+                    inner join os_inst_users os on os.USER_ID_=u.USER_ID_
+                    left join os_rel_inst i on u.user_id_=i.PARTY2_ where  i.REL_TYPE_KEY_='GROUP-USER-BELONG'
+                    and i.DIM1_=#{w.dimId}
+                    and os.TENANT_ID_=#{w.tenantId}
+                    and os.APPLY_STATUS_='ENABLED'
+
+                <if test="@rx.Ognl@isNotEmpty(w.groupIds)">
+                    and i.PARTY1_ in (${w.groupIds})
+                </if>
+                <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                    and ${w.whereSql}
+                </if>
+                <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+                    ORDER BY ${w.orderBySql}
+                </if>
+                <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+                    ORDER BY  u.SN_ ASC
+                </if>
+            </when>
+            <otherwise>
+                select DISTINCT u.*,(SELECT t.NAME_ from os_user_type t where t.CODE_=os.USER_TYPE_ ) userTypeName from os_user u
+                inner join os_inst_users os on os.USER_ID_=u.USER_ID_
+                left join os_rel_inst i on u.user_id_=i.PARTY2_
+                where os.TENANT_ID_=#{w.tenantId}
+                and os.APPLY_STATUS_='ENABLED'
+
+                <if test="@rx.Ognl@isNotEmpty(w.groupIds)">
+                    and i.PARTY1_ in (${w.groupIds})
+                </if>
+                <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                   and  ${w.whereSql}
+                </if>
+
+                <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+                    ORDER BY ${w.orderBySql}
+                </if>
+                <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+                    ORDER BY  u.SN_ ASC
+                </if>
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="setStatusAndQuitTime" parameterType="java.util.Map">
+        update os_user
+        <set>
+            STATUS_ = #{status},
+            QUIT_TIME_ = #{quitTime},
+        </set>
+        where USER_ID_ = #{userId}
+    </update>
+
+    <sql id="fieldSql">
+        a. USER_ID_ ,  a.FULLNAME_ ,  a.USER_NO_ ,  a.PWD_,
+          a.ENTRY_TIME_ ,  a.QUIT_TIME_ ,    a.FROM_,
+          a.BIRTHDAY_ ,  a.SEX_ ,  a.MOBILE_ ,  a.EMAIL_ ,
+          a.ADDRESS_ ,  a.URGENT_ ,  a.SYNC_WX_ ,  a.URGENT_MOBILE_ ,
+          a.QQ_  ,  a.PHOTO_ ,  a.OPEN_ID_ ,
+          a.STATUS_ ,    a.CREATE_DEP_ID_ ,  a.CREATE_BY_ ,  a.CREATE_TIME_ ,
+          a.UPDATE_BY_ ,  a.UPDATE_TIME_ ,  a.WX_OPEN_ID_ ,  a.DD_ID_,a.TENANT_ID_,
+          a.IS_LOCK_, a.PWD_UPDATE_TIME_, a.IS_FIRST_LOGIN_,a.SN_
+    </sql>
+
+    <select id="getByUsername" resultMap="OsUser">
+        select  <include refid="fieldSql"/>,b.IS_ADMIN_,b.USER_TYPE_   from os_user a,os_inst_users b
+        where  a.TENANT_ID_= b.TENANT_ID_
+        and b.APPLY_STATUS_='ENABLED'
+        and a.USER_ID_=B.USER_ID_
+        and a.USER_NO_=#{userNo}
+        AND a.status_ = '1'
+    </select>
+
+    <select id="getByUsernameAndTenantId" resultMap="OsUser">
+        select  <include refid="fieldSql"/>,b.IS_ADMIN_,b.USER_TYPE_   from os_user a,os_inst_users b
+        where  a.TENANT_ID_= b.TENANT_ID_
+        and b.APPLY_STATUS_='ENABLED'
+        and a.USER_ID_=B.USER_ID_
+        and a.USER_NO_=#{userNo}
+        and a.TENANT_ID_=#{tenantId}
+        AND a.status_ = '1'
+    </select>
+
+    <select id="getByMobile" resultMap="OsUser">
+        select  <include refid="fieldSql"/>,b.IS_ADMIN_,b.USER_TYPE_   from os_user a,os_inst_users b
+        where  a.TENANT_ID_= b.TENANT_ID_
+        and b.APPLY_STATUS_='ENABLED'
+        and a.USER_ID_=B.USER_ID_
+        and a.MOBILE_=#{mobile}
+        AND a.status_ = '1'
+    </select>
+
+
+
+    <select id="getById" resultMap="OsUser">
+        select  <include refid="fieldSql"/>,b.IS_ADMIN_,b.USER_TYPE_  from os_user a ,os_inst_users b
+        where a.USER_ID_=b.USER_ID_ and b.TENANT_ID_=a.TENANT_ID_ and a.USER_ID_=#{userId} and b.APPLY_STATUS_='ENABLED'
+    </select>
+
+
+    <select id="getAdmin" resultMap="OsUser">
+        select <include refid="fieldSql"/>,b.TENANT_ID_,b.IS_ADMIN_,b.USER_TYPE_ from OS_USER a,os_inst_users b where a.USER_ID_=B.USER_ID_
+        and b.IS_ADMIN_ in ('1','2') AND B.TENANT_ID_=#{tenantId} AND b.APPLY_STATUS_='ENABLED' AND a.status_ = '1'
+    </select>
+
+    <update id="updateTenantIdFromDomain">
+        UPDATE
+        os_user
+        SET
+        TENANT_ID_ = (
+        <if test="defaultDomain!=null">
+            SELECT t.INST_ID_ FROM os_inst t WHERE t.domain_ =  #{defaultDomain}
+        </if>
+        <if test="defaultDomain==null">
+            select oiu.tenant_id_ from os_inst_users oiu where oiu.user_id_=#{userId} and oiu.create_type_='CREATE'
+        </if>
+        )
+        WHERE
+        USER_ID_ = #{userId}
+    </update>
+
+    <select id="getAllUserbyGroupId" parameterType="java.util.Map" resultType="com.redxun.user.org.entity.OsUser">
+        <if test="@rx.Ognl@isNotEmpty(w.groupIds) ">
+            select * from os_user where user_id_ in (
+            select party2_ from os_rel_inst where dim1_ = #{w.dim}
+
+            <if test="@rx.Ognl@isNotEmpty(w.groupIds)">
+                and party1_ in (
+                <foreach collection="w.groupIds" index="index" item="groupId" open="" close="" separator=",">
+                    #{groupId}
+                </foreach>
+                )
+            </if>
+              ) and  tenant_id_=#{w.tenantId}
+            <if test="@rx.Ognl@isNotEmpty(w.status)">
+                and STATUS_ = #{w.status}
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.name)">
+                and fullname_ like '%${w.name}%'
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.userNo)">
+                and user_no_ like '${w.userNo}%'
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.email)">
+                and email_ like '${w.email}%'
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.mobile)">
+                and MOBILE_ like '${w.mobile}%'
+            </if>
+            <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+                ORDER BY  SN_ ASC
+            </if>
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.groupIds) ">
+            <if test="@rx.Ognl@isNotEmpty(w.dim)">
+                select * from os_user where user_id_ in (
+                select party2_ from os_rel_inst where dim1_ = #{w.dim}
+                <if test="@rx.Ognl@isNotEmpty(w.rankLevel)">
+                and PARTY1_ in (select group_id_ from os_group where RANK_LEVEL_=#{w.rankLevel})
+                </if>
+                ) and tenant_id_=#{w.tenantId} and status_ = '1'
+            </if>
+            <if test="w.dim == null or w.dim == ''">
+                select * from os_user where  status_ = '1'
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.name)">
+                and fullname_ like '%${w.name}%'
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.userNo)">
+                and user_no_ like '${w.userNo}%'
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.email)">
+                and email_ like '${w.email}%'
+            </if>
+            <if test="@rx.Ognl@isNotEmpty(w.mobile)">
+                and MOBILE_ like '${w.mobile}%'
+            </if>
+            <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+                ORDER BY  u.SN_ ASC
+            </if>
+        </if>
+
+    </select>
+
+    <update id="updatePassword">
+        UPDATE os_user SET PWD_=#{pwd}, UPDATE_TIME_=#{updateTime}, UPDATE_BY_=#{updateUserId} WHERE USER_ID_=#{userId}
+    </update>
+
+    <!-- 根据第三方登陆信息查询用户 -->
+    <select id="getUserByOpenId" resultType="com.redxun.user.org.entity.OsUser">
+        select * from os_user u
+        where u.USER_ID_ = (
+            select up.user_id_
+            from os_user_platform up
+            where up.OPEN_ID_=#{openId}
+                AND up.TENANT_ID_=#{tenantId}
+                AND up.PLATFORM_TYPE_=#{platformType} )
+
+    </select>
+
+    <select id="getMaxSn" resultType="com.redxun.user.org.entity.OsUser">
+        select * from os_user order by sn_ desc limit 1;
+    </select>
+
+</mapper>

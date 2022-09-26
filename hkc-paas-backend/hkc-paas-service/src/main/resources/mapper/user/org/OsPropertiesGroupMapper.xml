@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.user.org.mapper.OsPropertiesGroupMapper">
+
+    <resultMap id="osPropertiesGroup" type="com.redxun.user.org.entity.OsPropertiesGroup">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="dimId" column="DIM_ID_" jdbcType="VARCHAR"/>
+                <result property="enabled" column="ENABLED_" jdbcType="VARCHAR"/>
+                <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="osPropertiesDefExt" extends="osPropertiesGroup" type="com.redxun.user.org.entity.OsPropertiesGroup">
+        <collection property="osPropertiesDefList" ofType="com.redxun.user.org.entity.OsPropertiesDef" javaType="java.util.List">
+            <result column="defId" property="id"/>
+            <result column="defName" property="name"/>
+            <result column="ctltype" property="ctltype"/>
+            <result column="dataType" property="dataType"/>
+            <result column="extJson" property="extJson"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsPropertiesGroup" parameterType="java.util.Map">
+        select opg.*,od.NAME_ dimName from os_properties_group opg LEFT JOIN os_dimension od ON opg.DIM_ID_=od.DIM_ID_
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+               ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+    <select id="getPropertiesGroups" resultMap="osPropertiesDefExt">
+        SELECT g.*,d.ID_ as defId,d.NAME_ as defName,d.CTLTYPE_ as  ctltype,d.DATA_TYPE_ as dataType,d.EXT_JSON_ as extJson
+        FROM os_properties_group  g LEFT JOIN os_properties_def  d on g.ID_=d.GROUP_ID_ WHERE g.DIM_ID_=#{dimId} and g.ENABLED_='yes'
+        AND g.TENANT_ID_=#{tenantId}
+    </select>
+
+
+
+</mapper>
+
+

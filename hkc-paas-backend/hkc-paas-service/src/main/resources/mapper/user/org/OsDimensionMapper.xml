@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redxun.user.org.mapper.OsDimensionMapper">
+    <select id="findList" resultType="com.redxun.user.org.entity.OsDimension">
+        select a.*, 0 as parentId from os_dimension a ORDER BY  a.sn_ ASC
+    </select>
+
+    <select id="getByCodeTenantId" resultType="com.redxun.user.org.entity.OsDimension" parameterType="java.util.Map">
+        select * from os_dimension where TENANT_ID_= #{tenantId} and CODE_=#{code}
+    </select>
+
+    <select id="getTenantDims" resultType="com.redxun.user.org.entity.OsDimension" parameterType="java.util.Map">
+        select * from (select * from os_dimension where TENANT_ID_= '0'
+                       union select * from os_dimension where TENANT_ID_= #{tenantId}  ) tmp order by sn_ ASC
+   </select>
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsDimension" parameterType="java.util.Map">
+        select a.*, 0 as parentId from os_dimension a
+        where  1=1
+
+        <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+            and ${w.whereSql}
+        </if>
+
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  a.sn_ ASC
+        </if>
+    </select>
+
+</mapper>

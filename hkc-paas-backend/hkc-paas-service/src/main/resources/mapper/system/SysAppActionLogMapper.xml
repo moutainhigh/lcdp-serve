@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysAppActionLogMapper">
+
+    <resultMap id="SysAppActionLog" type="com.redxun.system.core.entity.SysAppActionLog">
+                <id property="id" column="ID_" jdbcType="VARCHAR"/>
+                <result property="appId" column="APP_ID_" jdbcType="VARCHAR"/>
+                <result property="type" column="TYPE_" jdbcType="NUMERIC"/>
+                <result property="title" column="TITLE_" jdbcType="VARCHAR"/>
+                <result property="content" column="CONTENT_" jdbcType="VARCHAR"/>
+                <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+                <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+                <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+                <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+                <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysAppActionLog" parameterType="java.util.Map">
+        select ID_,APP_ID_,TYPE_,TITLE_,CONTENT_,CREATE_DEP_ID_,TENANT_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_ from sys_app_action_log
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  ID_ DESC
+        </if>
+    </select>
+
+</mapper>
+
+

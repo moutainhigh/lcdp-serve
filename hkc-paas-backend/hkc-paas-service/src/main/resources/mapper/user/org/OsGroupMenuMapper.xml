@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redxun.user.org.mapper.OsGroupMenuMapper">
+
+    <select id="findList" resultType="com.redxun.user.org.entity.OsGroupMenu">
+        select * from os_group_menu t
+    </select>
+
+    <select id="query" resultType="com.redxun.user.org.entity.OsGroupMenu" parameterType="java.util.Map">
+        select * from os_group_menu
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  id_ DESC
+        </if>
+    </select>
+
+    <select id="getGrantMenusByGroupId" resultType="com.redxun.user.org.entity.OsGroupMenu" parameterType="java.util.Map">
+        select * from os_group_menu where GROUP_ID_=#{groupId}
+    </select>
+
+
+    <select id="getResourceByGrade" resultType="com.redxun.user.org.entity.OsGroupMenu" parameterType="java.util.Map">
+        select * from os_group_menu where GROUP_ID_ in (
+            select b.GROUP_ID_ from os_grade_admin a,os_grade_role b where a.TENANT_ID_=#{tenantId}
+            and a.USER_ID_=#{userId} and a.ID_=b.ADMIN_ID_)
+    </select>
+
+
+
+    <select id="getGrantMenusByMenuIds" resultType="com.redxun.user.org.entity.OsGroupMenu" parameterType="java.util.Map">
+        select * from os_group_menu where MENU_ID_  in ( ${menuIds} )
+    </select>
+
+    <select id="getAppsByGroups" resultType="com.redxun.user.org.entity.OsGroupMenu">
+        select * from os_group_menu where GROUP_ID_ in ( ${roles} ) and APP_ID_=MENU_ID_
+    </select>
+
+</mapper>

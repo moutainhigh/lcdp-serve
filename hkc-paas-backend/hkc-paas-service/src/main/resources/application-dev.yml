@@ -1,0 +1,214 @@
+#bpm:
+#  datasource:
+#    connection: ''
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_bpm?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#datart:
+#  datasource:
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_datart?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#datasource:
+#  monitor: true
+#druid:
+#  account: admin
+#  password: admin
+#feign:
+#  compression:
+#    request:
+#      min-request-size: 5120
+#form:
+#  datasource:
+#    connection: ''
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_form?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#formasynctask:
+#  corePoolJson: 1|2|10
+#job:
+#  bpm: false
+#  center: http://localhost:7878/job
+#  datasource:
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    type: mysql
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#  system: true
+#  user: false
+#messageType:
+#  tracked: inner
+#oa:
+#  datasource:
+#    connection: ''
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_oa?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#portal:
+#  datasource:
+#    connection: ''
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_portal?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#prefix:
+#  colpre: ''
+#  table: W_
+#redxun:
+#  app:
+#    accessTokenValidity: 18000
+#    additionalInformation: '{}'
+#    authorities: ''
+#    authorizedGrantTypes: ''
+#    autoapprove: false
+#    clientId: webApp
+#    clientSecret: webApp
+#    clientSecretStr: ''
+#    refreshTokenValidity: 28800
+#    resourceIds: ''
+#    scope: all
+#    webServerRedirectUri: ''
+#  audit-log:
+#    datasource:
+#      driverClassName: com.mysql.cj.jdbc.Driver
+#      jdbcUrl: jdbc:mysql://124.222.6.240:3306/jpaas_system?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+#      password: root
+#      username: root
+#    log-type: logger
+#  cache: j2cache
+#  initpwd: 1234
+#  ribbon:
+#    isolation:
+#      enabled: true
+#  security:
+#    auth:
+#      urlPermission:
+#        enable: true
+#  syncorg: weixin
+#  trace:
+#    enable: true
+#screen:
+#  datasource:
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root123WSXasd
+#    testOnBorrow: true
+#    url: jdbc:mysql://192.168.1.168:3306/jpaas_screen?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#server:
+#  tomcat:
+#    accept-count: 1000
+#    max-connections: 1000
+#    max-threads: 1000
+#    min-spare-threads: 10
+#spring:
+#  cloud:
+#    stream:
+#      bindings:
+#        apiLogOut:
+#          destination: apilog
+#          group: apilog-group
+#        errLogOut:
+#          destination: errlog
+#          group: errlog-group
+#        logOutput:
+#          destination: log
+#          group: logout-group
+#      rocketmq:
+#        binder:
+#          name-server: 127.0.0.1:9876
+#  mail:
+#    default-encoding: utf-8
+#    host: smtp.qq.com
+#    password: wnmvrdgaeickcbdc
+#    port: 25
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#            required: true
+#    protocol: smtp
+#    username: 58133370@qq.com
+#  redis:
+#    database: 10
+#    host: localhost
+#    password: redis
+#    port: 6379
+#    timeout: 5000
+#  servlet:
+#    multipart:
+#      max-file-size: 200MB
+#      max-request-size: 200MB
+#  sleuth:
+#    sampler:
+#      probability: 1
+#  zipkin:
+#    base-url: http://
+#    discoveryClientEnabled: false
+#    enabled: false
+#system:
+#  datasource:
+#    connection: ''
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_system?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#ureport:
+#  datasource:
+#    connection: ''
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_ureport?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1
+#user:
+#  datasource:
+#    connection: ''
+#    driver: com.mysql.cj.jdbc.Driver
+#    maxSize: 20
+#    minSize: 20
+#    password: root
+#    testOnBorrow: true
+#    url: jdbc:mysql://124.222.6.240:3306/jpaas_user?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+#    username: root
+#    vaildQuery: select 1

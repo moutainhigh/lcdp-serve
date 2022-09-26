@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysDicMapper">
+
+    <resultMap id="SysDic" type="com.redxun.system.core.entity.SysDic">
+        <id property="dicId" column="DIC_ID_" jdbcType="VARCHAR"/>
+        <result property="treeId" column="TREE_ID_" jdbcType="VARCHAR"/>
+        <result property="key" column="KEY_" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+        <result property="value" column="VALUE_" jdbcType="VARCHAR"/>
+        <result property="descp" column="DESCP_" jdbcType="VARCHAR"/>
+        <result property="sn" column="SN_" jdbcType="NUMERIC"/>
+        <result property="path" column="PATH_" jdbcType="VARCHAR"/>
+        <result property="parentId" column="PARENT_ID_" jdbcType="VARCHAR"/>
+        <result property="isLeaf" column="IS_LEAF_" jdbcType="NUMERIC"/>
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="appId" column="APP_ID_"   jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="SysDicExt" type="com.redxun.system.core.entity.SysDic">
+        <result property="childAmount" column="CHILDS" jdbcType="NUMERIC"/>
+    </resultMap>
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysDic" parameterType="java.util.Map">
+        select
+        DIC_ID_,TREE_ID_,KEY_,NAME_,VALUE_,DESCP_,SN_,PATH_,PARENT_ID_,IS_LEAF_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_
+        from SYS_DIC
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY DIC_ID_ DESC
+        </if>
+    </select>
+
+    <select id="getByTreeId" parameterType="java.lang.String" resultType="com.redxun.system.core.entity.SysDic">
+        select * from sys_dic where tree_id_=#{treeId} order by sn_ asc
+    </select>
+
+    <select id="getTopDicByTreeId" resultMap="SysDicExt" parameterType="java.util.Map">
+        select A.*,(SELECT COUNT(*) AMOUNT FROM sys_dic B WHERE B.PARENT_ID_=A.DIC_ID_) CHILDS
+         from sys_dic A where tree_id_=#{treeId} and parent_id_='0' order by sn_ asc
+    </select>
+
+    <select id="getByParentId" resultMap="SysDicExt" parameterType="java.util.Map">
+        select A.*, (SELECT COUNT(*) AMOUNT FROM sys_dic B WHERE B.PARENT_ID_=A.DIC_ID_) CHILDS
+         from sys_dic A where parent_id_=#{parentId} order by sn_ asc
+    </select>
+
+    <select id="getByLikePath" resultType="com.redxun.system.core.entity.SysDic" parameterType="java.util.Map">
+        select * from sys_dic where path_ like #{path} order by path_ asc, sn_ asc
+    </select>
+
+    <delete id="delByLeftPath">
+        delete from sys_dic where path_ like #{path}
+    </delete>
+
+    <select id="getById" resultMap="SysDicExt" parameterType="java.util.Map">
+        select  A.*,(SELECT COUNT(*) AMOUNT FROM sys_dic B WHERE B.PARENT_ID_=A.TREE_ID_) CHILDS from sys_dic A
+        where DIC_ID_=#{dicId} order by sn_ asc
+    </select>
+
+    <select id="getByPidAndDicId" parameterType="java.lang.String" resultMap="SysDicExt">
+        SELECT A.*,( SELECT COUNT( * ) AMOUNT FROM sys_dic B WHERE B.PARENT_ID_ = A.DIC_ID_ ) CHILDS FROM sys_dic A
+        WHERE
+            TREE_ID_= #{treeId}
+        <if test="parentId!=''">
+            AND PARENT_ID_=#{parentId}
+        </if>
+        order by sn_ asc
+    </select>
+    <select id="getByPidAndName" parameterType="java.lang.String" resultMap="SysDicExt">
+        SELECT A.*,( SELECT COUNT( * ) AMOUNT FROM sys_dic B WHERE B.PARENT_ID_ = A.DIC_ID_ ) CHILDS FROM sys_dic A
+        WHERE
+            TREE_ID_= #{treeId}
+        <if test="parentId!=''">
+            AND PARENT_ID_=#{parentId}
+        </if>
+        <if test="name!=''">
+            AND NAME_ LIKE '%${name}%'
+        </if>
+        order by sn_ asc
+    </select>
+
+    <select id="getDicByDicValue" parameterType="java.lang.String" resultMap="SysDicExt">
+        SELECT A.*,( SELECT COUNT( * ) AMOUNT FROM sys_dic B WHERE B.PARENT_ID_ = A.DIC_ID_ ) CHILDS FROM sys_dic A
+        WHERE TREE_ID_= #{treeId} AND VALUE_ in
+        <foreach collection="dicValueList" index="index" item="dicValue" open="(" close=")" separator=",">
+            #{dicValue}
+        </foreach>
+    </select>
+
+
+</mapper>
+
+

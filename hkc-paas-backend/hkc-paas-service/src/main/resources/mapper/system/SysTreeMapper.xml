@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.system.core.mapper.SysTreeMapper">
+
+    <resultMap id="SysTree" type="com.redxun.system.core.entity.SysTree">
+        <id property="treeId" column="TREE_ID_" jdbcType="VARCHAR"/>
+        <result property="code" column="CODE_" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME_" jdbcType="VARCHAR"/>
+        <result property="path" column="PATH_" jdbcType="VARCHAR"/>
+        <result property="parentId" column="PARENT_ID_" jdbcType="VARCHAR"/>
+        <result property="alias" column="ALIAS_" jdbcType="VARCHAR"/>
+        <result property="descp" column="DESCP_" jdbcType="VARCHAR"/>
+        <result property="catKey" column="CAT_KEY_" jdbcType="VARCHAR"/>
+        <result property="sn" column="SN_" jdbcType="NUMERIC"/>
+        <result property="dataShowType" column="DATA_SHOW_TYPE_" jdbcType="VARCHAR"/>
+        <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
+        <result property="createDepId" column="CREATE_DEP_ID_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME_" jdbcType="TIMESTAMP"/>
+        <result property="appId" column="APP_ID_"  jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="SysTreeExt" type="com.redxun.system.core.entity.SysTree" extends="SysTree">
+        <result property="childAmount" column="CHILDS" jdbcType="NUMERIC"/>
+        <result property="appName" column="appName"  jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+    <select id="query" resultType="com.redxun.system.core.entity.SysTree" parameterType="java.util.Map">
+        select
+        TREE_ID_,CODE_,NAME_,PATH_,PARENT_ID_,ALIAS_,DESCP_,CAT_KEY_,SN_,DATA_SHOW_TYPE_,TENANT_ID_,CREATE_DEP_ID_,CREATE_BY_,CREATE_TIME_,UPDATE_BY_,UPDATE_TIME_,APP_ID_
+        from sys_tree
+        <where>
+            <if test="@rx.Ognl@isNotEmpty(w.whereSql)">
+                ${w.whereSql}
+            </if>
+        </where>
+        <if test="@rx.Ognl@isNotEmpty(w.orderBySql)">
+            ORDER BY ${w.orderBySql}
+        </if>
+        <if test="@rx.Ognl@isEmpty(w.orderBySql)">
+            ORDER BY  TREE_ID_ DESC
+        </if>
+    </select>
+
+
+    <select id="getTopNodesByCatKey" resultMap="SysTreeExt" parameterType="java.util.Map">
+         select A.*,(SELECT COUNT(*) AMOUNT FROM sys_tree B WHERE B.PARENT_ID_=A.TREE_ID_) CHILDS,P.CLIENT_NAME_ AS appName
+            from sys_tree A  LEFT JOIN  sys_app P ON A.APP_ID_=P.APP_ID_  where A.cat_key_=#{catKey} and A.parent_id_='0' and A.TENANT_ID_=#{tenantId}
+            <if test="appId!=null and appId!=''">
+                and A.APP_ID_ =#{appId}
+            </if >
+            and (A.COMPANY_ID_='0' OR A.COMPANY_ID_ IS NULL
+            <if test="companyId!='0' and companyId!=null and companyId!=''">
+                OR A.COMPANY_ID_ =#{companyId}
+            </if>)
+            order by A.sn_ asc
+    </select>
+
+    <select id="getByParentId" resultMap="SysTreeExt" parameterType="java.util.Map">
+        select  A.*,(SELECT COUNT(*) AMOUNT FROM sys_tree B WHERE B.PARENT_ID_=A.TREE_ID_) CHILDS,P.CLIENT_NAME_ AS appName
+         from sys_tree A  LEFT JOIN  sys_app P ON A.APP_ID_=P.APP_ID_
+        where A.parent_id_=#{parentId}
+        and (A.COMPANY_ID_='0' OR A.COMPANY_ID_ IS NULL
+            <if test="companyId!='0' and companyId!=null and companyId!=''">
+                OR A.COMPANY_ID_ =#{companyId}
+            </if>
+            )
+        order by A.sn_ asc
+    </select>
+
+    <select id="getById" resultMap="SysTreeExt" parameterType="java.util.Map">
+        select  A.*,(SELECT COUNT(*) AMOUNT FROM sys_tree B WHERE B.PARENT_ID_=A.TREE_ID_) CHILDS from sys_tree A
+        where TREE_ID_=#{treeId} order by sn_ asc
+    </select>
+
+    <select id="getByLikePath" resultType="com.redxun.system.core.entity.SysTree" parameterType="java.util.Map">
+        select * from sys_tree where path_ like #{path} order by path_ asc, sn_ asc
+    </select>
+
+    <delete id="delByLeftPath">
+        delete from sys_tree where path_ like #{path}
+    </delete>
+
+    <select id="getChildCounts" resultType="java.lang.Long" parameterType="java.util.Map">
+        select count(tree_id_) from sys_tree where parent_id_=#{parentId}
+    </select>
+
+    <select id="getByCatKey" parameterType="java.lang.String">
+		SELECT * FROM SYS_TREE
+		WHERE
+		CAT_KEY_=#{catKey}  ORDER BY SN_,CREATE_TIME_ DESC
+	</select>
+
+
+
+    <select id="getTopNodesByReadTreeId" resultMap="SysTreeExt" parameterType="java.util.Map">
+        select A.*,(SELECT COUNT(*) AMOUNT FROM sys_tree B WHERE B.PARENT_ID_=A.TREE_ID_) CHILDS,P.CLIENT_NAME_ AS appName
+        from sys_tree A  LEFT JOIN  sys_app P ON A.APP_ID_=P.APP_ID_  where A.cat_key_=#{catKey}  and A.TENANT_ID_=#{tenantId}
+        and A.parent_id_=#{readTreeId}
+        <if test="appId!=null and appId!=''">
+            and A.APP_ID_ =#{appId}
+        </if >
+        order by A.sn_ asc
+    </select>
+
+    <update id="updateByLeftPath" parameterType="java.lang.String">
+      update sys_tree set DELETED_=1 WHERE path_ like #{path}
+    </update>
+
+
+    <select id="getNodesByCatKey" resultMap="SysTreeExt" parameterType="java.util.Map">
+        select A.*,(SELECT COUNT(*) AMOUNT FROM sys_tree B WHERE B.PARENT_ID_=A.TREE_ID_) CHILDS,P.CLIENT_NAME_ AS appName
+        from sys_tree A  LEFT JOIN  sys_app P ON A.APP_ID_=P.APP_ID_  where A.cat_key_=#{catKey} and A.TENANT_ID_=#{tenantId}
+        <if test="appId!=null and appId!=''">
+            and A.APP_ID_ =#{appId}
+        </if >
+        and (A.COMPANY_ID_='0' OR A.COMPANY_ID_ IS NULL
+        <if test="companyId!='0' and companyId!=null and companyId!=''">
+            OR A.COMPANY_ID_ =#{companyId}
+        </if>)
+        order by A.sn_ asc
+    </select>
+</mapper>
+
+
